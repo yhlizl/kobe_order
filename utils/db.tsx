@@ -30,17 +30,17 @@ export async function initDb() {
   if (process.env.NODE_ENV === 'production') {
     let res = await pool.query(`
       SELECT EXISTS (
-        SELECT FROM pg_database WHERE datname = 'kobe_order'
+        SELECT FROM pg_database WHERE datname = 'verceldb'
       )
     `);
     if (!res.rows[0].exists) {
-      await pool.query('CREATE DATABASE kobe_order');
+      await pool.query('CREATE DATABASE verceldb');
     }
 
-    await pool.query('CREATE SCHEMA IF NOT EXISTS kobe_order');
+    await pool.query('CREATE SCHEMA IF NOT EXISTS verceldb');
 
     await pool.query(`
-      CREATE TABLE IF NOT EXISTS kobe_order.users (
+      CREATE TABLE IF NOT EXISTS verceldb.users (
         userId SERIAL PRIMARY KEY,
         email VARCHAR(255) UNIQUE,
         name VARCHAR(255),
