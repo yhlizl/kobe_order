@@ -7,11 +7,11 @@ let pool : any;
 
 if (process.env.NODE_ENV === 'production') {
     pool = new PgPool({
-        host: process.env.DB_HOST,
-        port: parseInt(process.env.DB_PORT || '5432'),
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
+        host: process.env.POSTGRES_HOST,
+        port: parseInt('5432'),
+        user: process.env.POSTGRES_USER,
+        password: process.env.POSTGRES_PASSWORD,
+        database: process.env.POSTGRES_DATABASE,
     });
 } else {
     pool = mysql.createPool({
