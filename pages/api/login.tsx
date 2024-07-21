@@ -6,8 +6,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { email, password } = req.body
 
   try {
-    const result = await pool.query('SELECT * FROM users WHERE email = ?', [email])
-    const users = result[0]
+    const db = process.env.POSTGRES_DATABASE
+    const { rows: [users] } = await pool.query(`SELECT * FROM ${db}.users WHERE email = $1`, [email]);
 
     if (users && Array.isArray(users) && users.length > 0) {
       const user :any= users[0]

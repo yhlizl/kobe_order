@@ -13,27 +13,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         isChangePWD = true
     }
 
-    if (isChangePWD) {
-      // Hash the password with a salt round of 10, the higher the rounds the more secure, but the slower
-      // your application becomes.
-      const hashedPassword = await bcrypt.hash(password, 10);
+    const db = process.env.POSTGRES_DATABASE;
 
-      await pool.query(
-        'UPDATE users SET name = ?, password = ?, phone = ?, address = ? WHERE email = ?',
-        [username, hashedPassword, phone, address, email]
-      )
-    } else {
-      await pool.query(
-        'UPDATE users SET name = ?, phone = ?,address = ? WHERE email = ?',
-        [username, phone, address,email]
-      )
-    }
+        if (isChangePWD) {
+        // Hash the password with a salt round of 10, the higher the rounds the more secure, but the slower
+        // your application becomes.
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        await pool.query(
+            `UPDATE ${db}.users SET name = $1, password = $2, phone = $3, address = $4 WHERE email = $5`,
+            [username, hashedPassword, phone, address, email]
+        )
+        } else {
+        await pool.query(
+            `UPDATE ${db}.users SET name = $1, phone = $2, address = $3 WHERE email = $4`,
+            [username, phone, address, email]
+        )
+        }
 
     // Get the updated user
-    const [updatedUser] = await pool.query(
-      'SELECT * FROM users WHERE email = ?',
-      [email]
-    )
+    const { rows: [updatedUser] } = await pool.query(`SELECT * FROM ${db}.users WHERE email = $1`, [email]);
 
     res.status(200).json({ message: 'Update successful', user: updatedUser })
   } catch (error) {
