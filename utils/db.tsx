@@ -28,32 +28,41 @@ if (process.env.NODE_ENV === 'production') {
 
 export async function initDb() {
   if (process.env.NODE_ENV === 'production') {
-    await pool.query('CREATE DATABASE IF NOT EXISTS kobe_order');
-    await pool.query('CREATE SCHEMA IF NOT EXISTS kobe_order');
-    await pool.query(`
-        CREATE TABLE IF NOT EXISTS kobe_order.users (
-            userId SERIAL PRIMARY KEY,
-            email VARCHAR(255) UNIQUE,
-            name VARCHAR(255),
-            phone VARCHAR(255),
-            address VARCHAR(255),
-            password VARCHAR(255)
-        )
+    let res = await pool.query(`
+      SELECT EXISTS (
+        SELECT FROM pg_database WHERE datname = 'kobe_order'
+      )
     `);
-} else {
+    if (!res.rows[0].exists) {
+      await pool.query('CREATE DATABASE kobe_order');
+    }
+
+    await pool.query('CREATE SCHEMA IF NOT EXISTS kobe_order');
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS kobe_order.users (
+        userId SERIAL PRIMARY KEY,
+        email VARCHAR(255) UNIQUE,
+        name VARCHAR(255),
+        phone VARCHAR(255),
+        address VARCHAR(255),
+        password VARCHAR(255)
+      )
+    `);
+  } else {
     await pool.query('CREATE DATABASE IF NOT EXISTS kobe_order');
     await pool.query('USE kobe_order');
     await pool.query(`
-        CREATE TABLE IF NOT EXISTS users (
-            userId INT AUTO_INCREMENT PRIMARY KEY,
-            email VARCHAR(255) UNIQUE,
-            name VARCHAR(255),
-            phone VARCHAR(255),
-            address VARCHAR(255),
-            password VARCHAR(255)
-        )
+      CREATE TABLE IF NOT EXISTS users (
+        userId INT AUTO_INCREMENT PRIMARY KEY,
+        email VARCHAR(255) UNIQUE,
+        name VARCHAR(255),
+        phone VARCHAR(255),
+        address VARCHAR(255),
+        password VARCHAR(255)
+      )
     `);
-}
   }
-  
+}
+
 export default pool;
