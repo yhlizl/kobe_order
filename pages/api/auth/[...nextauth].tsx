@@ -40,9 +40,8 @@ const options: NextAuthOptions = {
         const { email, password } = credentials as { email: string, password: string };
         
         try {
-          // 使用 await pool.query 時，需要考慮不同數據庫庫返回的結果格式
-          const result = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
-          const users = result[0]; // 根據你的數據庫庫，這行可能需要調整
+          const db = process.env.POSTGRES_DATABASE;
+          const { rows: users } = await pool.query(`SELECT * FROM ${db}.users WHERE email = $1`, [email]);
           console.log("users", users);
           if (users && Array.isArray(users) && users.length > 0) {
             const user: any = users[0];
@@ -83,12 +82,12 @@ const options: NextAuthOptions = {
       console.log("middle token",extendedToken);
       // Get the updated user from the database
       if (extendedToken) {
-        const [updatedUser] = await pool.query(
-          'SELECT * FROM users WHERE email = ?',
+        const db = process.env.POSTGRES_DATABASE;
+        const { rows: [latestUser] } = await pool.query(
+          `SELECT * FROM ${db}.users WHERE email = $1`,
           [extendedToken.email]
         )
-        const latestUser = (updatedUser as any[])[0];
-        console.log("latestUser",latestUser);
+        console.log("latestUser", latestUser);
         // Add the updated user to the extendedSession
         extendedToken = { ...extendedToken, ...latestUser };
         }
