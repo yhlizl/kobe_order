@@ -9,7 +9,22 @@ import { signIn } from 'next-auth/react';
 
 import "./Account.css";
 
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession(context);
 
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/Login',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {}, // will be passed to the page component as props
+  };
+};
 
 const AccountPage: React.FC = () => {
 const router = useRouter();
@@ -51,21 +66,6 @@ const handleTabClick = (tabId: string) => {
   console.log("tabId",tabId)
 };
 
-
-useEffect(() => {
-  const checkSession = async () => {
-    const session = await getSession();
-    console.log('Session:', session);
-    if (session?.user) {
-      updateSession(session)
-      console.log("debug",user)
-    } else {
-      router.push('/Login');
-    }
-  };
-
-  checkSession();
-}, [router]);
 
 useEffect(() => {
   console.log("user", user);
