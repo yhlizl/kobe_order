@@ -13,6 +13,7 @@ interface ExtendedUser extends User {
   name?: string | null
   email?: string | null
   image?: string | null
+  role?: string | null
 }
 interface ExtendedSession extends Session {
   user: ExtendedUser
@@ -23,6 +24,7 @@ interface ExtendedJWT extends JWT {
   id: string
   phone: string
   address: string
+  role : string
 }
 
 const options: NextAuthOptions = {
@@ -49,7 +51,7 @@ const options: NextAuthOptions = {
 
             if (isValidPassword) {
               console.log("login success");
-              return { id: user.userId, name: user.name, email: user.email, phone: user.phone, address: user.address };
+              return { id: user.userId, name: user.name, email: user.email, phone: user.phone, address: user.address, role : 'user' };
             } else {
               console.log("login failed - invalid password");
               throw new Error('Invalid password');
@@ -63,6 +65,23 @@ const options: NextAuthOptions = {
           throw error;
         }
         
+      }
+    }),
+    CredentialsProvider({
+      id: 'admin-credentials',
+      name: 'Admin Credentials',
+      credentials: {
+        username: { label: "Username", type: "text" },
+        password: { label: "Password", type: "password" }
+      },
+      authorize: async (credentials): Promise<any> => {
+        const { username, password } = credentials as { username: string, password: string };
+        
+        if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
+          return { id: 1, name: 'Admin' , role : 'admin'};
+        } else {
+          throw new Error('Invalid username or password')
+        }
       }
     })
   ],
@@ -78,6 +97,7 @@ const options: NextAuthOptions = {
         id: user?.id ?? token.sub,
         phone: user?.phone ?? token.phone,
         address: user?.address ?? token.address,
+        role : user?.role ?? token.role
       };
       console.log("middle token",extendedToken);
       // Get the updated user from the database
@@ -105,6 +125,7 @@ const options: NextAuthOptions = {
           name: token.name,
           phone: token.phone,
           address: token.address,
+          role :  token.role
         },
       };
       console.log("final session", extendedSession)
