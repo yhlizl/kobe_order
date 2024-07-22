@@ -48,6 +48,35 @@ export async function initDb() {
         password VARCHAR(255)
       )
     `);
+    // Create products table
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS verceldb.products (
+        productId SERIAL PRIMARY KEY,
+        name VARCHAR(255),
+        price DECIMAL(10, 2),
+        description TEXT,
+        imageUrl VARCHAR(255),
+        createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        quantity INT,
+        estimatedProductionTime VARCHAR(255),
+        isDeleted BOOLEAN DEFAULT FALSE
+      )
+    `);
+      // Create orders table
+        await pool.query(`
+        CREATE TABLE IF NOT EXISTS verceldb.orders (
+          orderId SERIAL PRIMARY KEY,
+          userId INT,
+          date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          total DECIMAL(10, 2),
+          status VARCHAR(255),
+          productId INT,
+          quantity INT,
+          FOREIGN KEY (userId) REFERENCES verceldb.users(userId),
+          FOREIGN KEY (productId) REFERENCES verceldb.products(productId)
+        )
+      `);
+
 }
 
 export default pool;
