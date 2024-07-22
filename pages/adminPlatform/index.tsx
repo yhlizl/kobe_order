@@ -47,11 +47,87 @@ const Dashboard: React.FC<SectionProps> = (props) => {
 const Products: React.FC<SectionProps> = ({ active }) => {
   if (!active) return null;
   // Products content here...
+  const [showModal, setShowModal] = useState(false);
+  const [preview, setPreview] = useState<string | null>(null);
+  const [product, setProduct] = useState({
+    name: '',
+    price: '',
+    description: '',
+    imageUrl: '',
+    quantity: '',
+    estimatedProductionTime: ''
+  });
+
+  const handleInputChange = (event:any) => {
+    setProduct({
+      ...product,
+      [event.target.name]: event.target.value
+    });
+  };
+
+  const handleImageChange = (event:any) => {
+    setProduct({
+      ...product,
+      imageUrl: URL.createObjectURL(event.target.files[0])
+    });
+    setPreview(URL.createObjectURL(event.target.files[0]));
+  };
+
+  const handleSubmit = async (event:any) => {
+    event.preventDefault();
+    // Call your API to add the product
+    // After successful addition, close the modal and clear the form
+    setShowModal(false);
+    setProduct({
+      name: '',
+      price: '',
+      description: '',
+      imageUrl: '',
+      quantity: '',
+      estimatedProductionTime: ''
+    });
+  };
+  console.log("is show modal",showModal)
   return (
     <div id="products" className="content-section" >
       {/* Products content */}
       <div id="products" className="content-section" >
-      <button className="btn btn-primary">新增商品</button>
+      <button className="btn btn-primary" onClick={() => setShowModal(true)}>新增商品</button>
+      {showModal && (
+  <div className="modalDiagram">
+    <form onSubmit={handleSubmit} className="modalDiagram-form">
+      <label>
+        Name:
+        <input type="text" name="name" value={product.name} onChange={handleInputChange} required />
+      </label>
+      <label>
+        Price:
+        <input type="number" name="price" value={product.price} onChange={handleInputChange} required />
+      </label>
+      <label>
+        Description:
+        <textarea name="description" value={product.description} onChange={handleInputChange} required />
+      </label>
+      <label>
+        Image:
+        <input type="file" name="imageUrl" onChange={handleImageChange} required />
+      </label>
+      {preview && <img src={preview} alt="Preview" className="modalDiagram-img" />}
+      <label>
+        Quantity:
+        <input type="number" name="quantity" value={product.quantity} onChange={handleInputChange} required />
+      </label>
+      <label>
+        Estimated Production Time:
+        <input type="text" name="estimatedProductionTime" value={product.estimatedProductionTime} onChange={handleInputChange} required />
+      </label>
+      <div className="modalDiagram-buttons">
+        <button type="button" onClick={()=>setShowModal(false)} className="modalDiagram-button">Cancel</button>
+        <button type="submit" className="modalDiagram-button">Add Product</button>
+      </div>
+    </form>
+  </div>
+)}
       <table id="productsTable">
         <thead>
           <tr>
