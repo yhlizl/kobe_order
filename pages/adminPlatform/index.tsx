@@ -60,7 +60,7 @@ const Products: React.FC<SectionProps> = ({ active }) => {
     name: string;
     price: string;
     description: string;
-    imageUrl: string;
+    imageurl: string;
     quantity: string;
     estimatedProductionTime: string;
   }>>([]);
@@ -82,6 +82,7 @@ const Products: React.FC<SectionProps> = ({ active }) => {
       }
       const products = await response.json();
       setAllProducts(products.products);
+      console.log(products.products)
       return products;
     } catch (error) {
       console.error('Failed to fetch products:', error);
@@ -182,7 +183,9 @@ const Products: React.FC<SectionProps> = ({ active }) => {
              <td>{product.name}</td>
              <td>{product.price}</td>
              <td>{product.description}</td>
-             <td><img src={product.imageUrl} alt={product.name} style={{width: '50px', height: '50px'}} /></td>
+             <td>
+             <img src={product.imageurl} alt="Preview" className="modalDiagram-img" />
+             </td>
              <td>{product.quantity}</td>
              <td>{product.estimatedProductionTime}</td>
              <td>
