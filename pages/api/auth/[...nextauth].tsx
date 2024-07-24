@@ -13,7 +13,7 @@ interface ExtendedUser extends User {
   name?: string | null
   email?: string | null
   image?: string | null
-  role?: string | null
+  role?: string
 }
 interface ExtendedSession extends Session {
   user: ExtendedUser
@@ -78,7 +78,7 @@ const options: NextAuthOptions = {
         const { username, password } = credentials as { username: string, password: string };
         
         if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
-          return { id: 1, name: 'Admin' , role : 'admin'};
+          return { id: 1, name: 'Admin' , email: "admin@kobe.pann", phone: "0000", role : 'admin'};
         } else {
           throw new Error('Invalid username or password')
         }
@@ -101,7 +101,7 @@ const options: NextAuthOptions = {
       };
       console.log("middle token",extendedToken);
       // Get the updated user from the database
-      if (extendedToken) {
+      if (extendedToken && extendedToken.email) {
         const db = process.env.POSTGRES_DATABASE;
         const { rows: [latestUser] } = await pool.query(
           `SELECT * FROM ${db}.users WHERE email = $1`,

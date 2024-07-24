@@ -1,11 +1,18 @@
 // pages/api/addProduct.ts
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getSession } from 'next-auth/react'
+import { getServerSession } from 'next-auth/next'
 import pool from '../../utils/db'
-
+import NextAuthOptions from '@/pages/api/auth/[...nextauth]'
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const session = await getSession({ req });
-  if (!session || !session.user || session.user.role !== 'admin') {
+
+  const session : any= await getServerSession( req, res,NextAuthOptions);
+  console.log(" session",session)
+  if (!session) {
+    res.status(401).json({ message: "You must be logged in." })
+    return
+  }
+  if (!session || !session.user || session.user.name !== 'Admin' || session.user.email !== 'admin@kobe.pann') {
+    console.log("not admin");
     return res.status(403).json({ message: 'You must be an admin to perform this action.' });
   }
 
@@ -20,6 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     res.status(200).json({ message: 'Add successful', product: result.rows[0] });
   } catch (error) {
+    console.log("error",error)
     res.status(500).json({ message: 'Add failed', error: (error as Error).message });
   }
 }
