@@ -45,7 +45,6 @@ const Dashboard: React.FC<SectionProps> = (props) => {
 
 
 const Products: React.FC<SectionProps> = ({ active }) => {
-  if (!active) return null;
   // Products content here...
   const [showModal, setShowModal] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
@@ -57,7 +56,7 @@ const Products: React.FC<SectionProps> = ({ active }) => {
     quantity: '',
     estimatedProductionTime: ''
   });
-
+  if (!active) return null;
   const handleInputChange = (event:any) => {
     setProduct({
       ...product,
