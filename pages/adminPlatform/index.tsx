@@ -1,5 +1,5 @@
 // app/adminPlatform/page.tsx
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import { getSession } from 'next-auth/react';
 import DSideBar from "../../components/DSideBar";
 import "./index.css";
@@ -56,6 +56,17 @@ const Products: React.FC<SectionProps> = ({ active }) => {
     quantity: '',
     estimatedProductionTime: ''
   });
+  const [allProducts, setAllProducts] = useState<Array<{
+    name: string;
+    price: string;
+    description: string;
+    imageUrl: string;
+    quantity: string;
+    estimatedProductionTime: string;
+  }>>([]);
+  useEffect(() => {
+    getProducts();
+  }, []);
   if (!active) return null;
   const handleInputChange = (event:any) => {
     setProduct({
@@ -63,7 +74,20 @@ const Products: React.FC<SectionProps> = ({ active }) => {
       [event.target.name]: event.target.value
     });
   };
-
+  async function getProducts() {
+    try {
+      const response = await fetch('/api/getProducts');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const products = await response.json();
+      setAllProducts(products.products);
+      return products;
+    } catch (error) {
+      console.error('Failed to fetch products:', error);
+      return [];
+    }
+  }
   const handleImageChange = (event:any) => {
     setProduct({
       ...product,
@@ -145,11 +169,28 @@ const Products: React.FC<SectionProps> = ({ active }) => {
           <tr>
             <th>商品名稱</th>
             <th>價格</th>
+            <th>商品介紹</th>
+            <th>圖片</th>
             <th>數量</th>
-            <th>建立時間</th>
+            <th>到貨時間</th>
             <th>操作</th>
           </tr>
         </thead>
+        <tbody>
+          {Array.isArray(allProducts) && allProducts.map((product, index) => (
+             <tr key={index}>
+             <td>{product.name}</td>
+             <td>{product.price}</td>
+             <td>{product.description}</td>
+             <td><img src={product.imageUrl} alt={product.name} style={{width: '50px', height: '50px'}} /></td>
+             <td>{product.quantity}</td>
+             <td>{product.estimatedProductionTime}</td>
+             <td>
+               <button className="btn btn-primary" onClick={() => setShowModal(true)}>動作</button>
+             </td>
+           </tr>
+          ))}
+        </tbody>
       </table>
     </div>
     </div>
