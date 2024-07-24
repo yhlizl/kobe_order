@@ -1,5 +1,6 @@
 // db.tsx
 import mysql, { PoolOptions } from 'mysql2/promise';
+import { init } from 'next/dist/compiled/webpack/webpack';
 import { Pool as PgPool } from 'pg';
 
 
@@ -55,7 +56,7 @@ export async function initDb() {
         name VARCHAR(255),
         price DECIMAL(10, 2),
         description TEXT,
-        imageUrl VARCHAR(255),
+        imageUrl VARCHAR(2000),
         createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         quantity INT,
         estimatedProductionTime VARCHAR(255),
@@ -77,6 +78,16 @@ export async function initDb() {
         )
       `);
 
+}
+
+
+
+export async function resetDB() {
+  // Drop tables if they exist
+  await pool.query('DROP TABLE IF EXISTS verceldb.orders');
+  await pool.query('DROP TABLE IF EXISTS verceldb.products');
+  await pool.query('DROP TABLE IF EXISTS verceldb.users');
+  initDb();
 }
 
 export default pool;

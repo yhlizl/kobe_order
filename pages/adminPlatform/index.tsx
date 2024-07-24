@@ -74,17 +74,30 @@ const Products: React.FC<SectionProps> = ({ active }) => {
 
   const handleSubmit = async (event:any) => {
     event.preventDefault();
+  
     // Call your API to add the product
-    // After successful addition, close the modal and clear the form
-    setShowModal(false);
-    setProduct({
-      name: '',
-      price: '',
-      description: '',
-      imageUrl: '',
-      quantity: '',
-      estimatedProductionTime: ''
+    const response = await fetch('api/addProduct', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(product)
     });
+  
+    if (response.ok) {
+      // After successful addition, close the modal and clear the form
+      setShowModal(false);
+      setProduct({
+        name: '',
+        price: '',
+        description: '',
+        imageUrl: '',
+        quantity: '',
+        estimatedProductionTime: ''
+      });
+    } else {
+      console.error('Failed to add product');
+    }
   };
   console.log("is show modal",showModal)
   return (
@@ -108,10 +121,10 @@ const Products: React.FC<SectionProps> = ({ active }) => {
         <textarea name="description" value={product.description} onChange={handleInputChange} required />
       </label>
       <label>
-        Image:
-        <input type="file" name="imageUrl" onChange={handleImageChange} required />
+        Image URL:
+        <input type="text" name="imageUrl" value={product.imageUrl} onChange={handleInputChange} required />
       </label>
-      {preview && <img src={preview} alt="Preview" className="modalDiagram-img" />}
+      {product.imageUrl && <img src={product.imageUrl} alt="Preview" className="modalDiagram-img" />}
       <label>
         Quantity:
         <input type="number" name="quantity" value={product.quantity} onChange={handleInputChange} required />
