@@ -11,8 +11,16 @@
     display: block;
     unicode-bidi: isolate;
     line-height: 1.6;
-
 }
+
+/* Responsive design for small screens */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        position: relative;
+    }
+}
+
 .logo{
     text-align: center;
     padding: 20px 0;

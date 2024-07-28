@@ -63,12 +63,12 @@ const handleProfileFormSubmit = async (e: React.FormEvent) => {
 
 const handleTabClick = (tabId: string) => {
   setActiveTab(tabId);
-  console.log("tabId",tabId)
+  // console.log("tabId",tabId)
 };
 
 
 useEffect(() => {
-  console.log("user", user);
+  // console.log("user", user);
   setFormValues({
     name: user?.name ?? "",
     email: user?.email ?? "",

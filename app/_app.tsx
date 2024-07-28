@@ -7,7 +7,7 @@ import { getSession } from 'next-auth/react'; // 引入 getSession 函数
 
  function MyApp({ Component, pageProps }:AppProps) {
   const { session, status } = pageProps;
-  console.log("init session",session,status)
+  // console.log("init session",session,status)
   const { user, updateSession } = useUserStore();
   
   useEffect(() => { 

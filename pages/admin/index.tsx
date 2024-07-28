@@ -15,8 +15,8 @@ const AdminPage: React.FC = () => {
         const username = target.username.value; // get username
         const password = target.password.value; // get password
     
-        console.log(`Username: ${username}`);
-        console.log(`Password: ${password}`);
+        // console.log(`Username: ${username}`);
+        // console.log(`Password: ${password}`);
         // You can add more login validation logic here
         await signIn('admin-credentials', { username, password, callbackUrl: '/adminPlatform' });
       };
