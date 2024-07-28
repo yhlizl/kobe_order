@@ -283,13 +283,32 @@ const Users: React.FC<SectionProps> = ({ active }) => {
 
 
 const Orders: React.FC<SectionProps> = ({ active }) => {
+  const [orders, setOrders] = useState([] as Array<any>);
+
+  useEffect(() => {
+    fetch('/api/orders')
+      .then(response => response.json())
+      .then(data => setOrders(data));
+  }, []);
+
+  const handleStatusChange = (orderId:any, newStatus:any) => {
+    fetch(`/api/orders?orderId=${orderId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ status: newStatus }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        setOrders(orders.map(order => order.orderId === orderId ? { ...order, status: newStatus } : order));
+      });
+  };
+
   if (!active) return null;
-  // Orders content here...
+
   return (
     <div id="orders" className="content-section">
-      {/* Orders content */}
-
-    <div id="orders" className="content-section" >
       <div className="dashboard-header">
         <h2 className="dashboard-title">訂單管理</h2>
       </div>
@@ -297,6 +316,7 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
         <thead>
           <tr>
             <th>訂單ID</th>
+            <th>商品ID</th>
             <th>用戶ID</th>
             <th>日期</th>
             <th>總額</th>
@@ -304,39 +324,27 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
             <th>操作</th>
           </tr>
         </thead>
-        <tbody><tr>
-      <td>1</td>
-      <td>1</td>
-      <td>2023-05-10</td>
-      <td>NT$350</td>
-      <td>已完成</td>
-      <td>
-        <button className="btn btn-primary" >查看</button>
-        <button className="btn btn-success" >完成</button>
-      </td>
-    </tr><tr>
-      <td>2</td>
-      <td>2</td>
-      <td>2023-05-11</td>
-      <td>NT$480</td>
-      <td>處理中</td>
-      <td>
-        <button className="btn btn-primary" >查看</button>
-        <button className="btn btn-success">完成</button>
-      </td>
-    </tr><tr>
-      <td>3</td>
-      <td>3</td>
-      <td>2023-05-12</td>
-      <td>NT$270</td>
-      <td>待付款</td>
-      <td>
-        <button className="btn btn-primary" >查看</button>
-        <button className="btn btn-success" >完成</button>
-      </td>
-    </tr></tbody>
+        <tbody>
+          {orders.map(order => (
+            <tr key={order.orderId}>
+              <td>{order.orderId}</td>
+              <td>{order.productId}</td>
+              <td>{order.userId}</td>
+              <td>{order.date}</td>
+              <td>{order.total}</td>
+              <td>{order.status}</td>
+              <td>
+                <button className="btn btn-primary">查看</button>
+                <select onChange={(e) => handleStatusChange(order.orderId, e.target.value)}>
+                  <option value="cancel">取消</option>
+                  <option value="pending">待處理</option>
+                  <option value="complete">完成</option>
+                </select>
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
-    </div>
     </div>
   );
 };
