@@ -57,6 +57,7 @@ const Products: React.FC<SectionProps> = ({ active }) => {
     estimatedProductionTime: ''
   });
   const [allProducts, setAllProducts] = useState<Array<{
+    productid: string;
     name: string;
     price: string;
     description: string;
@@ -82,10 +83,10 @@ const Products: React.FC<SectionProps> = ({ active }) => {
       }
       const products = await response.json();
       setAllProducts(products.products);
-      console.log(products.products)
+      // console.log("products:",products.products)
       return products;
     } catch (error) {
-      console.error('Failed to fetch products:', error);
+      // console.error('Failed to fetch products:', error);
       return [];
     }
   }
@@ -95,6 +96,18 @@ const Products: React.FC<SectionProps> = ({ active }) => {
       imageUrl: URL.createObjectURL(event.target.files[0])
     });
     setPreview(URL.createObjectURL(event.target.files[0]));
+  };
+
+  const handleDelete = (productid : any) => {
+    if (window.confirm('Are you sure you want to delete this product?')) {
+      fetch(`/api/product/${productid}`, { method: 'DELETE' })
+        .then(() => {
+          setAllProducts(allProducts.filter(product => product.productid !== productid));
+        })
+        .catch((error) => {
+          console.error('Failed to delete product:', error);
+        });
+    }
   };
 
   const handleSubmit = async (event:any) => {
@@ -124,7 +137,7 @@ const Products: React.FC<SectionProps> = ({ active }) => {
       console.error('Failed to add product');
     }
   };
-  console.log("is show modal",showModal)
+  // console.log("is show modal",showModal)
   return (
     <div id="products" className="content-section" >
       {/* Products content */}
@@ -168,6 +181,7 @@ const Products: React.FC<SectionProps> = ({ active }) => {
       <table id="productsTable">
         <thead>
           <tr>
+            <th>商品ID</th>
             <th>商品名稱</th>
             <th>價格</th>
             <th>商品介紹</th>
@@ -180,6 +194,7 @@ const Products: React.FC<SectionProps> = ({ active }) => {
         <tbody>
           {Array.isArray(allProducts) && allProducts.map((product, index) => (
              <tr key={index}>
+            <td>{product.productid}</td>
              <td>{product.name}</td>
              <td>{product.price}</td>
              <td>{product.description}</td>
@@ -190,6 +205,7 @@ const Products: React.FC<SectionProps> = ({ active }) => {
              <td>{product.estimatedProductionTime}</td>
              <td>
                <button className="btn btn-primary" onClick={() => setShowModal(true)}>動作</button>
+               <button className="btn btn-danger" onClick={() => handleDelete(product.productid)}>刪除</button>
              </td>
            </tr>
           ))}
@@ -200,13 +216,37 @@ const Products: React.FC<SectionProps> = ({ active }) => {
   );
 };
 
+
 const Users: React.FC<SectionProps> = ({ active }) => {
+  const [users, setUsers] = useState([] as Array<any>);
+
+  useEffect(() => {
+    fetch('/api/user')
+      .then(response => response.json())
+      .then(data => {
+        setUsers(data)
+        // console.log("users",data)
+      });
+  }, []);
+
+  const handleEdit = (userId: any) => {
+    // Handle edit request here...
+    alert(`Edit user with ID: ${userId}, not implemented yet`);
+  };
+
+  const handleDelete = (userId : any) => {
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      fetch(`/api/user?id=${userId}`, { method: 'DELETE' })
+        .then(() => {
+          setUsers(users.filter(user => user.userid !== userId));
+        });
+    }
+  };
+
   if (!active) return null;
-  // Users content here...
+
   return (
     <div id="users" className="content-section">
-      {/* Users content */}
-      <div id="users" className="content-section">
       <div className="dashboard-header">
         <h2 className="dashboard-title">用戶管理</h2>
       </div>
@@ -217,42 +257,30 @@ const Users: React.FC<SectionProps> = ({ active }) => {
             <th>姓名</th>
             <th>Email</th>
             <th>電話</th>
+            <th>地址</th>
             <th>操作</th>
           </tr>
         </thead>
-        <tbody><tr>
-      <td>1</td>
-      <td>張三</td>
-      <td>zhangsan@example.com</td>
-      <td>0912345678</td>
-      <td>
-        <button className="btn btn-warning" >編輯</button>
-        <button className="btn btn-danger">刪除</button>
-      </td>
-    </tr><tr>
-      <td>2</td>
-      <td>李四</td>
-      <td>lisi@example.com</td>
-      <td>0923456789</td>
-      <td>
-        <button className="btn btn-warning" >編輯</button>
-        <button className="btn btn-danger">刪除</button>
-      </td>
-    </tr><tr>
-      <td>3</td>
-      <td>王五</td>
-      <td>wangwu@example.com</td>
-      <td>0934567890</td>
-      <td>
-        <button className="btn btn-warning">編輯</button>
-        <button className="btn btn-danger" >刪除</button>
-      </td>
-    </tr></tbody>
+        <tbody>
+          {(Array.isArray(users)) && users.map(user => (
+            <tr key={user.userid}>
+              <td>{user.userid}</td>
+              <td>{user.name}</td>
+              <td>{user.email}</td>
+              <td>{user.phone}</td>
+              <td>{user.address}</td>
+              <td>
+                <button className="btn btn-warning" onClick={() => handleEdit(user.userid)}>編輯</button>
+                <button className="btn btn-danger" onClick={() => handleDelete(user.userid)}>刪除</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
-    </div>
     </div>
   );
 };
+
 
 const Orders: React.FC<SectionProps> = ({ active }) => {
   if (!active) return null;
@@ -368,7 +396,7 @@ const AdminPlatformPage: React.FC = () => {
 
 export async function getServerSideProps(context:any) {
   const session = await getSession(context);
-  console.log("admin session",session)
+  // console.log("admin session",session)
     if (!session || !session.user || session.user.role !== 'admin') {
 
     return {

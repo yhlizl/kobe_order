@@ -45,13 +45,13 @@ const LoginPage: React.FC = () => {
         const password = (passwordInput as HTMLInputElement).value;
         try {
           const result:any = await signIn('credentials', { email, password, redirect: false })
-          console.log(result)
+          // console.log(result)
           if (result.error === "Invalid password"){
             alert("密碼錯誤")
           }
           if (result.error === null){
             const session = await getSession();
-            console.log("session",session)
+            // console.log("session",session)
             if (session) {
               updateSession(session);
             }

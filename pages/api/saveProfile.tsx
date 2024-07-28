@@ -6,7 +6,7 @@ import { getSession } from 'next-auth/react'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { username, email, phone, address, password } = req.body
-  console.log("try to update user",username,email,phone,address,password)
+  // console.log("try to update user",username,email,phone,address,password)
   try {
     let isChangePWD = false
     if (password){

@@ -38,30 +38,30 @@ const options: NextAuthOptions = {
         password: { label: "Password", type: "password" }
       },
       authorize: async (credentials): Promise<any> => {
-        console.log("start authorize");
+        // console.log("start authorize");
         const { email, password } = credentials as { email: string, password: string };
         
         try {
           const db = process.env.POSTGRES_DATABASE;
           const { rows: users } = await pool.query(`SELECT * FROM ${db}.users WHERE email = $1`, [email]);
-          console.log("users", users);
+          // console.log("users", users);
           if (users && Array.isArray(users) && users.length > 0) {
             const user: any = users[0];
             const isValidPassword = await bcrypt.compare(password, user.password);
 
             if (isValidPassword) {
-              console.log("login success");
+              // console.log("login success");
               return { id: user.userId, name: user.name, email: user.email, phone: user.phone, address: user.address, role : 'user' };
             } else {
-              console.log("login failed - invalid password");
+              // console.log("login failed - invalid password");
               throw new Error('Invalid password');
             }
           } else {
-            console.log("login failed - user not found");
+            // console.log("login failed - user not found");
             throw new Error('User not found');
           }
         } catch (error) {
-          console.log("login failed - error", error);
+          // console.log("login failed - error", error);
           throw error;
         }
         
@@ -89,8 +89,8 @@ const options: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }: { token: JWT; user: any }) {
       // user 参数只在登录时存在
-      console.log('User:', user);
-      console.log('Token before:', token);
+      // console.log('User:', user);
+      // console.log('Token before:', token);
 
       let extendedToken: ExtendedJWT = {
         ...token,
@@ -99,7 +99,7 @@ const options: NextAuthOptions = {
         address: user?.address ?? token.address,
         role : user?.role ?? token.role
       };
-      console.log("middle token",extendedToken);
+      // console.log("middle token",extendedToken);
       // Get the updated user from the database
       if (extendedToken && extendedToken.email) {
         const db = process.env.POSTGRES_DATABASE;
@@ -107,11 +107,11 @@ const options: NextAuthOptions = {
           `SELECT * FROM ${db}.users WHERE email = $1`,
           [extendedToken.email]
         )
-        console.log("latestUser", latestUser);
+        // console.log("latestUser", latestUser);
         // Add the updated user to the extendedSession
         extendedToken = { ...extendedToken, ...latestUser };
         }
-      console.log("final token",extendedToken)
+      // console.log("final token",extendedToken)
       return extendedToken;
     },
 
@@ -128,7 +128,7 @@ const options: NextAuthOptions = {
           role :  token.role
         },
       };
-      console.log("final session", extendedSession)
+      // console.log("final session", extendedSession)
       return extendedSession;
     },
   },

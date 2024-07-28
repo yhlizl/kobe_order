@@ -6,6 +6,6 @@ export default async function handler(req:any,res:any) {
     res.status(200).send('Database initialized');
   } catch (err) {
     console.error('Failed to initialize database:', err);
-    res.status(500).send('Failed to initialize database');
+    res.status(500).send('Failed to initialize database',err);
   }
 }
