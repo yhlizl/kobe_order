@@ -17,6 +17,9 @@ body {
   color: #333;
   line-height: 1.6;
 }
+.hide {
+  display: none;
+}
 .container {
   max-width: 1000px;
   margin: 0 auto;
@@ -142,3 +145,53 @@ th {
   padding: 40px 0;
 }
 
+.product-image {
+  width: 100px;  /* 設置你想要的寬度 */
+  height: 100px;  /* 設置你想要的高度 */
+  object-fit: cover;
+}
+
+.product-image:hover {
+  transform: scale(2);  /* 在滑鼠指向時放大圖片 */
+} 
+
+.cart-button, .checkout-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cart-button {
+  background-color: #008CBA; /* 藍色 */
+  color: white;
+}
+
+.cart-button:hover {
+  background-color: #007B9A; /* 深藍色 */
+}
+
+.checkout-button {
+  background-color: #4CAF50; /* 綠色 */
+  color: white;
+  margin-left: 10px; /* 在左邊添加一些空間 */
+}
+
+.checkout-button:hover {
+  background-color: #45A049; /* 深綠色 */
+}
+
+.quantity-input {
+  width: 50px;  /* 設置你想要的寬度 */
+  height: 30px;  /* 設置你想要的高度 */
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.quantity-input::-webkit-inner-spin-button {
+  opacity: 1;
+}
