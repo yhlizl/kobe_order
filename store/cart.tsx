@@ -21,13 +21,14 @@ type CartState = {
 export const useStore = create<CartState>((set) => ({
   cart: {},
   addToCart: (product) => set((state) => {
+    console.log("product", product)
     const cartProduct = state.cart[product.id];
     if (cartProduct) {
       // 如果商品已經在購物車中，增加數量
-      cartProduct.quantity += 1;
+      product.quantity += product.quantity;
     } else {
-      // 如果商品不在購物車中，添加到購物車並設置數量為 1
-      product.quantity = 1;
+      // 如果商品不在購物車中，添加到購物車並設置數量
+      product.quantity = product.quantity;
     }
     return { cart: { ...state.cart, [product.id]: product } };
   }),
