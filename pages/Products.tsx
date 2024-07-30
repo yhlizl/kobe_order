@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Layout from "../components/Layout";
 import { useStore,Product as cartProp } from "@/store/cart"
+import { useRouter } from "next/router"
 interface Product {
   productid: number;
   name: string;
@@ -15,6 +16,7 @@ const ProductsPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const { cart, addToCart } = useStore();
   const quantityRefs = useRef<{ [key: string]: HTMLInputElement }>({});
+  const router = useRouter();
   useEffect(() => {
     fetch('/api/getProducts')
       .then(response => response.json())
@@ -40,8 +42,10 @@ const ProductsPage: React.FC = () => {
     addToCart(cartItem);
   };
 
-  const handleCheckout = () => {
+  const handleCheckout = (product: Product) => {
     // Handle checkout logic here
+    handleAddToCart(product);
+    router.push('/checkout');
   };
 
   return (
@@ -72,7 +76,7 @@ const ProductsPage: React.FC = () => {
                 </td>
                 <td>
                 <button className="cart-button" onClick={() => handleAddToCart(product)}>加入購物車</button>
-                <button className="checkout-button" onClick={handleCheckout}>結帳</button>
+                <button className="checkout-button" onClick={() => handleCheckout(product)}>結帳</button>
                 </td>
               </tr>
             ))}
