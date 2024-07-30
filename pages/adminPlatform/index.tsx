@@ -3,6 +3,9 @@ import React,{useEffect, useState} from "react";
 import { getSession } from 'next-auth/react';
 import DSideBar from "../../components/DSideBar";
 import "./index.css";
+import NextAuthOptions from '@/pages/api/auth/[...nextauth]'
+import { getServerSession } from 'next-auth/next'
+
 interface SectionProps {
   active: boolean;
 }
@@ -403,9 +406,11 @@ const AdminPlatformPage: React.FC = () => {
 };
 
 export async function getServerSideProps(context:any) {
-  const session = await getSession(context);
+  const { req, res } = context;
+  const session : any = await getServerSession(req, res, NextAuthOptions);
+  console.log("test session",session)
   // console.log("admin session",session)
-    if (!session || !session.user || session.user.role !== 'admin') {
+    if (!session || !session.user || session.user.name !== 'Admin' || session.user.email !== 'admin@kobe.pann') {
 
     return {
       redirect: {
