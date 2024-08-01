@@ -1,45 +1,35 @@
 // Checkout.tsx
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { useStore } from '../store/cart';
+import {useUserStore} from "@/store/user"
 import Layout from "../components/Layout";
 import styles from './Checkout.module.css';
 import { useRouter } from 'next/router';
-import { getSession } from "next-auth/react";
-import { GetServerSideProps } from "next";
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const session = await getSession(context);
-    
-    if (!session|| !session.user || session.user.role !== 'user') {
-        return {
-            redirect: {
-              destination: '/Login',
-              permanent: false,
-            },
-          };
-    }
-  
-    return {
-      props: {"user":session.user}, // will be passed to the page component as props
-    };
-  };
+
 
   
-const Checkout: React.FC = ({user}:any) => {
+const Checkout: React.FC = () => {
 const [name, setName] = useState('');
 const [email, setEmail] = useState('');
 const [phone, setPhone] = useState('');
 const [showModal, setShowModal] = useState(false);
 const [paymentMethod, setPaymentMethod] = useState('');
 const router = useRouter();
-  const { cart, removeFromCart } = useStore();
+const { cart, removeFromCart } = useStore();
+const { user}   = useUserStore();
+useEffect(() => {
+    if (!user) {
+        router.push('/Login');
+    }
+  }, [user]);
   console.log("cart", cart) 
   console.log("user", user)
   const total = Object.values(cart).reduce((sum, item) => sum + item.price * item.quantity, 0);
   const handleCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      setName(user.name);
-      setEmail(user.email);
-      setPhone(user.phone);
+      setName(user?.name || '');
+      setEmail(user?.email|| '');
+      setPhone(user?.phone|| '');
     } else {
       setName('');
       setEmail('');
