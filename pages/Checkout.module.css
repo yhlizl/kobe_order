@@ -1,0 +1,220 @@
+
+  .CheckoutBody {
+    font-family: 'Noto Sans TC', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5 url('/images/bakery-bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+    line-height: 1.6;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .checkout-form {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    padding: 30px;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+  }
+
+  .checkout-form:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+  }
+
+  .form-group {
+    margin-bottom: 25px;
+  }
+
+ .name,
+ .email,
+ .tel{
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+  }
+
+  .name:focus,
+  .email:focus,
+  .tel:focus {
+    border-color: #8B4513;
+    outline: none;
+  }
+
+  .payment-methods {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .payment-method {
+    flex-basis: calc(33.333% - 10px);
+    margin-bottom: 15px;
+  }
+
+  .payment-method label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    transition: all 0.3s;
+  }
+
+  .payment-method label:hover {
+    background: #f0f0f0;
+  }
+
+  .payment-method input[type="radio"]:checked + label {
+    border-color: #8B4513;
+    background: #fff8e1;
+  }
+
+  .payment-method img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    object-fit: contain;
+  }
+
+  .submit-btn {
+    background: #8B4513;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.1s;
+    width: 100%;
+    font-weight: bold;
+  }
+
+  .submit-btn:hover {
+    background: #A0522D;
+    transform: translateY(-2px);
+  }
+
+  .submit-btn:active {
+    transform: translateY(0);
+  }
+
+  .order-summary {
+    margin-top: 30px;
+    background: rgba(255, 248, 225, 0.9);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  }
+
+  .order-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .order-total {
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 20px;
+    text-align: right;
+    color: #8B4513;
+  }
+
+  .use-member-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .use-member-info input[type="checkbox"] {
+    margin-right: 10px;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .modalContent {
+    white-space: pre-wrap;
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
+    line-height: 1.6;
+    font-family: 'Noto Sans TC', sans-serif;
+  }
+  .modalTitle {
+    font-family: 'Playfair Display', serif;
+    margin: 0;
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
+  }
+  .confirm-btn {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
