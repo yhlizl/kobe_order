@@ -1,29 +1,26 @@
 // Cart.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStore } from '../store/cart'; // 路徑可能需要根據你的項目結構來調整
 import Layout from "../components/Layout";
 import styles from './Cart.module.css'; // 導入 CSS Module
 import Link from 'next/link';
-import { getSession } from "next-auth/react";
-import { GetServerSideProps } from "next";
+import {useUserStore} from "@/store/user"
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context);
-  let nextLink = '/Checkout';
-  if (!session|| !session.user || session.user.role !== 'user') {
-    nextLink = '/Login';
-  }
-
-  return {
-    props: {nextLink}, // will be passed to the page component as props
-  };
-};
-
-const Cart: React.FC = (props:any) => {
+const Cart: React.FC = () => {
+  const [nextLink, setNextLink] = useState('/Login');
   const { cart, removeFromCart, changeQuantity } = useStore();
-  
+  const { user}   = useUserStore();
+
+  useEffect(() => {
+    if (!user) {
+      setNextLink('/Login');
+    } else {
+      setNextLink('/Checkout');
+    }
+  }, [user]);
+
   const total = Object.values(cart).reduce((sum, item) => sum + item.price * item.quantity, 0);
-  console.log("nextLink", props.nextLink)
+  console.log("nextLink", nextLink)
   return (
     <>
     <Layout>
@@ -60,7 +57,7 @@ const Cart: React.FC = (props:any) => {
             </tbody>
           </table>
           <div className="total">總計: NT$ {total}</div>
-          <Link href={props.nextLink} className="checkout-btn">
+          <Link href={nextLink} className="checkout-btn">
               前往結帳
           </Link>
         </div>
