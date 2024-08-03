@@ -48,10 +48,10 @@ const ProductsPage: React.FC = () => {
     addToCart(cartItem);
   };
 
-  const handleCheckout = (product: Product) => {
+  const handleCheckout = () => {
     // Handle checkout logic here
-    handleAddToCart(product);
-    router.push('/checkout');
+    // handleAddToCart(product);
+    router.push('/Cart');
   };
   return (
     <div>
@@ -67,12 +67,13 @@ const ProductsPage: React.FC = () => {
                 <input type="number" min="1" max={product.quantity} defaultValue="0" id={`quantity-${product.productid}`} className="quantity-input mt-2 mb-4" ref={el => { if (el) quantityRefs.current[product.productid] = el; }} />
                 <div className="flex justify-between">
                   <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleAddToCart(product)}>加入購物車</button>
-                  <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleCheckout(product)}>結帳</button>
                 </div>
               </div>
             </div>
           ))}
         </div>
+        <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleCheckout()}>前往結帳</button>
+
       </Layout>
     </div>
   );
