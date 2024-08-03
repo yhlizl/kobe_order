@@ -25,17 +25,17 @@ KOBE PANN的創立源於一個樸素而真摯的夢想：將日式、台式和�
       <h2>我們的核心價值</h2>
       <div className="grid">
         <div className="card">
-          <img src="/images/quality.jpg" alt="品質保證" />
+          <img src="/kobe/879F7042-B361-4EB0-B9C3-F127348A3A20.jpeg" alt="品質保證" />
           <h3>品質保證</h3>
           <p>嚴選頂級原料，堅持手工製作，每一口都是極致美味。</p>
         </div>
         <div className="card">
-          <img src="/images/innovation.jpg" alt="創新精神" />
+          <img src="/kobe/2024-04-12.jpg" alt="創新精神" />
           <h3>創新精神</h3>
           <p>傳統工藝結合現代技術，不斷推陳出新，滿足顧客多元化的需求。</p>
         </div>
         <div className="card">
-          <img src="/images/service.jpg" alt="優質服務" />
+          <img src="/kobe/EC2AAE47-B8E4-488A-A6FA-D7177B0366E0.jpeg" alt="優質服務" />
           <h3>優質服務</h3>
           <p>以客為尊，提供貼心周到的服務，讓每位顧客賓至如歸。</p>
         </div>
