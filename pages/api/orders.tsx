@@ -24,7 +24,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await requireAdmin(req, res, async()=>{
       switch (method) {
           case 'GET':
-            const orders = await pool.query('SELECT * FROM verceldb.orders');
+            const orders = await pool.query(`
+                SELECT o.*, p.name AS productName, p.imageUrl, u.email as useremail, u.name as username, u.phone as userphone, u.address as useraddress
+                FROM verceldb.orders o 
+                JOIN verceldb.products p ON o.productId = p.productId 
+                JOIN verceldb.users u ON o.userId = u.userId
+              `);
             res.status(200).json(orders.rows);
             break;
           case 'POST':
@@ -34,6 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             break;
           case 'PUT':
             const { status } = req.body;
+            console.log("change order status",id,status)
             await pool.query('UPDATE verceldb.orders SET status = $1 WHERE orderId = $2', [status, id]);
             res.status(200).json({ message: 'Order updated successfully' });
             break;

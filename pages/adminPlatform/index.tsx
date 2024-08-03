@@ -24,19 +24,19 @@ const Dashboard: React.FC<SectionProps> = (props) => {
     <div className="dashboard-grid">
       <div className="dashboard-card">
         <h3>總訂單數</h3>
-        <p id="totalOrders">3</p>
+        {/* <p id="totalOrders">3</p> */}
       </div>
       <div className="dashboard-card">
         <h3>本月營收</h3>
-        <p id="monthlyRevenue">NT$1100</p>
+        {/* <p id="monthlyRevenue">NT$1100</p> */}
       </div>
       <div className="dashboard-card">
         <h3>活躍用戶</h3>
-        <p id="activeUsers">3</p>
+        {/* <p id="activeUsers">3</p> */}
       </div>
       <div className="dashboard-card">
         <h3>庫存商品</h3>
-        <p id="stockProducts">3</p>
+        {/* <p id="stockProducts">3</p> */}
       </div>
     </div>
     <canvas id="revenueChart" width={922} height={300} style={{ display: 'block', boxSizing: 'border-box', height: '150px', width: '461px' }}></canvas>
@@ -287,15 +287,29 @@ const Users: React.FC<SectionProps> = ({ active }) => {
 
 const Orders: React.FC<SectionProps> = ({ active }) => {
   const [orders, setOrders] = useState([] as Array<any>);
+  const [selectedStatuses, setSelectedStatuses] = useState<{ [key: number]: string }>({});
 
+  const fetchOrders = async () => {
+    const response = await fetch('/api/orders');
+    const data = await response.json();
+    setOrders(data);
+    console.log("get orders data",data)
+  }
   useEffect(() => {
-    fetch('/api/orders')
-      .then(response => response.json())
-      .then(data => setOrders(data));
+    const fetchData = async () => {
+      await fetchOrders();
+    };
+  
+    fetchData();
   }, []);
 
-  const handleStatusChange = (orderId:any, newStatus:any) => {
-    fetch(`/api/orders?orderId=${orderId}`, {
+  const handleStatusChange = (orderId:any) => {
+    const newStatus = selectedStatuses[orderId];
+    if (!newStatus || newStatus === '') { 
+      alert('Please select a status');
+      return;
+    }
+    fetch(`/api/orders?id=${orderId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -304,7 +318,8 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
     })
       .then(response => response.json())
       .then(data => {
-        setOrders(orders.map(order => order.orderId === orderId ? { ...order, status: newStatus } : order));
+        setOrders(orders.map(order => order.orderid === orderId ? { ...order, status: newStatus } : order));
+        // window.location.reload();
       });
   };
 
@@ -316,38 +331,56 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
         <h2 className="dashboard-title">訂單管理</h2>
       </div>
       <table id="ordersTable">
-        <thead>
-          <tr>
-            <th>訂單ID</th>
-            <th>商品ID</th>
-            <th>用戶ID</th>
-            <th>日期</th>
-            <th>總額</th>
-            <th>狀態</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map(order => (
-            <tr key={order.orderId}>
-              <td>{order.orderId}</td>
-              <td>{order.productId}</td>
-              <td>{order.userId}</td>
-              <td>{order.date}</td>
-              <td>{order.total}</td>
-              <td>{order.status}</td>
-              <td>
-                <button className="btn btn-primary">查看</button>
-                <select onChange={(e) => handleStatusChange(order.orderId, e.target.value)}>
-                  <option value="cancel">取消</option>
-                  <option value="pending">待處理</option>
-                  <option value="complete">完成</option>
-                </select>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+  <thead>
+    <tr>
+      <th>訂單ID</th>
+      <th>商品ID</th>
+      <th>商品名稱</th>
+      <th>數量</th>
+      <th>用戶ID</th>
+      <th>用戶名稱</th>
+      <th>用戶電子郵件</th>
+      <th>用戶電話</th>
+      <th>用戶地址</th>
+      <th>日期</th>
+      <th>總額</th>
+      <th>狀態</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    {orders.map(order => {
+      const selectedStatus = selectedStatuses[order.orderid] || order.status;
+      return (
+      <tr key={order.orderid}>
+        <td>{order.orderid}</td>
+        <td>{order.productid}</td>
+        <td>{order.productname}</td>
+        <td>{order.quantity}</td>
+        <td>{order.userid}</td>
+        <td>{order.username}</td>
+        <td>{order.useremail}</td>
+        <td>{order.userphone}</td>
+        <td>{order.useraddress || 'N/A'}</td>
+        <td>{order.date}</td>
+        <td>{order.total}</td>
+        <td>{order.status}</td>
+        <td>
+          <select value={selectedStatus} onChange={(e) => setSelectedStatuses({...selectedStatuses, [order.orderid]: e.target.value})}>
+            <option value="">選擇...</option>
+            <option value="完成">完成</option>
+            <option value="取消">取消</option>
+            <option value="其他">其他</option>
+          </select>
+          {selectedStatus === '其他' && <input type="text" onChange={(e) => setSelectedStatuses({...selectedStatuses, [order.orderid]: e.target.value})} />}
+          <button className="btn btn-primary" onClick={() => handleStatusChange(order.orderid)}>更新</button>
+        </td>
+      </tr>
+    )}
+    
+    )}
+  </tbody>
+</table>
     </div>
   );
 };
