@@ -51,7 +51,13 @@ useEffect(() => {
     // create order
     const isChecked = window.confirm('訂單是否送出');
     if (isChecked) {
-        cart && Object.entries(cart).map(async ([_, item]) => {   
+        cart && Object.entries(cart).map(async ([_, item]) => {  
+        let status = paymentMethod;
+        if (paymentMethod === 'bank-transfer') {
+            status = '待轉帳中';
+        }else if (paymentMethod === 'in-store') {
+            status = '待取貨付款';
+        }
         await fetch('/api/submitOrder', {
             method: 'POST',
             headers: {

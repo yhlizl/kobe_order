@@ -27,8 +27,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const AccountPage: React.FC = () => {
+
+const [order, setOrder] = useState<any[]>([]);
 const router = useRouter();
-const { user,updateSession } = useUserStore();
+const { user, updateSession } = useUserStore();
 // const [ stateUser,setStateUser ] = useState(user);
 const [activeTab, setActiveTab] = useState('profile');
 const handleProfileFormSubmit = async (e: React.FormEvent) => {
@@ -66,6 +68,28 @@ const handleTabClick = (tabId: string) => {
   // console.log("tabId",tabId)
 };
 
+const fetchOrders = async () => {
+  if (!user?.email) {
+    return;
+  }
+  const response = await fetch('/api/getOrders', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      userEmail: user?.email,
+    }),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to fetch orders');
+  }
+
+  const data = await response.json();
+  console.log("data.order",data.order)
+  setOrder(data.order);
+  return data.order;
+};
 
 useEffect(() => {
   // console.log("user", user);
@@ -76,6 +100,7 @@ useEffect(() => {
     address: user?.address ?? "",
     password:"",
   });
+  fetchOrders();
 }, [user]);
 
 const [formValues, setFormValues] = useState({
@@ -138,39 +163,31 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         <div id="orders"  className={activeTab === 'orders' ? 'tab-content active' : 'tab-content'}>
           <h3>訂單紀錄</h3>
           <table>
-            <thead>
-              <tr>
-                <th>訂單編號</th>
-                <th>日期</th>
-                <th>金額</th>
-                <th>狀態</th>
-                <th>操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>#12345</td>
-                <td>2023-08-15</td>
-                <td>NT$ 1,280</td>
-                <td>已出貨</td>
-                <td><a href="#" className="btn">查看詳情</a></td>
-              </tr>
-              <tr>
-                <td>#12346</td>
-                <td>2023-08-10</td>
-                <td>NT$ 980</td>
-                <td>已完成</td>
-                <td><a href="#" className="btn">查看詳情</a></td>
-              </tr>
-              <tr>
-                <td>#12347</td>
-                <td>2023-08-05</td>
-                <td>NT$ 2,100</td>
-                <td>已完成</td>
-                <td><a href="#" className="btn">查看詳情</a></td>
-              </tr>
-            </tbody>
-          </table>
+              <thead>
+                <tr>
+                  <th>訂單編號</th>
+                  <th>日期</th>
+                  <th>產品名稱</th>
+                  <th>數量</th>
+                  <th>圖片</th>
+                  <th>金額</th>
+                  <th>狀態</th>
+                </tr>
+              </thead>
+              <tbody>
+                {order.map((order) => (
+                  <tr key={order.orderid}>
+                    <td>#{order.orderid}</td>
+                    <td>{new Date(order.date).toLocaleDateString()}</td>
+                    <td>{order.productname}</td>
+                    <td>{order.quantity}</td>
+                    <td><img src={order.imageurl} alt={order.productname} style={{width: '50px', height: '50px'}} /></td>
+                    <td>NT$ {order.total}</td>
+                    <td>{order.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
         </div>
 
       </div>
