@@ -72,8 +72,7 @@ const ProductsPage: React.FC = () => {
             </div>
           ))}
         </div>
-        <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleCheckout()}>前往結帳</button>
-
+        <button className="fixed bottom-0 left-1/2 transform -translate-x-1/2 p-4 bg-green-500 hover:bg-green-700 text-white font-bold rounded" onClick={() => handleCheckout()}>前往結帳</button>
       </Layout>
     </div>
   );
