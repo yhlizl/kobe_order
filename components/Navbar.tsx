@@ -2,10 +2,12 @@
 import React,{useEffect} from "react";
 import Link from "next/link";
 import { useUserStore } from "../store/user"
+import { useStore } from "@/store/cart"
 import { getSession } from 'next-auth/react'
 
 const Navbar: React.FC = () => {
   const { user,updateSession} = useUserStore();
+  const { cart } = useStore();
   useEffect(() => {
     const fetchSession = async () => {
       const session = await getSession();
@@ -60,7 +62,7 @@ const Navbar: React.FC = () => {
             href="/Cart"
             className="text-[#fff8e1] no-underline px-4 py-2 font-bold hover:bg-[rgba(255,255,255,0.2)] rounded"
           >
-            購物車
+            購物車({cart && Object.keys(cart).length})
           </Link>
           <li>
             {user && user.isLoggedIn && <><p>歡迎，{user.name}</p> <button onClick={() => useUserStore.getState().logOut()}>登出</button></>}
