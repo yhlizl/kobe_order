@@ -21,8 +21,8 @@ export const useUserStore = create<UserState>((set) => ({
   })),
   logOut: async() => {
     await signOut({ redirect: false });
-    location.reload()
     set(() => ({ user: null }))
+    location.reload()
   },
   updateSession: (session) => {
     if (session && session.user && session.user.name) {

@@ -1,6 +1,5 @@
 /* 讓表格在小屏幕上可滾動 */
 .table-wrapper {
-    width: auto;
     overflow-x: auto; /* 水平滾動條 */
     overflow-y: auto; /* 垂直滾動條 */
   }
@@ -36,7 +35,7 @@
   
 
 .product-image {
-    width: auto;
-    height: auto;
+    width: 80px;
+    height: 80px;
     object-fit: cover; /* 使圖片保持原始寬高比並填充整個元素 */
 }

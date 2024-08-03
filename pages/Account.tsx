@@ -71,7 +71,7 @@ const handleTabClick = (tabId: string) => {
 };
 
 const fetchOrders = async () => {
-  if (!user?.email) {
+  if (!user?.email || user?.email === '' || user?.email === 'admin@kobe.pann' ) {
     return;
   }
   const response = await fetch('/api/getOrders', {
