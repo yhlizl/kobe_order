@@ -181,7 +181,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                 {order.map((order) => (
                   <tr key={order.orderid}>
                     <td>#{order.orderid}</td>
-                    <td>{new Date(order.date).toLocaleDateString()}</td>
+                    <td>{new Date(order.date).toLocaleString('en-US', { timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false })}</td>
                     <td>{order.productname}</td>
                     <td>{order.quantity}</td>
                     <td><img src={order.imageurl} alt={order.productname} style={{width: '50px', height: '50px'}} /></td>

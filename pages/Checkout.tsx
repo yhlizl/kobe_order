@@ -21,6 +21,9 @@ useEffect(() => {
     if (!user) {
         router.push('/Login');
     }
+    setName(user?.name || '');
+    setEmail(user?.email|| '');
+    setPhone(user?.phone|| '');
   }, [user]);
 
   const total = Object.values(cart).reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -95,22 +98,22 @@ useEffect(() => {
   <div className={styles.container}>
     <h2>結帳</h2>
     <form id="checkout-form" className={styles["checkout-form"]} onSubmit={handleSubmit}>
-      <div className="use-member-info">
-        <input type="checkbox" id="use-member-info" name="use-member-info" onChange={handleCheck}/>
-        <label htmlFor="use-member-info">使用會員資料</label>
-      </div>
-      <div className={styles["form-group"]}>
-        <label htmlFor="name">姓名</label>
-        <input type="text" id="name" name="name"  className={styles["name"]} value={name} onChange={e => setName(e.target.value)} required/>
-      </div>
-      <div className={styles["form-group"]}>
-        <label htmlFor="email">電子郵件</label>
-        <input type="email" id="email" name="email" className={styles["email"]} value={email} onChange={e => setEmail(e.target.value)} required/>
-      </div>
-      <div className={styles["form-group"]}>
-        <label htmlFor="phone">電話</label>
-        <input type="tel" id="phone" name="phone" className={styles["tel"]} value={phone} onChange={e => setPhone(e.target.value)} required/>
-      </div>
+    <div className="use-member-info" style={{ display: 'flex', alignItems: 'center' }}>
+      <input type="checkbox" id="use-member-info" name="use-member-info" onChange={handleCheck} checked={true} disabled={true}/>
+      <label htmlFor="use-member-info">使用會員資料</label>
+    </div>
+    <div className={styles["form-group"]}>
+      <label htmlFor="name">姓名</label>
+      <input type="text" id="name" name="name" className={styles["name"]} value={name} onChange={e => setName(e.target.value)} required disabled={true}/>
+    </div>
+    <div className={styles["form-group"]}>
+      <label htmlFor="email">電子郵件</label>
+      <input type="email" id="email" name="email" className={styles["email"]} value={email} onChange={e => setEmail(e.target.value)} required disabled={true}/>
+    </div>
+    <div className={styles["form-group"]}>
+      <label htmlFor="phone">電話</label>
+      <input type="tel" id="phone" name="phone" className={styles["tel"]} value={phone} onChange={e => setPhone(e.target.value)} required disabled={true}/>
+    </div>
       <div className={styles["form-group"]}>
         <label>付款方式</label>
         <div className={styles["payment-methods"]} >

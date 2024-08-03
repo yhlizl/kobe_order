@@ -362,8 +362,8 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
         <td>{order.useremail}</td>
         <td>{order.userphone}</td>
         <td>{order.useraddress || 'N/A'}</td>
-        <td>{order.date}</td>
-        <td>{order.total}</td>
+        <td>{new Date(order.date).toLocaleString('en-US', { timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false })}</td>
+        <td>{`NT${Math.round(order.total)}`}</td>
         <td>{order.status}</td>
         <td>
           <select value={selectedStatus} onChange={(e) => setSelectedStatuses({...selectedStatuses, [order.orderid]: e.target.value})}>
