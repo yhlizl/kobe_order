@@ -6,7 +6,7 @@ import Link from "next/link";
 import Head from 'next/head';
 const HomePage: React.FC = () => {
   return (
-    <div className="w-full p-5">
+    <div>
       <Head>
         <title>KOBE Pann 口碑烘焙坊</title>
         <meta name="description" content="KOBE Pann 口碑烘焙坊，用心烘焙每一口的幸福滋味" />

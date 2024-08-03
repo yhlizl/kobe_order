@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Layout from "../components/Layout";
 import { useStore,Product as cartProp } from "@/store/cart"
 import { useRouter } from "next/router"
+import styles from './Products.module.css'
 interface Product {
   productid: number;
   name: string;
@@ -28,6 +29,11 @@ const ProductsPage: React.FC = () => {
 
   const handleAddToCart = (product: Product) => {
     const quantity = Number(quantityRefs.current[product.productid]?.value);
+    if (quantity === 0) {
+      alert('請輸入數量');
+      return;
+    }
+
     console.log(quantityRefs.current[product.productid]?.value)
     const cartItem :cartProp = {
       id: product.productid.toString(),
@@ -51,7 +57,7 @@ const ProductsPage: React.FC = () => {
   return (
     <div>
       <Layout>
-        <table>
+        <table className={styles["table-wrapper"]}>
           <thead>
             <tr>
               <th className="hide">編號</th>
@@ -66,17 +72,17 @@ const ProductsPage: React.FC = () => {
           <tbody>
             {Array.isArray(products)&&products.map(product => (
               <tr key={product.productid}>
-                 <td className="hide">{product.productid}</td>
+                <td className="hide">{product.productid}</td>
                 <td>{product.name}</td>
                 <td>{product.price}</td>
                 <td>{product.description}</td>
-                <td><img src={product.imageurl} alt={product.name} className="product-image" /></td>
+                <td className={styles["scrollable"]}><img src={product.imageurl} alt={product.name} className={styles["product-image"]} /></td>
                 <td>
                 <input type="number" min="1" max={product.quantity} defaultValue="0" id={`quantity-${product.productid}`} className="quantity-input" ref={el => { if (el) quantityRefs.current[product.productid] = el; }} />
                 </td>
                 <td>
-                <button className="cart-button" onClick={() => handleAddToCart(product)}>加入購物車</button>
-                <button className="checkout-button" onClick={() => handleCheckout(product)}>結帳</button>
+                <button className={styles["cart-button"]} onClick={() => handleAddToCart(product)}>加入購物車</button>
+                <button className={styles["checkout-button"]} onClick={() => handleCheckout(product)}>結帳</button>
                 </td>
               </tr>
             ))}
