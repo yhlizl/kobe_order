@@ -53,41 +53,26 @@ const ProductsPage: React.FC = () => {
     handleAddToCart(product);
     router.push('/checkout');
   };
-
   return (
     <div>
       <Layout>
-        <table className={styles["table-wrapper"]}>
-          <thead>
-            <tr>
-              <th className="hide">編號</th>
-              <th>名稱</th>
-              <th>價格</th>
-              <th>描述</th>
-              <th>圖片</th>
-              <th>數量</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Array.isArray(products)&&products.map(product => (
-              <tr key={product.productid}>
-                <td className="hide">{product.productid}</td>
-                <td>{product.name}</td>
-                <td>{product.price}</td>
-                <td>{product.description}</td>
-                <td className={styles["scrollable"]}><img src={product.imageurl} alt={product.name} className={styles["product-image"]} /></td>
-                <td>
-                <input type="number" min="1" max={product.quantity} defaultValue="0" id={`quantity-${product.productid}`} className="quantity-input" ref={el => { if (el) quantityRefs.current[product.productid] = el; }} />
-                </td>
-                <td>
-                <button className={styles["cart-button"]} onClick={() => handleAddToCart(product)}>加入購物車</button>
-                <button className={styles["checkout-button"]} onClick={() => handleCheckout(product)}>結帳</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {Array.isArray(products) && products.map(product => (
+            <div key={product.productid} className="border rounded-lg overflow-hidden shadow-lg m-3">
+              <img src={product.imageurl} alt={product.name} className="w-full h-64 object-cover" />
+              <div className="p-4">
+                <h2 className="font-bold text-xl mb-2">{product.name}</h2>
+                <p className="text-gray-700 text-base">{product.description}</p>
+                <p className="text-gray-700 text-base">{product.price}</p>
+                <input type="number" min="1" max={product.quantity} defaultValue="0" id={`quantity-${product.productid}`} className="quantity-input mt-2 mb-4" ref={el => { if (el) quantityRefs.current[product.productid] = el; }} />
+                <div className="flex justify-between">
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleAddToCart(product)}>加入購物車</button>
+                  <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleCheckout(product)}>結帳</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </Layout>
     </div>
   );

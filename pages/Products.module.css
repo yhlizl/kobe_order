@@ -1,41 +1,35 @@
-/* 讓表格在小屏幕上可滾動 */
-.table-wrapper {
-    overflow-x: auto; /* 水平滾動條 */
-    overflow-y: auto; /* 垂直滾動條 */
-  }
-.scrollable {
-    overflow: auto;
-    overflow-x: auto; /* 水平滾動條 */
-    overflow-y: auto; /* 垂直滾動條 */
-    }
-  
-  .cart-button, .checkout-button {
-    min-width: 100px;
-    height: 30px;
-    box-sizing: border-box;
-    padding: 5px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #4CAF50;
-    color: #fff;
-    font-size: 2vw; /* 使用viewport單位 */
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin: 10px 10px;
+.product-grid {
     display: flex;
-    justify-content: center;
-    text-align: center;
-    align-items: center; /* 新增 */
-}
-
-.cart-button:hover, .checkout-button:hover {
-    background-color: #45a049;
-}
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
   
-
-.product-image {
-    width: 80px;
-    height: 80px;
-    object-fit: cover; /* 使圖片保持原始寬高比並填充整個元素 */
-}
+  .product-card {
+    flex: 0 0 calc(33.3333% - 20px);
+    margin: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .product-image {
+    width: 100%;
+    height: auto;
+  }
+  
+  .product-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+  }
