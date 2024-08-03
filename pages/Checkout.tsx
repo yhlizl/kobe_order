@@ -58,7 +58,7 @@ useEffect(() => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                userName: user?.name,
+                userEmail: user?.email,
                 total: total,
                 status: paymentMethod,
                 productId: item.id,

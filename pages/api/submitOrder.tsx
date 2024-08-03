@@ -9,12 +9,12 @@ import pool from '../../utils/db'
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await needLogin(req, res, async()=>{
     console.log("req.body",req.body)
-    const { userName, total, status, productId, quantity } = req.body;
+    const { userEmail, total, status, productId, quantity } = req.body;
     let userid = 0;
     try{
         const user = await pool.query(`
-        SELECT * FROM verceldb.users WHERE name = $1
-      `, [userName]);
+        SELECT * FROM verceldb.users WHERE email = $1
+      `, [userEmail]);
        userid = user.rows[0].userid;
     } catch (error) {
       console.log("error",error)
