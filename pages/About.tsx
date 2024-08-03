@@ -1,8 +1,36 @@
 // pages/products.tsx
-import React from "react";
+import React,{useEffect} from "react";
 import Layout from "../components/Layout";
 import "./About.css";
 const AboutPage: React.FC = () => {
+
+  useEffect(() => {
+    const images = [
+      '/kobe/7D4DEE37-2ED1-4390-B53B-5E6D274A65A0.jpeg',
+      '/kobe/332F6B9D-B77E-4FDE-89F2-B453E9B631EA.jpeg',
+      '/kobe/2022-05-06.png',
+      // Add more images as needed
+    ];
+
+    let currentImageIndex = 0;
+
+    function changeBackground() {
+      currentImageIndex = (currentImageIndex + 1) % images.length;
+      const heroElement = document.querySelector('.hero') as HTMLElement;
+      if (heroElement) {
+        heroElement.style.backgroundImage = `url('${images[currentImageIndex]}')`;
+      }
+    }
+
+    // Change the background every 5 seconds
+    const intervalId = setInterval(changeBackground, 5000);
+
+    // Clean up function
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
   return (
     <div>
         <Layout>
