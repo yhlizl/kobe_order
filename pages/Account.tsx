@@ -6,25 +6,27 @@ import { useUserStore } from '../store/user';
 import { getSession } from "next-auth/react";
 import Layout from "../components/Layout";
 import { signIn } from 'next-auth/react';
+import NextAuthOptions from '@/pages/api/auth/[...nextauth]'
+import { getServerSession } from 'next-auth/next'
 
 import "./Account.css";
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context);
-
-  if (!session|| !session.user || session.user.role !== 'user') {
+export async function getServerSideProps(context:any) {
+  const { req, res } = context;
+  const session : any = await getServerSession(req, res, NextAuthOptions);
+  console.log("test session",session)
+  // console.log("admin session",session)
+  if (!session || !session.user ) {
     return {
       redirect: {
         destination: '/Login',
         permanent: false,
       },
-    };
+    }
   }
 
-  return {
-    props: {}, // will be passed to the page component as props
-  };
-};
+  return { props: {} };
+}
 
 const AccountPage: React.FC = () => {
 
