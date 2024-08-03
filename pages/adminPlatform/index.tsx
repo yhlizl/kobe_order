@@ -370,6 +370,8 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
             <option value="">選擇...</option>
             <option value="完成">完成</option>
             <option value="取消">取消</option>
+            <option value="確認已匯款">確認已匯款</option>
+            <option value="可以到店取貨">可以到店取貨</option>
             <option value="其他">其他</option>
           </select>
           {selectedStatus === '其他' && <input type="text" onChange={(e) => setSelectedStatuses({...selectedStatuses, [order.orderid]: e.target.value})} />}
