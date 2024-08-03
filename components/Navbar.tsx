@@ -50,7 +50,7 @@ const Navbar: React.FC = () => {
             href="/Contact"
             className="text-[#fff8e1] no-underline px-4 py-2 font-bold hover:bg-[rgba(255,255,255,0.2)] rounded"
           >
-            關於我們
+            聯絡我們
           </Link>
           <Link
             href="/Account"
