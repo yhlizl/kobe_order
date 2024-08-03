@@ -72,7 +72,7 @@ const ProductsPage: React.FC = () => {
                 <td>{product.description}</td>
                 <td><img src={product.imageurl} alt={product.name} className="product-image" /></td>
                 <td>
-                <input type="number" min="1" max={product.quantity} defaultValue="1" id={`quantity-${product.productid}`} className="quantity-input" ref={el => { if (el) quantityRefs.current[product.productid] = el; }} />
+                <input type="number" min="1" max={product.quantity} defaultValue="0" id={`quantity-${product.productid}`} className="quantity-input" ref={el => { if (el) quantityRefs.current[product.productid] = el; }} />
                 </td>
                 <td>
                 <button className="cart-button" onClick={() => handleAddToCart(product)}>加入購物車</button>
