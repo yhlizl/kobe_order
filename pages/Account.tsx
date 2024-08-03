@@ -17,24 +17,25 @@ export async function getServerSideProps(context:any) {
   console.log("test session",session)
   // console.log("admin session",session)
   if (!session || !session.user ) {
-    return {
-      redirect: {
-        destination: '/Login',
-        permanent: false,
-      },
-    }
+    return { props: {nexLink: "/Login"} };
   }
 
-  return { props: {} };
+  return { props: {nexLink : ""} };
 }
 
-const AccountPage: React.FC = () => {
+const AccountPage: React.FC = ({nexLink}:any) => {
 
 const [order, setOrder] = useState<any[]>([]);
 const router = useRouter();
 const { user, updateSession } = useUserStore();
 // const [ stateUser,setStateUser ] = useState(user);
 const [activeTab, setActiveTab] = useState('profile');
+useEffect(()=>{
+  if (nexLink!=="" && nexLink!==undefined){
+    router.push(nexLink);
+  }
+})
+
 const handleProfileFormSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
