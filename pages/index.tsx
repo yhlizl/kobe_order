@@ -13,7 +13,9 @@ const HomePage: React.FC = () => {
         <meta name="keywords" content="烘焙, KOBE Pann, 口碑烘焙坊, 精選食材, 匠心工藝, 精緻包裝" />
       </Head>
       <Layout>
-        <section className="bg-[rgba(255,250,240,0.9)] rounded-lg p-8 mt-8 text-center shadow-md">
+      <section className="relative rounded-lg p-8 mt-8 text-center shadow-md">
+        <div className="absolute inset-0 bg-slide bg-cover bg-no-repeat animate-slide"></div>
+        <div className="relative">
           <h2>傳承手藝 匠心獨具</h2>
           <p>KOBE Pann 口碑烘焙坊，用心烘焙每一口的幸福滋味</p>
           <Link
@@ -22,11 +24,12 @@ const HomePage: React.FC = () => {
           >
             探索中秋月餅
           </Link>
-        </section>
+        </div>
+      </section>
         <section className="flex justify-around mt-12 flex-wrap">
           <div className="bg-white rounded-lg p-6 w-full sm:w-1/2 md:w-1/3 text-center shadow-md transition-all duration-300 hover:-translate-y-2 my-4">
             <img
-              src="/images/ingredients.jpg"
+              src="/kobe/2021-07-12.jpg"
               alt="精選食材"
               className="w-full h-48 object-cover rounded-lg"
             />
@@ -35,7 +38,7 @@ const HomePage: React.FC = () => {
           </div>
           <div className="bg-white rounded-lg p-6 w-full sm:w-1/2 md:w-1/3 text-center shadow-md transition-all duration-300 hover:-translate-y-2 my-4">
             <img
-              src="/images/craftsmanship.jpg"
+              src="/kobe/2024-04-12 (1).jpg"
               alt="匠心工藝"
               className="w-full h-48 object-cover rounded-lg"
             />
@@ -44,7 +47,7 @@ const HomePage: React.FC = () => {
           </div>
           <div className="bg-white rounded-lg p-6 w-full sm:w-1/2 md:w-1/3 text-center shadow-md transition-all duration-300 hover:-translate-y-2 my-4">
             <img
-              src="/images/packaging.jpg"
+              src="/kobe/CC26D58E-3596-45BE-8B5B-9B1291D7AFC5.jpeg"
               alt="精緻包裝"
               className="w-full h-48 object-cover rounded-lg"
             />
