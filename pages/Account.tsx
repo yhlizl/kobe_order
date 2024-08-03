@@ -11,19 +11,19 @@ import { getServerSession } from 'next-auth/next'
 
 import "./Account.css";
 
-export async function getServerSideProps(context:any) {
-  const { req, res } = context;
-  const session : any = await getServerSession(req, res, NextAuthOptions);
-  console.log("test session",session)
-  // console.log("admin session",session)
-  if (!session || !session.user ) {
-    return { props: {nexLink: "/Login"} };
-  }
+// export async function getServerSideProps(context:any) {
+//   const { req, res } = context;
+//   const session : any = await getServerSession(req, res, NextAuthOptions);
+//   console.log("test session",session)
+//   // console.log("admin session",session)
+//   if (!session || !session.user ) {
+//     return { props: {nexLink: "/Login"} };
+//   }
 
-  return { props: {nexLink : ""} };
-}
+//   return { props: {nexLink : ""} };
+// }
 
-const AccountPage: React.FC = ({nexLink}:any) => {
+const AccountPage: React.FC = () => {
 
 const [order, setOrder] = useState<any[]>([]);
 const router = useRouter();
@@ -31,10 +31,10 @@ const { user, updateSession } = useUserStore();
 // const [ stateUser,setStateUser ] = useState(user);
 const [activeTab, setActiveTab] = useState('profile');
 useEffect(()=>{
-  if (nexLink!=="" && nexLink!==undefined){
-    router.push(nexLink);
+  if (!user || user?.email === '' || user?.email === 'admin@kobe.pann'){
+    router.push('/Login');
   }
-})
+},[])
 
 const handleProfileFormSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
