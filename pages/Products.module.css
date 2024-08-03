@@ -1,0 +1,42 @@
+/* 讓表格在小屏幕上可滾動 */
+.table-wrapper {
+    width: auto;
+    overflow-x: auto; /* 水平滾動條 */
+    overflow-y: auto; /* 垂直滾動條 */
+  }
+.scrollable {
+    overflow: auto;
+    overflow-x: auto; /* 水平滾動條 */
+    overflow-y: auto; /* 垂直滾動條 */
+    }
+  
+  .cart-button, .checkout-button {
+    min-width: 100px;
+    height: 30px;
+    box-sizing: border-box;
+    padding: 5px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: #fff;
+    font-size: 2vw; /* 使用viewport單位 */
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 10px 10px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center; /* 新增 */
+}
+
+.cart-button:hover, .checkout-button:hover {
+    background-color: #45a049;
+}
+  
+
+.product-image {
+    width: auto;
+    height: auto;
+    object-fit: cover; /* 使圖片保持原始寬高比並填充整個元素 */
+}
