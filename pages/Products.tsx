@@ -63,7 +63,7 @@ const ProductsPage: React.FC = () => {
               <div className="p-4">
                 <h2 className="font-bold text-xl mb-2">{product.name}</h2>
                 <p className="text-gray-700 text-base">{product.description}</p>
-                <p className="text-gray-700 text-base">{product.price}</p>
+                <p className="text-gray-700 text-base">NT${Math.floor(product.price)}</p>
                 <input type="number" min="1" max={product.quantity} defaultValue="0" id={`quantity-${product.productid}`} className="quantity-input mt-2 mb-4" ref={el => { if (el) quantityRefs.current[product.productid] = el; }} />
                 <div className="flex justify-between">
                   <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleAddToCart(product)}>加入購物車</button>
