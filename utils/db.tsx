@@ -56,7 +56,7 @@ export async function initDb() {
         name VARCHAR(255),
         price DECIMAL(10, 2),
         description TEXT,
-        imageUrl VARCHAR(20000),
+        imageUrl VARCHAR(1000000),
         createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         quantity INT,
         estimatedProductionTime VARCHAR(255),

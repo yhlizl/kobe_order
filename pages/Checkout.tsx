@@ -22,8 +22,7 @@ useEffect(() => {
         router.push('/Login');
     }
   }, [user]);
-  console.log("cart", cart) 
-  console.log("user", user)
+
   const total = Object.values(cart).reduce((sum, item) => sum + item.price * item.quantity, 0);
   const handleCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
@@ -66,7 +65,7 @@ useEffect(() => {
             body: JSON.stringify({
                 userEmail: user?.email,
                 total: total,
-                status: paymentMethod,
+                status: status,
                 productId: item.id,
                 quantity: item.quantity,
             }),
