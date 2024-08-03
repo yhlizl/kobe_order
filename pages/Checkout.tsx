@@ -44,10 +44,40 @@ useEffect(() => {
         handleConfirm();
       }
   }
+  const handleCancel = async () => {
+    setShowModal(false);
+  };
   const handleConfirm = async () => {
     // create order
-
-    router.push('/');
+    const isChecked = window.confirm('訂單是否送出');
+    if (isChecked) {
+        cart && Object.entries(cart).map(async ([_, item]) => {   
+        await fetch('/api/submitOrder', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userName: user?.name,
+                total: total,
+                status: paymentMethod,
+                productId: item.id,
+                quantity: item.quantity,
+            }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('data', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+        Object.keys(cart).forEach((id) => removeFromCart(id));
+        router.push('/');
+    }else{
+        handleCancel()
+    }
   };
   return (
     <>
@@ -117,7 +147,7 @@ useEffect(() => {
 
 <div id="paymentModal" className={styles["modal"]}  style={{display: showModal ? 'block' : 'none'}}>
     <div className={styles["modal-content"]}>
-      <span className={styles["close"]} onClick={handleConfirm}>×</span>
+      <span className={styles["close"]} onClick={handleCancel}>×</span>
       <h2 id="modalTitle" className={styles["modalTitle"]}>銀行匯款資訊</h2>
       <p id="modalContent" className={styles["modalContent"]}>
 
