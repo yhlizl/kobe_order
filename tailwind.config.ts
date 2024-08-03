@@ -13,7 +13,21 @@ const config: Config = {
         'gradient-radial': 'radial-gradient(ellipse at center, var(--tw-gradient-stops))',
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        'slide': "url('/kobe/2022-05-06.png')", // 新增的背景圖片
+        'slide': "url('/kobe/bdfa8b70-e55f-11eb-b1e8-0242ac110004.jpeg')", // 新增的背景圖片
+      },
+      backgroundSize: {
+        'cover': 'cover',  // Cover the entire container
+        'contain': 'contain',  // Fit within the container
+        '30%': '30%',  // Set the size to 50%
+        // Add more sizes as needed
+      },
+      backgroundPosition: {
+        'center': 'center',  // Center the background
+        'top': 'top',  // Align the background to the top
+        'bottom': 'bottom',  // Align the background to the bottom
+        'center-top-50': 'center -50px',  // Center the background horizontally and 50px from the top
+        'center-top-200': 'center -200px',  // Center the background horizontally and 50px from the top
+        // Add more positions as needed
       },
       colors: {
         "custom-brown": "rgba(139,69,19,0.8)",
