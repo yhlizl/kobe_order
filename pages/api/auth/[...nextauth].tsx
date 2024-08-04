@@ -1,57 +1,75 @@
-import NextAuth, { NextAuthOptions, User, Session } from 'next-auth'
-import { AdapterUser } from 'next-auth/adapters'
-import { JWT } from 'next-auth/jwt'
-import CredentialsProvider from 'next-auth/providers/credentials'
-import pool from '../../../utils/db'
-import bcrypt from 'bcrypt'
+import NextAuth, { NextAuthOptions, User, Session } from 'next-auth';
+import { AdapterUser } from 'next-auth/adapters';
+import { JWT } from 'next-auth/jwt';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import pool from '../../../utils/db';
+import bcrypt from 'bcrypt';
 import { useUserStore } from '../../../store/user'; // 更新为你的 userStore 的路径
 
 interface ExtendedUser extends User {
-  id: string
-  phone: string
-  address: string
-  name?: string | null
-  email?: string | null
-  image?: string | null
-  role?: string
+  id: string;
+  phone: string;
+  address: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  role?: string;
 }
 interface ExtendedSession extends Session {
-  user: ExtendedUser
+  user: ExtendedUser;
 }
 
-
 interface ExtendedJWT extends JWT {
-  id: string
-  phone: string
-  address: string
-  role : string
+  id: string;
+  phone: string;
+  address: string;
+  role: string;
 }
 
 const options: NextAuthOptions = {
-  
   providers: [
     CredentialsProvider({
       id: 'credentials',
       name: 'Credentials',
       credentials: {
-        email: { label: "Email", type: "text", placeholder: "jsmith@example.com" },
-        password: { label: "Password", type: "password" }
+        email: {
+          label: 'Email',
+          type: 'text',
+          placeholder: 'jsmith@example.com',
+        },
+        password: { label: 'Password', type: 'password' },
       },
       authorize: async (credentials): Promise<any> => {
         // console.log("start authorize");
-        const { email, password } = credentials as { email: string, password: string };
-        
+        const { email, password } = credentials as {
+          email: string;
+          password: string;
+        };
+
         try {
           const db = process.env.POSTGRES_DATABASE;
-          const { rows: users } = await pool.query(`SELECT * FROM ${db}.users WHERE email = $1`, [email]);
+          const { rows: users } = await pool.query(
+            `SELECT * FROM ${db}.users WHERE email = $1`,
+            [email],
+          );
           // console.log("users", users);
           if (users && Array.isArray(users) && users.length > 0) {
             const user: any = users[0];
-            const isValidPassword = await bcrypt.compare(password, user.password);
+            const isValidPassword = await bcrypt.compare(
+              password,
+              user.password,
+            );
 
             if (isValidPassword) {
               // console.log("login success");
-              return { id: user.userId, name: user.name, email: user.email, phone: user.phone, address: user.address, role : 'user' };
+              return {
+                id: user.userId,
+                name: user.name,
+                email: user.email,
+                phone: user.phone,
+                address: user.address,
+                role: 'user',
+              };
             } else {
               // console.log("login failed - invalid password");
               throw new Error('Invalid password');
@@ -64,26 +82,37 @@ const options: NextAuthOptions = {
           // console.log("login failed - error", error);
           throw error;
         }
-        
-      }
+      },
     }),
     CredentialsProvider({
       id: 'admin-credentials',
       name: 'Admin Credentials',
       credentials: {
-        username: { label: "Username", type: "text" },
-        password: { label: "Password", type: "password" }
+        username: { label: 'Username', type: 'text' },
+        password: { label: 'Password', type: 'password' },
       },
       authorize: async (credentials): Promise<any> => {
-        const { username, password } = credentials as { username: string, password: string };
-        
-        if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
-          return { id: 1, name: 'Admin' , email: "admin@kobe.pann", phone: "0000", role : 'admin'};
+        const { username, password } = credentials as {
+          username: string;
+          password: string;
+        };
+
+        if (
+          username === process.env.ADMIN_USERNAME &&
+          password === process.env.ADMIN_PASSWORD
+        ) {
+          return {
+            id: 1,
+            name: 'Admin',
+            email: 'admin@kobe.pann',
+            phone: '0000',
+            role: 'admin',
+          };
         } else {
-          throw new Error('Invalid username or password')
+          throw new Error('Invalid username or password');
         }
-      }
-    })
+      },
+    }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
@@ -97,26 +126,26 @@ const options: NextAuthOptions = {
         id: user?.id ?? token.sub,
         phone: user?.phone ?? token.phone,
         address: user?.address ?? token.address,
-        role : user?.role ?? token.role
+        role: user?.role ?? token.role,
       };
       // console.log("middle token",extendedToken);
       // Get the updated user from the database
       if (extendedToken && extendedToken.email) {
         const db = process.env.POSTGRES_DATABASE;
-        const { rows: [latestUser] } = await pool.query(
-          `SELECT * FROM ${db}.users WHERE email = $1`,
-          [extendedToken.email]
-        )
+        const {
+          rows: [latestUser],
+        } = await pool.query(`SELECT * FROM ${db}.users WHERE email = $1`, [
+          extendedToken.email,
+        ]);
         // console.log("latestUser", latestUser);
         // Add the updated user to the extendedSession
         extendedToken = { ...extendedToken, ...latestUser };
-        }
+      }
       // console.log("final token",extendedToken)
       return extendedToken;
     },
 
     async session({ session, token }: { session: Session; token: any }) {
-
       const extendedSession: ExtendedSession = {
         ...session,
         user: {
@@ -125,13 +154,13 @@ const options: NextAuthOptions = {
           name: token.name,
           phone: token.phone,
           address: token.address,
-          role :  token.role
+          role: token.role,
         },
       };
       // console.log("final session", extendedSession)
       return extendedSession;
     },
   },
-}
+};
 
 export default NextAuth(options);

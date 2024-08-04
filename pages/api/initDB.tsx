@@ -1,6 +1,6 @@
 import { initDb } from '../../utils/db';
 
-export default async function handler(req:any,res:any) {
+export default async function handler(req: any, res: any) {
   try {
     await initDb();
     res.status(200).send('Database initialized');

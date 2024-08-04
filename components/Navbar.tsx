@@ -1,12 +1,12 @@
-'use client'
-import React,{useEffect} from "react";
-import Link from "next/link";
-import { useUserStore } from "../store/user"
-import { useStore } from "@/store/cart"
-import { getSession } from 'next-auth/react'
+'use client';
+import React, { useEffect } from 'react';
+import Link from 'next/link';
+import { useUserStore } from '../store/user';
+import { useStore } from '@/store/cart';
+import { getSession } from 'next-auth/react';
 
 const Navbar: React.FC = () => {
-  const { user,updateSession} = useUserStore();
+  const { user, updateSession } = useUserStore();
   const { cart } = useStore();
   useEffect(() => {
     const fetchSession = async () => {
@@ -65,11 +65,19 @@ const Navbar: React.FC = () => {
             購物車({cart && Object.keys(cart).length})
           </Link>
           <li>
-            {user && user.isLoggedIn && <><p>歡迎，{user.name}</p> <button className = "logout-btn" onClick={() => useUserStore.getState().logOut()}>登出</button></>}
+            {user && user.isLoggedIn && (
+              <>
+                <p>歡迎，{user.name}</p>{' '}
+                <button
+                  className="logout-btn"
+                  onClick={() => useUserStore.getState().logOut()}
+                >
+                  登出
+                </button>
+              </>
+            )}
           </li>
-          
         </ul>
-        
       </nav>
     </>
   );
