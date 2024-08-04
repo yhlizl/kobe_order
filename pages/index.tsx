@@ -15,8 +15,14 @@ const HomePage: React.FC = () => {
         />
         <meta
           name="keywords"
-          content="烘焙, KOBE Pann, 口碑烘焙坊, 精選食材, 匠心工藝, 精緻包裝"
+          content="KOBE Pann 口碑烘焙坊, 月餅, 新竹好吃麵包, 烘焙, KOBE Pann, 口碑烘焙坊, 精選食材, 匠心工藝, 精緻包裝"
         />
+        <meta property="og:title" content="KOBE Pann 口碑烘焙坊" />
+        <meta property="og:description" content="KOBE Pann 口碑烘焙坊，用心烘焙每一口的幸福滋味" />
+        <meta property="og:image" content="/kobe/EC2AAE47-B8E4-488A-A6FA-D7177B0366E0.jpeg" />
+        <meta property="og:url" content="https://kobe-order.vercel.app/" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content="/kobe/EC2AAE47-B8E4-488A-A6FA-D7177B0366E0.jpeg" />
       </Head>
       <Layout>
         <section className="relative rounded-lg p-8 mt-8 text-center shadow-md lg:h-[500px]">
