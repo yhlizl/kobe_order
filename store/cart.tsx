@@ -43,7 +43,12 @@ export const useStore = create<CartState>((set) => ({
     set((state) => {
       const cartProduct = state.cart[productId];
       if (cartProduct) {
-        cartProduct.quantity = quantity;
+        cartProduct.quantity += quantity;
+        if (cartProduct.quantity <= 0) {
+          const newCart = { ...state.cart };
+          delete newCart[productId];
+          return { cart: newCart };
+        }
         return { cart: { ...state.cart, [productId]: cartProduct } };
       }
       return state;
