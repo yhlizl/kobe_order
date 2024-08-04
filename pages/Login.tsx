@@ -114,11 +114,12 @@ const LoginPage: React.FC = () => {
     // Forgot password form submission
     const handleForgotPasswordFormSubmit = (e: Event) => {
       e.preventDefault();
-      const emailInput = document.getElementById('forgot-email');
-      if (emailInput) {
-        const email = (emailInput as HTMLInputElement).value;
-        alert(`重設密碼請求已發送\n電子郵件: ${email}\n請檢查您的信箱以獲取進一步指示。`);
-      }
+      // const emailInput = document.getElementById('forgot-email');
+      // if (emailInput) {
+      //   const email = (emailInput as HTMLInputElement).value;
+      //   alert(`重設密碼請求已發送\n電子郵件: ${email}\n請檢查您的信箱以獲取進一步指示。`);
+      // }
+      alert("功能尚未開放，請聯絡客服人員")
     };
 
     if (forgotPasswordForm) {
@@ -189,20 +190,20 @@ const LoginPage: React.FC = () => {
     </div>
 
     <div id="forgot-password" className="auth-form animated tab-content">
-      <h2>忘記密碼</h2>
+      {/* <h2>忘記密碼</h2> */}
       <form id="forgot-password-form">
         <div className="form-group">
           <label htmlFor="forgot-email">電子郵件</label>
           <input type="email" id="forgot-email" name="email" required />
         </div>
-        <button type="submit" className="btn">重設密碼</button>
+        {/* <button type="submit" className="btn">重設密碼</button> */}
       </form>
     </div>
 
     <div className="auth-links">
       <a href="#login" className="tab-link" data-tab="login">登入</a>
       <a href="#register" className="tab-link" data-tab="register">註冊</a>
-      <a href="#forgot-password" className="tab-link" data-tab="forgot-password">忘記密碼</a>
+      {/* <a href="#forgot-password" className="tab-link" data-tab="forgot-password">忘記密碼</a> */}
     </div>
   </div>
       </Layout>
