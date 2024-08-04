@@ -8,6 +8,8 @@ import {useUserStore} from "@/store/user"
 
 const Cart: React.FC = () => {
   const [nextLink, setNextLink] = useState('/Login');
+  const [showLargeImage, setShowLargeImage] = useState(false);
+  const [largeImageUrl, setLargeImageUrl] = useState('');
   const { cart, removeFromCart, changeQuantity } = useStore();
   const { user}   = useUserStore();
 
@@ -18,6 +20,14 @@ const Cart: React.FC = () => {
       setNextLink('/Checkout');
     }
   }, [user]);
+  const handleImageClick = (imageUrl: string) => {
+    setLargeImageUrl(imageUrl);
+    setShowLargeImage(true);
+  };
+
+  const handleCloseLargeImage = () => {
+    setShowLargeImage(false);
+  };
 
   const total = Object.values(cart).reduce((sum, item) => sum + item.price * item.quantity, 0);
   console.log("nextLink", nextLink)
@@ -28,6 +38,12 @@ const Cart: React.FC = () => {
       <h2>購物車</h2>
       <div className="styles.cartStyles">
         <div id="cart-content">
+        {showLargeImage && (
+        <div className="large-image-container">
+          <img src={largeImageUrl} alt="Large" className="large-image" />
+          <button className="close-btn" onClick={handleCloseLargeImage}>X</button>
+        </div>
+      )}
           <table>
             <thead>
               <tr>
@@ -42,7 +58,7 @@ const Cart: React.FC = () => {
             <tbody>
               {Object.values(cart).map(item => (
                 <tr key={item.id}>
-                  <td><img src={item.image} alt={item.name} className="product-image" /></td>
+                   <td><img src={item.image} alt={item.name} className="product-image" onClick={() => handleImageClick(item.image)} /></td>
                   <td>{item.name}</td>
                   <td>NT$ {item.price}</td>
                   <td>
