@@ -23,6 +23,7 @@ const HomePage: React.FC = () => {
         <meta property="og:url" content="https://kobe-order.vercel.app/" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:image" content="/kobe/EC2AAE47-B8E4-488A-A6FA-D7177B0366E0.jpeg" />
+        <meta name="google-site-verification" content="4Lcxsvnx5s3Dv813yhPTzCIr2I-2LsgQFmJqcPFZEQs" />
       </Head>
       <Layout>
         <section className="relative rounded-lg p-8 mt-8 text-center shadow-md lg:h-[500px]">
