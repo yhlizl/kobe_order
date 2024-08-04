@@ -311,6 +311,12 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
   const [otherInputValues, setOtherInputValues] = useState<{ [key: number]: string }>({});
   const [startDate, setStartDate] = useState(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000));
   const [endDate, setEndDate] = useState(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000));
+
+  function toTaipeiTime(date: Date) {
+    const taipeiTime = new Date(date.getTime() + 8 * 60 * 60 * 1000);
+    return taipeiTime;
+  }
+
   const fetchOrders = async () => {
     const response = await fetch('/api/orders');
     const data = await response.json();
@@ -360,14 +366,24 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
         <h2 className="dashboard-title">訂單管理</h2>
       </div>
       <div>
-        <label>
-          Start Date:
-          <input type="date" value={startDate.toISOString().substr(0, 10)} onChange={e => setStartDate(new Date(e.target.value))} />
-        </label>
-        <label>
-          End Date:
-          <input type="date" value={endDate.toISOString().substr(0, 10)} onChange={e => setEndDate(new Date(e.target.value))} />
-        </label>
+      <label>
+  Start Date:
+  <input type="date" value={toTaipeiTime(startDate).toISOString().substr(0, 10)} onChange={e => {
+    const newDate = new Date(e.target.value);
+    if (!isNaN(newDate.getTime())) {
+      setStartDate(toTaipeiTime(newDate));
+    }
+  }} />
+</label>
+<label>
+  End Date:
+  <input type="date" value={toTaipeiTime(endDate).toISOString().substr(0, 10)} onChange={e => {
+    const newDate = new Date(e.target.value);
+    if (!isNaN(newDate.getTime())) {
+      setEndDate(toTaipeiTime(newDate));
+    }
+  }} />
+</label>
       </div>
       <table id="ordersTable">
   <thead>
@@ -390,6 +406,7 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
   <tbody>
   {orders.filter(order => {
             const orderDate = new Date(order.date);
+            orderDate.setUTCHours(orderDate.getUTCHours() + 8);
             return orderDate >= startDate && orderDate <= endDate;
           }).map(order => {
       const selectedStatus = selectedStatuses[order.orderid] || order.status;
