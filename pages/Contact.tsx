@@ -27,7 +27,7 @@ const ContactPage: React.FC = () => {
       </div>
       <div className="contact-method">
         <i className="fa fa-clock-o"></i>
-        <p>營業時間：週日至週一 11:30 - 19:30</p>
+        <p>營業時間：週日至週四 11:30 - 19:30</p>
       </div>
     </div>
 {/* 
