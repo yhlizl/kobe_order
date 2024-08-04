@@ -53,8 +53,9 @@
 
   .payment-methods {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     flex-wrap: wrap;
+    margin-inline: 20px; /* Adjust this value to increase or decrease the gap */
   }
 
   .payment-method {

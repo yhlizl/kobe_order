@@ -120,13 +120,13 @@ useEffect(() => {
           <div className="payment-method">
           <input type="radio" id="bank-transfer" name="payment" value="bank-transfer" onChange={e => setPaymentMethod(e.target.value)} required/>
             <label htmlFor="bank-transfer">
-              <img src="/images/bank-transfer-icon.svg" alt="匯款" width="40" height="40"/>
+              {/* <img src="/images/bank-transfer-icon.svg" alt="匯款" width="40" height="40"/> */}
               匯款
             </label>
           </div>
           <div className={styles["payment-methods"]}>
           <input type="radio" id="in-store" name="payment" value="in-store" onChange={e => setPaymentMethod(e.target.value)} required/>            <label htmlFor="in-store">
-              <img src="/images/store-icon.svg" alt="到店付款" width="40" height="40"/>
+              {/* <img src="/images/store-icon.svg" alt="到店付款" width="40" height="40"/> */}
               到店付款
             </label>
           </div>
@@ -159,17 +159,15 @@ useEffect(() => {
       <h2 id="modalTitle" className={styles["modalTitle"]}>銀行匯款資訊</h2>
       <p id="modalContent" className={styles["modalContent"]}>
 
-      {'訂單編號：ORD-240802-2437\n'}
         {'請將款項匯至以下帳戶：\n'}
-        {'銀行：範例銀行\n'}
-        {'帳號：1234-5678-9012-3456\n'}
-        {'戶名：KOBE Pann 口碑烘焙坊\n'}
-        {'金額：$0.00\n'}
+        {'銀行：中國信託（822）\n'}
+        {'帳號：3365-4048-4504\n'}
+        {'戶名：口碑烘焙坊\n'}
+        {`金額：$${total}\n`}
         {'請在匯款後保留收據，並在取貨時出示。\n'}
-        {'取貨地點：台北市中山區中山北路二段45號\n'}
-        {'營業時間：\n'}
-        {'週一至週五：10:00 - 20:00\n'}
-        {'週六至週日：11:00 - 19:00'}
+        {'取貨地點：新竹市東區建中一路35號\n'}
+        {'取貨時間：\n'}
+        {'週日至週四：14:30 - 19:00'}
       </p>
     <div className={styles["modal-footer"]}>
       <button className={styles["confirm-btn"]} onClick={handleConfirm}>確認</button>
