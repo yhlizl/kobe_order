@@ -15,7 +15,7 @@ const HomePage: React.FC = () => {
         />
         <meta
           name="keywords"
-          content="KOBE Pann 口碑烘焙坊, 月餅, 新竹好吃麵包, 烘焙, KOBE Pann, 口碑烘焙坊, 精選食材, 匠心工藝, 精緻包裝"
+          content="KOBE Pann 口碑烘焙坊, 月餅, 新竹好吃麵包, 烘焙, KOBE Pann, 口碑烘焙坊, 新竹麵包店, 清大美食, 新竹美食, 蛋黃酥, 新竹蛋黃酥, 月餅, 新竹月餅"
         />
         <meta property="og:title" content="KOBE Pann 口碑烘焙坊" />
         <meta property="og:description" content="KOBE Pann 口碑烘焙坊，用心烘焙每一口的幸福滋味" />
