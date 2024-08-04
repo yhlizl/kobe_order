@@ -308,6 +308,7 @@ const Users: React.FC<SectionProps> = ({ active }) => {
 const Orders: React.FC<SectionProps> = ({ active }) => {
   const [orders, setOrders] = useState([] as Array<any>);
   const [selectedStatuses, setSelectedStatuses] = useState<{ [key: number]: string }>({});
+  const [otherInputValues, setOtherInputValues] = useState<{ [key: number]: string }>({});
 
   const fetchOrders = async () => {
     const response = await fetch('/api/orders');
@@ -324,7 +325,14 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
   }, []);
 
   const handleStatusChange = (orderId:any) => {
-    const newStatus = selectedStatuses[orderId];
+    let newStatus = selectedStatuses[orderId];
+    if (newStatus === '其他') {
+      newStatus = otherInputValues[orderId];
+    }
+    if (!newStatus || newStatus === '') { 
+      alert('Please select a status');
+      return;
+    }
     if (!newStatus || newStatus === '') { 
       alert('Please select a status');
       return;
@@ -394,7 +402,7 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
             <option value="可以到店取貨">可以到店取貨</option>
             <option value="其他">其他</option>
           </select>
-          {selectedStatus === '其他' && <input type="text" onChange={(e) => setSelectedStatuses({...selectedStatuses, [order.orderid]: e.target.value})} />}
+          {selectedStatus === '其他' && <input type="text" value={otherInputValues[order.orderid] || ''} onChange={(e) => setOtherInputValues({...otherInputValues, [order.orderid]: e.target.value})} />}
           <button className="btn btn-primary" onClick={() => handleStatusChange(order.orderid)}>更新</button>
         </td>
       </tr>
