@@ -69,42 +69,6 @@ KOBE PANN的創立源於一個樸素而真摯的夢想：將日式、台式和�
         </div>
       </div>
     </section>
-
-    <section className="section" id="history">
-      <h2>我們的歷史</h2>
-      <div className="timeline">
-        <div className="timeline-item left">
-          <div className="timeline-content">
-            <h3>2021年</h3>
-            <p>KOBE Pann 口碑烘焙坊在新竹成立，開始製作精緻日式月餅禮盒。</p>
-          </div>
-        </div>
-        <div className="timeline-item right">
-          <div className="timeline-content">
-            <h3>2022年</h3>
-            <p>擴展業務到新竹，引入日本烘焙技術，開創台日融合新風味。</p>
-          </div>
-        </div>
-        <div className="timeline-item left">
-          <div className="timeline-content">
-            <h3>2024年</h3>
-            <p>推出創新月餅系列，融合台日風味，成為中秋節熱銷商品。</p>
-          </div>
-        </div>
-        <div className="timeline-item right">
-          <div className="timeline-content">
-            <h3>2025年</h3>
-            <p>即將全面升級生產設備與擴展業務到竹北，堅持傳統工藝與現代科技的完美結合。</p>
-          </div>
-        </div>
-        <div className="timeline-item left">
-          <div className="timeline-content">
-            <h3>2025年</h3>
-            <p>慶祝竹北店開慶，推出限量紀念版月餅禮盒，延續經典傳承。</p>
-          </div>
-        </div>
-      </div>
-    </section>
   </div>
       </Layout>
     </div>
