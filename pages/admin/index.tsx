@@ -1,25 +1,29 @@
-'use client'
+'use client';
 // pages/products.tsx
-import React from "react";
+import React from 'react';
 import Head from 'next/head';
-import "./index.css";
+import './index.css';
 import { signIn } from 'next-auth/react';
 
 const AdminPage: React.FC = () => {
-    const validateLogin = async (event: React.FormEvent) => {
-        event.preventDefault();
-        const target = event.target as typeof event.target & {
-          username: { value: string };
-          password: { value: string };
-        };
-        const username = target.username.value; // get username
-        const password = target.password.value; // get password
-    
-        // console.log(`Username: ${username}`);
-        // console.log(`Password: ${password}`);
-        // You can add more login validation logic here
-        await signIn('admin-credentials', { username, password, callbackUrl: '/adminPlatform' });
-      };
+  const validateLogin = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const target = event.target as typeof event.target & {
+      username: { value: string };
+      password: { value: string };
+    };
+    const username = target.username.value; // get username
+    const password = target.password.value; // get password
+
+    // console.log(`Username: ${username}`);
+    // console.log(`Password: ${password}`);
+    // You can add more login validation logic here
+    await signIn('admin-credentials', {
+      username,
+      password,
+      callbackUrl: '/adminPlatform',
+    });
+  };
 
   return (
     <div>
@@ -37,12 +41,14 @@ const AdminPage: React.FC = () => {
             <label htmlFor="password">密碼</label>
             <input type="password" id="password" name="password" required />
           </div>
-          <button type="submit" className="btn">登入</button>
+          <button type="submit" className="btn">
+            登入
+          </button>
         </form>
         <p id="errorMessage" className="error-message"></p>
       </div>
     </div>
-  )
+  );
 };
 
 export default AdminPage;

@@ -1,75 +1,80 @@
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Playfair+Display:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Playfair+Display:wght@700&display=swap');
 
+.auth-form {
+  background: white;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
 
-  .auth-form {
-    background: white;
-    border-radius: 8px;
-    padding: 30px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 20px;
+  background-color: #a52a2a;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  border: none;
+  font-size: 16px;
+  width: 100%;
+}
+
+.btn:hover {
+  background-color: #8b4513;
+}
+
+.auth-links {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.auth-links a {
+  color: #a52a2a;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 0 10px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-
-  .form-group {
-    margin-bottom: 20px;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
+}
 
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
+.animated {
+  animation: fadeIn 0.5s ease forwards;
+}
 
-  .form-group input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-  }
+.tab-content {
+  display: none;
+}
 
-  .btn {
-    display: inline-block;
-    padding: 12px 20px;
-    background-color: #A52A2A;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-    cursor: pointer;
-    border: none;
-    font-size: 16px;
-    width: 100%;
-  }
-
-  .btn:hover {
-    background-color: #8B4513;
-  }
-
-  .auth-links {
-    text-align: center;
-    margin-top: 20px;
-  }
-
-  .auth-links a {
-    color: #A52A2A;
-    text-decoration: none;
-    font-weight: bold;
-    margin: 0 10px;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .animated {
-    animation: fadeIn 0.5s ease forwards;
-  }
-
-  .tab-content {
-    display: none;
-  }
-
-  .tab-content.active {
-    display: block;
-  }
+.tab-content.active {
+  display: block;
+}
