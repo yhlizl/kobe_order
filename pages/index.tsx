@@ -30,20 +30,20 @@ const HomePage: React.FC = () => {
           <div className="bg-white rounded-lg p-6 w-full sm:w-1/2 md:w-1/3 text-center shadow-md transition-all duration-300 hover:-translate-y-2 my-4">
             <img
               src="/kobe/2021-07-12.jpg"
-              alt="精選食材"
+              alt="每日新鮮烘烤出爐"
               className="w-full h-48 object-cover rounded-lg"
             />
-            <h3>精選食材</h3>
-            <p>嚴選天然原料，無添加防腐劑</p>
+            <h3>每日新鮮烘烤出爐</h3>
+            <p>堅持販售當日出爐的新鮮麵包</p>
           </div>
           <div className="bg-white rounded-lg p-6 w-full sm:w-1/2 md:w-1/3 text-center shadow-md transition-all duration-300 hover:-translate-y-2 my-4">
             <img
               src="/kobe/2024-04-12 (1).jpg"
-              alt="匠心工藝"
+              alt="嚴選天然食材製作"
               className="w-full h-48 object-cover rounded-lg"
             />
-            <h3>匠心工藝</h3>
-            <p>傳承百年烘焙技藝，每一口都是藝術</p>
+            <h3>嚴選天然食材製作</h3>
+            <p>選用天然發酵奶油與歐洲麵粉製作</p>
           </div>
           <div className="bg-white rounded-lg p-6 w-full sm:w-1/2 md:w-1/3 text-center shadow-md transition-all duration-300 hover:-translate-y-2 my-4">
             <img
