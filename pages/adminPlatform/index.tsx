@@ -309,7 +309,8 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
   const [orders, setOrders] = useState([] as Array<any>);
   const [selectedStatuses, setSelectedStatuses] = useState<{ [key: number]: string }>({});
   const [otherInputValues, setOtherInputValues] = useState<{ [key: number]: string }>({});
-
+  const [startDate, setStartDate] = useState(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000));
+  const [endDate, setEndDate] = useState(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000));
   const fetchOrders = async () => {
     const response = await fetch('/api/orders');
     const data = await response.json();
@@ -358,6 +359,16 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
       <div className="dashboard-header">
         <h2 className="dashboard-title">訂單管理</h2>
       </div>
+      <div>
+        <label>
+          Start Date:
+          <input type="date" value={startDate.toISOString().substr(0, 10)} onChange={e => setStartDate(new Date(e.target.value))} />
+        </label>
+        <label>
+          End Date:
+          <input type="date" value={endDate.toISOString().substr(0, 10)} onChange={e => setEndDate(new Date(e.target.value))} />
+        </label>
+      </div>
       <table id="ordersTable">
   <thead>
     <tr>
@@ -377,7 +388,10 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
     </tr>
   </thead>
   <tbody>
-    {orders.map(order => {
+  {orders.filter(order => {
+            const orderDate = new Date(order.date);
+            return orderDate >= startDate && orderDate <= endDate;
+          }).map(order => {
       const selectedStatus = selectedStatuses[order.orderid] || order.status;
       return (
       <tr key={order.orderid}>
