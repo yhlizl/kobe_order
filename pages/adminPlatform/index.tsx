@@ -192,7 +192,7 @@ const Products: React.FC<SectionProps> = ({ active }) => {
       </label>
       <label>
         Estimated Production Time:
-        <input type="text" name="estimatedProductionTime" value={product.estimatedproductiontime} onChange={handleInputChange} required />
+        <input type="text" name="estimatedproductiontime" value={product.estimatedproductiontime} onChange={handleInputChange} required />
       </label>
       <div className="modalDiagram-buttons">
         <button type="button" onClick={()=>setShowModal("close")} className="modalDiagram-button">Cancel</button>
