@@ -65,7 +65,7 @@ const Navbar: React.FC = () => {
             購物車({cart && Object.keys(cart).length})
           </Link>
           <li>
-            {user && user.isLoggedIn && <><p>歡迎，{user.name}</p> <button onClick={() => useUserStore.getState().logOut()}>登出</button></>}
+            {user && user.isLoggedIn && <><p>歡迎，{user.name}</p> <button className = "logout-btn" onClick={() => useUserStore.getState().logOut()}>登出</button></>}
           </li>
           
         </ul>
