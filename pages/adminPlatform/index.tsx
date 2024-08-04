@@ -49,15 +49,16 @@ const Dashboard: React.FC<SectionProps> = (props) => {
 
 const Products: React.FC<SectionProps> = ({ active }) => {
   // Products content here...
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<"new" | "close" | string>("close");
   const [preview, setPreview] = useState<string | null>(null);
   const [product, setProduct] = useState({
+    productid: '',
     name: '',
     price: '',
     description: '',
     imageUrl: '',
     quantity: '',
-    estimatedProductionTime: ''
+    estimatedproductiontime: ''
   });
   const [allProducts, setAllProducts] = useState<Array<{
     productid: string;
@@ -66,11 +67,27 @@ const Products: React.FC<SectionProps> = ({ active }) => {
     description: string;
     imageurl: string;
     quantity: string;
-    estimatedProductionTime: string;
+    estimatedproductiontime: string;
   }>>([]);
   useEffect(() => {
     getProducts();
   }, []);
+  useEffect(() => {
+    if (showModal !== "new" && showModal !== "close") {
+      const productToEdit = allProducts.find(product => product.productid === showModal);
+      if (productToEdit) {
+        setProduct({
+          productid: productToEdit.productid,
+          name: productToEdit.name,
+          price: productToEdit.price,
+          description: productToEdit.description,
+          imageUrl: productToEdit.imageurl,
+          quantity: productToEdit.quantity,
+          estimatedproductiontime:productToEdit.estimatedproductiontime,
+        });
+      }
+    }
+  }, [showModal]);
   if (!active) return null;
   const handleInputChange = (event:any) => {
     setProduct({
@@ -116,9 +133,9 @@ const Products: React.FC<SectionProps> = ({ active }) => {
   const handleSubmit = async (event:any) => {
     event.preventDefault();
   
-    // Call your API to add the product
-    const response = await fetch('api/addProduct', {
-      method: 'POST',
+    // Call your API to add or update the product
+    const response = await fetch(showModal === "new" ? 'api/addProduct' : `api/product/${product.productid}`, {
+      method: showModal === "new" ? 'POST' : 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -126,18 +143,21 @@ const Products: React.FC<SectionProps> = ({ active }) => {
     });
   
     if (response.ok) {
-      // After successful addition, close the modal and clear the form
-      setShowModal(false);
+      // After successful addition or update, close the modal and clear the form
+      setShowModal("close");
       setProduct({
+        productid: '',
         name: '',
         price: '',
         description: '',
         imageUrl: '',
         quantity: '',
-        estimatedProductionTime: ''
+        estimatedproductiontime: ''
       });
+      // Refresh the products list
+      getProducts();
     } else {
-      console.error('Failed to add product');
+      console.error('Failed to add or update product');
     }
   };
   // console.log("is show modal",showModal)
@@ -145,8 +165,8 @@ const Products: React.FC<SectionProps> = ({ active }) => {
     <div id="products" className="content-section" >
       {/* Products content */}
       <div id="products" className="content-section" >
-      <button className="btn btn-primary" onClick={() => setShowModal(true)}>新增商品</button>
-      {showModal && (
+      <button className="btn btn-primary" onClick={() => setShowModal("new")}>新增商品</button>
+      {showModal !== "close" && (
   <div className="modalDiagram">
     <form onSubmit={handleSubmit} className="modalDiagram-form">
       <label>
@@ -172,10 +192,10 @@ const Products: React.FC<SectionProps> = ({ active }) => {
       </label>
       <label>
         Estimated Production Time:
-        <input type="text" name="estimatedProductionTime" value={product.estimatedProductionTime} onChange={handleInputChange} required />
+        <input type="text" name="estimatedProductionTime" value={product.estimatedproductiontime} onChange={handleInputChange} required />
       </label>
       <div className="modalDiagram-buttons">
-        <button type="button" onClick={()=>setShowModal(false)} className="modalDiagram-button">Cancel</button>
+        <button type="button" onClick={()=>setShowModal("close")} className="modalDiagram-button">Cancel</button>
         <button type="submit" className="modalDiagram-button">Add Product</button>
       </div>
     </form>
@@ -205,9 +225,9 @@ const Products: React.FC<SectionProps> = ({ active }) => {
              <img src={product.imageurl} alt="Preview" className="modalDiagram-img" />
              </td>
              <td>{product.quantity}</td>
-             <td>{product.estimatedProductionTime}</td>
+             <td>{product.estimatedproductiontime}</td>
              <td>
-               <button className="btn btn-primary" onClick={() => setShowModal(true)}>動作</button>
+               <button className="btn btn-primary" onClick={() => setShowModal(product.productid)}>動作</button>
                <button className="btn btn-danger" onClick={() => handleDelete(product.productid)}>刪除</button>
              </td>
            </tr>
