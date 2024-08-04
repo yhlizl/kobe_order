@@ -405,10 +405,17 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
   </thead>
   <tbody>
   {orders.filter(order => {
-            const orderDate = new Date(order.date);
-            orderDate.setUTCHours(orderDate.getUTCHours() + 8);
-            return orderDate >= startDate && orderDate <= endDate;
-          }).map(order => {
+  const orderDate = new Date(order.date);
+  orderDate.setUTCHours(0, 0, 0, 0);
+  console.log("orderDate",orderDate)
+  const start = new Date(startDate);
+  console.log("start",start)
+  start.setHours(0, 0, 0, 0);
+  const end = new Date(endDate);
+  console.log("end",end)
+  end.setHours(0, 0, 0, 0);
+  return orderDate >= start && orderDate <= end;
+}).map(order => {
       const selectedStatus = selectedStatuses[order.orderid] || order.status;
       return (
       <tr key={order.orderid}>
