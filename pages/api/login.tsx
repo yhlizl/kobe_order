@@ -17,14 +17,12 @@ export default async function handler(
     if (users && Array.isArray(users) && users.length > 0) {
       const user: any = users[0];
       if (await bcrypt.compare(password, user.password)) {
-        res
-          .status(200)
-          .json({
-            message: 'Login successful',
-            userId: user.userId,
-            name: user.name,
-            email: user.email,
-          });
+        res.status(200).json({
+          message: 'Login successful',
+          userId: user.userId,
+          name: user.name,
+          email: user.email,
+        });
       } else {
         res.status(401).json({ message: 'Invalid password' });
       }
