@@ -439,7 +439,7 @@ const Orders: React.FC<SectionProps> = ({
       setOrders((prevOrders) => {
         if (data.length > prevOrders.length) {
           // 如果有新的訂單
-          new Notification('有新的訂單！'); // 顯示通知
+          // new Notification('有新的訂單！'); // 顯示通知
           if (setNewOrderNotification) {
             setNewOrderNotification(true);
           }
