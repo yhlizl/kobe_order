@@ -433,11 +433,22 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
   };
   useEffect(() => {
     const fetchData = async () => {
-      await fetchOrders();
+      const response = await fetch('/api/orders');
+      const data = await response.json();
+      if (data.length > orders.length) {
+        // 如果有新的訂單
+        new Notification('有新的訂單！'); // 顯示通知
+        const audio = new Audio('ding-36029.mp3'); // 播放聲音
+        audio.play();
+      }
+      setOrders(data);
     };
-
-    fetchData();
-  }, []);
+  
+    fetchData(); // 首次載入時執行
+    const intervalId = setInterval(fetchData, 5 * 60 * 1000); // 每五分鐘執行一次
+  
+    return () => clearInterval(intervalId); // 清除定時器當組件卸載
+  }, [orders]);
 
   const handleStatusChange = (orderId: any) => {
     let newStatus = selectedStatuses[orderId];
