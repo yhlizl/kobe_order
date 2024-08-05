@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
           KOBE Pann 口碑烘焙坊
         </h1>
       </header>
-      <nav className="bg-[rgba(165,42,42,0.8)] p-2 sticky top-0 z-50">
+      <nav className="bg-[rgba(171,108,30,0.8)] p-2 sticky top-0 z-50">
         <ul className="list-none p-0 m-0 flex justify-center flex-wrap">
           <Link
             href="/"
