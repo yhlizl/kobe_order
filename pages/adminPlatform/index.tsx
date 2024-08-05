@@ -6,6 +6,9 @@ import './index.css';
 import NextAuthOptions from '@/pages/api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth/next';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
+
 interface SectionProps {
   active: boolean;
   setNewOrderNotification?: (value: boolean) => void;
@@ -448,7 +451,7 @@ const Orders: React.FC<SectionProps> = ({
     };
 
     fetchData(); // 首次載入時執行
-    const intervalId = setInterval(fetchData, 5 * 60 * 1000); // 每五分鐘執行一次
+    const intervalId = setInterval(fetchData, 5 * 1 * 1000); // 每五分鐘執行一次
 
     return () => clearInterval(intervalId); // 清除定時器當組件卸載
   }, []);
@@ -767,13 +770,17 @@ const AdminPlatformPage: React.FC = () => {
     setActive(target);
     setNewOrderNotification(false);
   };
-
   return (
     <>
       <DSideBar active={active} handleClick={handleClick} />
       <div
         className={`container ${newOrderNotification ? 'bg-red-500 animate-pulse' : ''}`}
       >
+        {newOrderNotification && (
+          <div className="fixed top-5 right-5 bg-white border-2 border-red-500 rounded-full p-3">
+            <FontAwesomeIcon icon={faBell} className="text-red-500 text-6xl" />
+          </div>
+        )}
         <main className="main-content">
           <Dashboard active={active === 'dashboard'} />
           <Products active={active === 'products'} />
