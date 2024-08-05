@@ -36,16 +36,14 @@ const Cart: React.FC = () => {
   return (
     <Layout>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-bold mb-4 text-center sm:text-left">購物車</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center sm:text-left">
+          購物車
+        </h2>
         <div className="bg-white shadow-md rounded px-4 sm:px-8 pt-6 pb-8 mb-4">
           <div id="cart-content">
             {showLargeImage && (
               <div className="relative">
-                <img
-                  src={largeImageUrl}
-                  alt="Large"
-                  className="large-image"
-                />
+                <img src={largeImageUrl} alt="Large" className="large-image" />
                 <button className="close-btn" onClick={handleCloseLargeImage}>
                   X
                 </button>
@@ -55,7 +53,7 @@ const Cart: React.FC = () => {
               <thead>
                 <tr>
                   <th className="px-2 sm:px-4 py-2">商品</th>
-                  <th className="hidden sm:table-cell px-4 py-2">名稱</th>
+                  <th className="sm:table-cell px-4 py-2">名稱</th>
                   <th className="px-2 sm:px-4 py-2">單價</th>
                   <th className="px-2 sm:px-4 py-2">數量</th>
                   <th className="px-2 sm:px-4 py-2">小計</th>
@@ -73,7 +71,7 @@ const Cart: React.FC = () => {
                         onClick={() => handleImageClick(item.image)}
                       />
                     </td>
-                    <td className="hidden sm:table-cell px-4 py-2">{item.name}</td>
+                    <td className="sm:table-cell px-4 py-2">{item.name}</td>
                     <td className="px-2 sm:px-4 py-2">NT$ {item.price}</td>
                     <td className="px-2 sm:px-4 py-2 items-center justify-center">
                       <button
@@ -98,7 +96,9 @@ const Cart: React.FC = () => {
                         +
                       </button>
                     </td>
-                    <td className="px-2 sm:px-4 py-2">NT$ {item.price * item.quantity}</td>
+                    <td className="px-2 sm:px-4 py-2">
+                      NT$ {item.price * item.quantity}
+                    </td>
                     <td className="px-2 sm:px-4 py-2">
                       <button
                         className="remove-btn"
@@ -111,7 +111,9 @@ const Cart: React.FC = () => {
                 ))}
               </tbody>
             </table>
-            <div className="total text-center sm:text-right">總計: NT$ {total}</div>
+            <div className="total text-center sm:text-right">
+              總計: NT$ {total}
+            </div>
             <div className="text-center sm:text-right">
               <Link href={nextLink} className="checkout-btn">
                 前往結帳
