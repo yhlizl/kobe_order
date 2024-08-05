@@ -236,6 +236,7 @@ const AccountPage: React.FC = () => {
                     <tr>
                       <th>訂單編號</th>
                       <th>日期</th>
+                      <th>預計取貨日期</th>
                       <th>產品名稱</th>
                       <th>數量</th>
                       <th>圖片</th>
@@ -257,6 +258,14 @@ const AccountPage: React.FC = () => {
                             minute: '2-digit',
                             hour12: false,
                           })}
+                        </td>
+                        <td>
+                          {new Date(order.pickupdate).toLocaleDateString(
+                            'en-US',
+                            {
+                              timeZone: 'Asia/Taipei',
+                            },
+                          )}
                         </td>
                         <td>{order.productname}</td>
                         <td>{order.quantity}</td>

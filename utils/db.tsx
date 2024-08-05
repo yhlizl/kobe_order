@@ -68,6 +68,7 @@ export async function initDb() {
           orderId SERIAL PRIMARY KEY,
           userId INT,
           date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          pickupDate TIMESTAMP,
           total DECIMAL(10, 2),
           status VARCHAR(255),
           productId INT,

@@ -567,6 +567,7 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
             <th>用戶電子郵件</th>
             <th>用戶電話</th>
             <th>用戶地址</th>
+            <th>取貨日期</th>
             <th>日期</th>
             <th>總額</th>
             <th>狀態</th>
@@ -576,17 +577,27 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
         <tbody>
           {orders
             .filter((order) => {
-              const orderDate = new Date(order.date);
-              orderDate.setUTCHours(0, 0, 0, 0);
-              console.log('orderDate', orderDate);
+              let pickupdate = new Date(order.pickupdate);
+              console.log('original pickupdate', order.pickupdate);
+              const offset = pickupdate.getTimezoneOffset() + 8 * 60;
+              pickupdate = new Date(pickupdate.getTime() + offset * 60 * 1000);
+              console.log('new pickupdate', pickupdate);
               const start = new Date(startDate);
               console.log('start', start);
               start.setHours(0, 0, 0, 0);
+              console.log('start2', start);
               const end = new Date(endDate);
               console.log('end', end);
               end.setHours(0, 0, 0, 0);
-
-              return orderDate >= start && orderDate <= end;
+              console.log('end2', end);
+              console.log(
+                'pickupdate',
+                pickupdate,
+                start,
+                end,
+                pickupdate >= start && pickupdate <= end,
+              );
+              return pickupdate >= start && pickupdate <= end;
             })
             .filter((order) => {
               if (showUpcoming) {
@@ -594,8 +605,8 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
                   Date.now() + 3 * 24 * 60 * 60 * 1000,
                 );
                 if (
-                  new Date(order.date) > threeDaysFromNow ||
-                  new Date(order.date) < new Date(Date.now())
+                  new Date(order.pickupdate) > threeDaysFromNow ||
+                  new Date(order.pickupdate) < new Date(Date.now())
                 ) {
                   return false;
                 }
@@ -629,6 +640,11 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
                   <td>{order.useremail}</td>
                   <td>{order.userphone}</td>
                   <td>{order.useraddress || 'N/A'}</td>
+                  <td>
+                    {new Date(order.pickupdate).toLocaleDateString('en-US', {
+                      timeZone: 'Asia/Taipei',
+                    })}
+                  </td>
                   <td>
                     {new Date(order.date).toLocaleString('en-US', {
                       timeZone: 'Asia/Taipei',
