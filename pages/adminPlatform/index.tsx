@@ -8,6 +8,7 @@ import { getServerSession } from 'next-auth/next';
 
 interface SectionProps {
   active: boolean;
+  setNewOrderNotification?: (value: boolean) => void;
 }
 const Dashboard: React.FC<SectionProps> = (props) => {
   if (!props.active) {
@@ -401,7 +402,10 @@ const Users: React.FC<SectionProps> = ({ active }) => {
   );
 };
 
-const Orders: React.FC<SectionProps> = ({ active }) => {
+const Orders: React.FC<SectionProps> = ({
+  active,
+  setNewOrderNotification,
+}) => {
   const [orders, setOrders] = useState([] as Array<any>);
   const [showUpcoming, setShowUpcoming] = useState(false);
   const [hideCompleted, setHideCompleted] = useState(false);
@@ -425,30 +429,29 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
     return taipeiTime;
   }
 
-  const fetchOrders = async () => {
-    const response = await fetch('/api/orders');
-    const data = await response.json();
-    setOrders(data);
-    console.log('get orders data', data);
-  };
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch('/api/orders');
       const data = await response.json();
-      if (data.length > orders.length) {
-        // 如果有新的訂單
-        new Notification('有新的訂單！'); // 顯示通知
-        const audio = new Audio('ding-36029.mp3'); // 播放聲音
-        audio.play();
-      }
-      setOrders(data);
+      setOrders((prevOrders) => {
+        if (data.length > prevOrders.length) {
+          // 如果有新的訂單
+          new Notification('有新的訂單！'); // 顯示通知
+          if (setNewOrderNotification) {
+            setNewOrderNotification(true);
+          }
+          const audio = new Audio('ding-36029.mp3'); // 播放聲音
+          audio.play();
+        }
+        return data;
+      });
     };
-  
+
     fetchData(); // 首次載入時執行
     const intervalId = setInterval(fetchData, 5 * 60 * 1000); // 每五分鐘執行一次
-  
+
     return () => clearInterval(intervalId); // 清除定時器當組件卸載
-  }, [orders]);
+  }, []);
 
   const handleStatusChange = (orderId: any) => {
     let newStatus = selectedStatuses[orderId];
@@ -757,21 +760,28 @@ const Settings: React.FC<SectionProps> = ({ active }) => {
     </div>
   );
 };
-
 const AdminPlatformPage: React.FC = () => {
   const [active, setActive] = useState('dashboard');
+  const [newOrderNotification, setNewOrderNotification] = useState(false);
   const handleClick = (target: string) => {
     setActive(target);
+    setNewOrderNotification(false);
   };
+
   return (
     <>
       <DSideBar active={active} handleClick={handleClick} />
-      <div className="container">
+      <div
+        className={`container ${newOrderNotification ? 'bg-red-500 animate-pulse' : ''}`}
+      >
         <main className="main-content">
           <Dashboard active={active === 'dashboard'} />
           <Products active={active === 'products'} />
           <Users active={active === 'users'} />
-          <Orders active={active === 'orders'} />
+          <Orders
+            active={active === 'orders'}
+            setNewOrderNotification={setNewOrderNotification}
+          />
           <Settings active={active === 'settings'} />
         </main>
       </div>
