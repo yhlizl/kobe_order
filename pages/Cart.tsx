@@ -36,14 +36,16 @@ const Cart: React.FC = () => {
   return (
     <Layout>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-bold mb-4 text-center sm:text-left">
-          購物車
-        </h2>
+        <h2 className="text-2xl font-bold mb-4 text-center sm:text-left">購物車</h2>
         <div className="bg-white shadow-md rounded px-4 sm:px-8 pt-6 pb-8 mb-4">
           <div id="cart-content">
             {showLargeImage && (
               <div className="relative">
-                <img src={largeImageUrl} alt="Large" className="large-image" />
+                <img
+                  src={largeImageUrl}
+                  alt="Large"
+                  className="large-image"
+                />
                 <button className="close-btn" onClick={handleCloseLargeImage}>
                   X
                 </button>
@@ -71,13 +73,11 @@ const Cart: React.FC = () => {
                         onClick={() => handleImageClick(item.image)}
                       />
                     </td>
-                    <td className="hidden sm:table-cell px-4 py-2">
-                      {item.name}
-                    </td>
+                    <td className="hidden sm:table-cell px-4 py-2">{item.name}</td>
                     <td className="px-2 sm:px-4 py-2">NT$ {item.price}</td>
-                    <td className="px-2 sm:px-4 py-2 flex items-center justify-center">
+                    <td className="px-2 sm:px-4 py-2 items-center justify-center">
                       <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-xs sm:text-base"
                         onClick={() => changeQuantity(item.id, -1)}
                       >
                         -
@@ -86,21 +86,19 @@ const Cart: React.FC = () => {
                         type="number"
                         value={item.quantity}
                         min="1"
-                        className="quantity-input mx-2"
+                        className="quantity-input mx-2 w-12 sm:w-auto text-xs sm:text-base"
                         onChange={(e) =>
                           changeQuantity(item.id, Number(e.target.value))
                         }
                       />
                       <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-xs sm:text-base"
                         onClick={() => changeQuantity(item.id, 1)}
                       >
                         +
                       </button>
                     </td>
-                    <td className="px-2 sm:px-4 py-2">
-                      NT$ {item.price * item.quantity}
-                    </td>
+                    <td className="px-2 sm:px-4 py-2">NT$ {item.price * item.quantity}</td>
                     <td className="px-2 sm:px-4 py-2">
                       <button
                         className="remove-btn"
@@ -113,9 +111,7 @@ const Cart: React.FC = () => {
                 ))}
               </tbody>
             </table>
-            <div className="total text-center sm:text-right">
-              總計: NT$ {total}
-            </div>
+            <div className="total text-center sm:text-right">總計: NT$ {total}</div>
             <div className="text-center sm:text-right">
               <Link href={nextLink} className="checkout-btn">
                 前往結帳
