@@ -21,7 +21,7 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      <header className="bg-[rgba(139,69,19,0.8)] text-[#fff8e1] text-center p-4 relative overflow-hidden">
+      <header className="bg-[#a6620d] text-[#fff8e1] text-center p-4 relative overflow-hidden">
         <h1 className="text-2xl sm:text-3xl md:text-5xl m-0 relative z-10 font-serif">
           KOBE Pann 口碑烘焙坊
         </h1>
