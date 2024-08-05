@@ -403,6 +403,10 @@ const Users: React.FC<SectionProps> = ({ active }) => {
 
 const Orders: React.FC<SectionProps> = ({ active }) => {
   const [orders, setOrders] = useState([] as Array<any>);
+  const [showUpcoming, setShowUpcoming] = useState(false);
+  const [hideCompleted, setHideCompleted] = useState(false);
+  const [hideCancelled, setHideCancelled] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedStatuses, setSelectedStatuses] = useState<{
     [key: number]: string;
   }>({});
@@ -501,6 +505,56 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
           />
         </label>
       </div>
+      <div className="space-y-2 md:space-y-0 md:flex md:justify-between md:items-center">
+        <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            id="showUpcoming"
+            className="form-checkbox h-5 w-5 text-blue-600"
+            checked={showUpcoming}
+            onChange={(e) => setShowUpcoming(e.target.checked)}
+          />
+          <label htmlFor="showUpcoming" className="text-sm text-gray-700">
+            顯示三天內即將到來的訂單
+          </label>
+        </div>
+        <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            id="hideCompleted"
+            className="form-checkbox h-5 w-5 text-green-600"
+            checked={hideCompleted}
+            onChange={(e) => setHideCompleted(e.target.checked)}
+          />
+          <label htmlFor="hideCompleted" className="text-sm text-gray-700">
+            隱藏已完成的訂單
+          </label>
+        </div>
+        <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            id="hideCancelled"
+            className="form-checkbox h-5 w-5 text-red-600"
+            checked={hideCancelled}
+            onChange={(e) => setHideCancelled(e.target.checked)}
+          />
+          <label htmlFor="hideCancelled" className="text-sm text-gray-700">
+            隱藏已取消的訂單
+          </label>
+        </div>
+        <div className="flex items-center space-x-2">
+          <label htmlFor="searchTerm" className="text-sm text-gray-700">
+            以使用者信箱或名字搜尋：
+          </label>
+          <input
+            type="text"
+            id="searchTerm"
+            className="form-input h-5 text-sm w-full md:w-auto md:flex-grow"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+      </div>
       <table id="ordersTable">
         <thead>
           <tr>
@@ -531,7 +585,35 @@ const Orders: React.FC<SectionProps> = ({ active }) => {
               const end = new Date(endDate);
               console.log('end', end);
               end.setHours(0, 0, 0, 0);
+
               return orderDate >= start && orderDate <= end;
+            })
+            .filter((order) => {
+              if (showUpcoming) {
+                const threeDaysFromNow = new Date(
+                  Date.now() + 3 * 24 * 60 * 60 * 1000,
+                );
+                if (
+                  new Date(order.date) > threeDaysFromNow ||
+                  new Date(order.date) < new Date(Date.now())
+                ) {
+                  return false;
+                }
+              }
+              if (hideCompleted && order.status === '完成') {
+                return false;
+              }
+              if (hideCancelled && order.status === '取消') {
+                return false;
+              }
+              if (
+                searchTerm &&
+                !order.useremail.includes(searchTerm) &&
+                !order.username.includes(searchTerm)
+              ) {
+                return false;
+              }
+              return true;
             })
             .map((order) => {
               const selectedStatus =
