@@ -42,11 +42,20 @@ const Cart: React.FC = () => {
         <div className="bg-white shadow-md rounded px-4 sm:px-8 pt-6 pb-8 mb-4">
           <div id="cart-content">
             {showLargeImage && (
-              <div className="relative">
-                <img src={largeImageUrl} alt="Large" className="large-image" />
-                <button className="close-btn" onClick={handleCloseLargeImage}>
-                  X
-                </button>
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="relative bg-white rounded-lg overflow-hidden shadow-lg max-w-2xl mx-auto">
+                  <img
+                    src={largeImageUrl}
+                    alt="Large"
+                    className="w-full h-auto"
+                  />
+                  <button
+                    className="absolute top-0 right-0 m-2 text-2xl font-bold leading-none text-black hover:text-gray-500"
+                    onClick={handleCloseLargeImage}
+                  >
+                    &times;
+                  </button>
+                </div>
               </div>
             )}
             <table className="table-auto w-full mb-6 text-center sm:text-left">
