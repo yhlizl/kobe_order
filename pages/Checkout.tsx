@@ -15,6 +15,7 @@ const Checkout: React.FC = () => {
   const router = useRouter();
   const { cart, removeFromCart } = useStore();
   const { user } = useUserStore();
+  const [pickupDate, setPickupDate] = useState('');
   useEffect(() => {
     if (!user) {
       router.push('/Login');
@@ -22,12 +23,18 @@ const Checkout: React.FC = () => {
     setName(user?.name || '');
     setEmail(user?.email || '');
     setPhone(user?.phone || '');
+    setPickupDate(getMinPickupDate());
   }, [user]);
 
   const total = Object.values(cart).reduce(
     (sum, item) => sum + item.price * item.quantity,
     0,
   );
+  const getMinPickupDate = () => {
+    const date = new Date();
+    date.setDate(date.getDate() + 5);
+    return date.toISOString().split('T')[0];
+  };
   const handleCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       setName(user?.name || '');
@@ -73,6 +80,7 @@ const Checkout: React.FC = () => {
               status: status,
               productId: item.id,
               quantity: item.quantity,
+              pickupDate: pickupDate,
             }),
           })
             .then((res) => res.json())
@@ -157,37 +165,50 @@ const Checkout: React.FC = () => {
                   disabled={true}
                 />
               </div>
-              <div className={styles['form-group']}>
-                <label>付款方式</label>
-                <div className={styles['payment-methods']}>
-                  <div className="payment-method">
-                    <input
-                      type="radio"
-                      id="bank-transfer"
-                      name="payment"
-                      value="bank-transfer"
-                      onChange={(e) => setPaymentMethod(e.target.value)}
-                      required
-                    />
-                    <label htmlFor="bank-transfer">
-                      {/* <img src="/images/bank-transfer-icon.svg" alt="匯款" width="40" height="40"/> */}
-                      匯款
+              <div className="flex flex-col space-y-4">
+                <fieldset className="flex flex-col space-y-2">
+                  <legend className="font-semibold text-lg">付款方式</legend>
+                  <div className="flex space-x-4">
+                    <label className="flex items-center space-x-2">
+                      <input
+                        type="radio"
+                        id="bank-transfer"
+                        name="payment"
+                        value="bank-transfer"
+                        onChange={(e) => setPaymentMethod(e.target.value)}
+                        required
+                        className="form-radio text-blue-600 h-5 w-5"
+                      />
+                      <span>匯款</span>
+                    </label>
+                    <label className="flex items-center space-x-2">
+                      <input
+                        type="radio"
+                        id="in-store"
+                        name="payment"
+                        value="in-store"
+                        onChange={(e) => setPaymentMethod(e.target.value)}
+                        required
+                        className="form-radio text-blue-600 h-5 w-5"
+                      />
+                      <span>到店付款</span>
                     </label>
                   </div>
-                  <div className={styles['payment-methods']}>
-                    <input
-                      type="radio"
-                      id="in-store"
-                      name="payment"
-                      value="in-store"
-                      onChange={(e) => setPaymentMethod(e.target.value)}
-                      required
-                    />{' '}
-                    <label htmlFor="in-store">
-                      {/* <img src="/images/store-icon.svg" alt="到店付款" width="40" height="40"/> */}
-                      到店付款
-                    </label>
-                  </div>
+                </fieldset>
+                <div className="flex flex-col space-y-2">
+                  <label htmlFor="pickupDate" className="font-semibold text-lg">
+                    指定取貨日
+                  </label>
+                  <input
+                    type="date"
+                    id="pickupDate"
+                    name="pickupDate"
+                    value={pickupDate}
+                    onChange={(e) => setPickupDate(e.target.value)}
+                    min={getMinPickupDate()}
+                    required
+                    className="form-input h-10"
+                  />
                 </div>
               </div>
               <button type="submit" className={styles['submit-btn']}>
@@ -244,7 +265,7 @@ const Checkout: React.FC = () => {
                 {'請在匯款後保留收據，並在取貨時出示。\n'}
                 {'取貨地點：新竹市東區建中一路35號\n'}
                 {'取貨時間：\n'}
-                {'週日至週四：14:30 - 19:00'}
+                {`${pickupDate} 14:30 - 19:00`}
               </p>
               <div className={styles['modal-footer']}>
                 <button
