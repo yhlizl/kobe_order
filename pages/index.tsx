@@ -8,22 +8,37 @@ const HomePage: React.FC = () => {
   return (
     <div>
       <Head>
-        <title>KOBE Pann 口碑烘焙坊</title>
+        <title> KOBE Pann | 中秋禮盒預購網</title>
         <meta
           name="description"
-          content="KOBE Pann 口碑烘焙坊，用心烘焙每一口的幸福滋味"
+          content="KOBE Pann 口碑烘焙坊，用心烘焙每一口的幸福滋味。現在預購中秋禮盒，享受特別優惠！"
         />
         <meta
           name="keywords"
           content="KOBE Pann 口碑烘焙坊, 月餅, 新竹好吃麵包, 烘焙, KOBE Pann, 口碑烘焙坊, 新竹麵包店, 清大美食, 新竹美食, 蛋黃酥, 新竹蛋黃酥, 月餅, 新竹月餅"
         />
-        <meta property="og:title" content="KOBE Pann 口碑烘焙坊" />
-        <meta property="og:description" content="KOBE Pann 口碑烘焙坊，用心烘焙每一口的幸福滋味" />
-        <meta property="og:image" content="/kobe/EC2AAE47-B8E4-488A-A6FA-D7177B0366E0.jpeg" />
+        <meta
+          property="og:title"
+          content="中秋禮盒預購網 | KOBE Pann 口碑烘焙坊"
+        />
+        <meta
+          property="og:description"
+          content="KOBE Pann 口碑烘焙坊，用心烘焙每一口的幸福滋味。現在預購中秋禮盒，享受特別優惠！"
+        />
+        <meta
+          property="og:image"
+          content="/kobe/EC2AAE47-B8E4-488A-A6FA-D7177B0366E0.jpeg"
+        />
         <meta property="og:url" content="https://kobe-order.vercel.app/" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content="/kobe/EC2AAE47-B8E4-488A-A6FA-D7177B0366E0.jpeg" />
-        <meta name="google-site-verification" content="4Lcxsvnx5s3Dv813yhPTzCIr2I-2LsgQFmJqcPFZEQs" />
+        <meta
+          name="twitter:image"
+          content="/kobe/EC2AAE47-B8E4-488A-A6FA-D7177B0366E0.jpeg"
+        />
+        <meta
+          name="google-site-verification"
+          content="4Lcxsvnx5s3Dv813yhPTzCIr2I-2LsgQFmJqcPFZEQs"
+        />
       </Head>
       <Layout>
         <section className="relative rounded-lg p-8 mt-8 text-center shadow-md lg:h-[500px]">
