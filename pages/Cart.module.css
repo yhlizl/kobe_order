@@ -1,6 +1,6 @@
 .product-name {
-    max-width: 200px; /* 你可以根据需要调整这个值 */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+  max-width: 200px; /* 你可以根据需要调整这个值 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
