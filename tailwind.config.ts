@@ -53,14 +53,20 @@ const config: Config = {
         slide: {
           // 修改的 keyframes
           '0%': { 'background-position': '0% 0%', opacity: '0' },
-          '50%': { 'background-position': '100% 0%', opacity: '1' },
-          '100%': { 'background-position': '200% 0%', opacity: '0' },
+          '50%': { 'background-position': '0% 0%', opacity: '1' },
+          '100%': { 'background-position': '0% 0%', opacity: '0' },
+        },
+        zoom: {
+          '0%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.2)' },
+          '100%': { transform: 'scale(1)' },
         },
       },
       animation: {
         gradient: 'gradient 3s ease infinite',
         'spin-slow': 'spin 20s linear infinite',
         slide: 'slide 10s linear infinite', // 新增的動畫
+        zoom: 'zoom 2s infinite',
       },
     },
   },
