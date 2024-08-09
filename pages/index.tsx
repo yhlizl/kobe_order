@@ -27,7 +27,11 @@ const HomePage: React.FC = () => {
         />
         <meta
           property="og:description"
-          content="KOBE Pann 口碑烘焙坊，用心烘焙每一口的幸福滋味。現在預購中秋禮盒，享受特別優惠！"
+          content={`今年蛋黃酥3.0
+          更酥鬆的餅皮 及 綿密細緻的鹹鴨蛋
+          快把ɞ新鮮紅土鹹鴨蛋ʚ的美味分享給家人朋朋
+          ✧(  ु•⌄• )◞◟( •⌄• ू )✧
+          `}
         />
         <meta
           property="og:image"

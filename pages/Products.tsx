@@ -3,6 +3,8 @@ import Layout from '../components/Layout';
 import { useStore, Product as cartProp } from '@/store/cart';
 import { useRouter } from 'next/router';
 import styles from './Products.module.css';
+import Head from 'next/head';
+
 interface Product {
   productid: number;
   name: string;
@@ -62,6 +64,47 @@ const ProductsPage: React.FC = () => {
   };
   return (
     <div>
+       <Head>
+        <title> KOBE Pann | 中秋禮盒預購網</title>
+        <meta
+          name="description"
+          content={`今年蛋黃酥3.0
+          更酥鬆的餅皮 及 綿密細緻的鹹鴨蛋
+          快把ɞ新鮮紅土鹹鴨蛋ʚ的美味分享給家人朋朋
+          ✧(  ु•⌄• )◞◟( •⌄• ू )✧
+          `}
+        />
+        <meta
+          name="keywords"
+          content="KOBE Pann 口碑烘焙坊, 月餅, 新竹好吃麵包, 烘焙, KOBE Pann, 口碑烘焙坊, 新竹麵包店, 清大美食, 新竹美食, 蛋黃酥, 新竹蛋黃酥, 月餅, 新竹月餅, 經典蛋黃酥, 紅土鹹鴨蛋黃, 鳳凰酥, KOBE人氣雙層中秋禮盒, 芋頭金沙流心, "
+        />
+        <meta
+          property="og:title"
+          content="中秋禮盒預購網 | KOBE Pann 口碑烘焙坊"
+        />
+        <meta
+          property="og:description"
+          content={`今年蛋黃酥3.0
+          更酥鬆的餅皮 及 綿密細緻的鹹鴨蛋
+          快把ɞ新鮮紅土鹹鴨蛋ʚ的美味分享給家人朋朋
+          ✧(  ु•⌄• )◞◟( •⌄• ू )✧
+          `}
+        />
+        <meta
+          property="og:image"
+          content="/kobe/EC2AAE47-B8E4-488A-A6FA-D7177B0366E0.jpeg"
+        />
+        <meta property="og:url" content="https://kobe-order.vercel.app/" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:image"
+          content="/kobe/EC2AAE47-B8E4-488A-A6FA-D7177B0366E0.jpeg"
+        />
+        <meta
+          name="google-site-verification"
+          content="4Lcxsvnx5s3Dv813yhPTzCIr2I-2LsgQFmJqcPFZEQs"
+        />
+      </Head>
       <Layout>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {Array.isArray(products) &&
