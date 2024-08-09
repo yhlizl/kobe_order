@@ -22,9 +22,11 @@ const Navbar: React.FC = () => {
   return (
     <>
       <header className="bg-[#a6620d] text-[#fff8e1] text-center p-4 relative overflow-hidden">
-        <h1 className="text-2xl sm:text-3xl md:text-5xl m-0 relative z-10 font-serif">
-          KOBE Pann 口碑烘焙坊
-        </h1>
+      <h1 className="font-msjh font-bold text-2xl sm:text-3xl md:text-5xl m-0 relative z-10">
+        {'❖ KOBE PANN ❖'}
+      <br />
+        {'中秋禮盒現正預購中'}
+      </h1>
       </header>
       <nav className="bg-[rgba(171,108,30,0.8)] p-2 sticky top-0 z-50">
         <ul className="list-none p-0 m-0 flex justify-center flex-wrap">

@@ -9,6 +9,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'msjh': ['Microsoft JhengHei', 'sans-serif',"bold"],
+      },
       backgroundImage: {
         'gradient-radial':
           'radial-gradient(ellipse at center, var(--tw-gradient-stops))',
