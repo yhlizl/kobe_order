@@ -49,19 +49,27 @@ const HomePage: React.FC = () => {
         />
       </Head>
       <Layout>
-        <section className="relative rounded-lg p-8 mt-8 text-center shadow-md lg:h-[500px]">
-          <div className="absolute inset-0 bg-slide bg-cover bg-center-top-200 bg-no-repeat animate-slide"></div>
-          <div className="relative">
-            <h2>傳承手藝 匠心獨具</h2>
-            <p>KOBE Pann 口碑烘焙坊，用心烘焙每一口的幸福滋味</p>
-            <Link
-              href="/Products"
-              className="inline-block bg-[#8b4513] text-[#fff8e1] px-6 py-3 rounded-full no-underline font-bold hover:bg-[#a0522d] transition-all duration-300"
-            >
-              探索中秋月餅
-            </Link>
-          </div>
-        </section>
+      <section className="relative rounded-lg p-8 text-center shadow-md lg:h-[500px]">
+        <div className="absolute inset-0 bg-slide bg-cover bg-center-top-200 bg-no-repeat animate-slide"></div>
+        <div className="relative">
+          <h2 className="font-msjh font-bold text-3xl mb-4">中秋禮盒現正預購中</h2>
+          <p className="font-msjh text-lg mb-4 text-shadow">
+            {'今年蛋黃酥3.0'}
+            <br />
+            {'更酥鬆的餅皮 及 綿密細緻的鹹鴨蛋'}
+            <br />
+            {'快把ɞ新鮮紅土鹹鴨蛋ʚ的美味分享給家人朋朋'}
+            <br />
+            {'✧(  ु•⌄• )◞◟( •⌄• ू )✧'}
+          </p>
+          <Link
+            href="/Products"
+            className="inline-block bg-[#8b4513] text-[#fff8e1] px-6 py-3 rounded-full no-underline font-bold hover:bg-[#a0522d] transition-all duration-300"
+          >
+            探索中秋月餅
+          </Link>
+        </div>
+      </section>
         <section className="flex justify-around mt-12 flex-wrap">
           <div className="bg-white rounded-lg p-6 w-full sm:w-1/2 md:w-1/3 text-center shadow-md transition-all duration-300 hover:-translate-y-2 my-4">
             <img

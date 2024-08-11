@@ -23,6 +23,7 @@ const config: Config = {
         cover: 'cover', // Cover the entire container
         contain: 'contain', // Fit within the container
         '30%': '30%', // Set the size to 50%
+        '50%': '50%', // Add a new size option
         // Add more sizes as needed
       },
       backgroundPosition: {
@@ -55,9 +56,9 @@ const config: Config = {
         },
         slide: {
           // 修改的 keyframes
-          '0%': { 'background-position': '0% 0%', opacity: '0' },
-          '50%': { 'background-position': '0% 0%', opacity: '1' },
-          '100%': { 'background-position': '0% 0%', opacity: '0' },
+          '0%': { 'background-position': '20% 30%', opacity: '0' },
+          '50%': { 'background-position': '70% 30%', opacity: '1' },
+          '100%': { 'background-position': '20% 30%', opacity: '0' },
         },
         zoom: {
           '0%': { transform: 'scale(1)' },
