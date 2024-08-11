@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 const HomePage: React.FC = () => {
   return (
-    <div>
+    <>
       <Head>
         <title> KOBE Pann | 中秋禮盒預購網</title>
         <meta
@@ -78,6 +78,8 @@ const HomePage: React.FC = () => {
       </script>
       </Head>
       <Layout>
+      <main>
+
       <section className="relative rounded-lg p-8 text-center shadow-md lg:h-[500px]">
         <div className="absolute inset-0 bg-slide bg-cover bg-center-top-200 bg-no-repeat animate-slide"></div>
         <div className="relative">
@@ -134,8 +136,9 @@ const HomePage: React.FC = () => {
             <p>典雅設計，送禮自用兩相宜</p>
           </div>
         </section>
+        </main>
       </Layout>
-    </div>
+    </>
   );
 };
 
