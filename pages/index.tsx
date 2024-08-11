@@ -4,6 +4,8 @@ import '../styles/globals.css';
 import Layout from '../components/Layout';
 import Link from 'next/link';
 import Head from 'next/head';
+import Image from 'next/image';
+
 const HomePage: React.FC = () => {
   return (
     <div>
@@ -99,28 +101,34 @@ const HomePage: React.FC = () => {
       </section>
         <section className="flex justify-around mt-12 flex-wrap">
           <div className="bg-white rounded-lg p-6 w-full sm:w-1/2 md:w-1/3 text-center shadow-md transition-all duration-300 hover:-translate-y-2 my-4">
-            <img
+            <Image
               src="/kobe/2021-07-12.jpg"
               alt="KOBE Pann 口碑烘焙坊 | 每日新鮮烘烤出爐"
               className="w-full h-48 object-cover rounded-lg"
+              width={500}
+              height={300}
             />
             <h3>每日新鮮烘烤出爐</h3>
             <p>堅持販售當日出爐的新鮮麵包</p>
           </div>
           <div className="bg-white rounded-lg p-6 w-full sm:w-1/2 md:w-1/3 text-center shadow-md transition-all duration-300 hover:-translate-y-2 my-4">
-            <img
+            <Image
               src="/kobe/2024-04-12 (1).jpg"
               alt="KOBE Pann 口碑烘焙坊 | 嚴選天然食材製作"
               className="w-full h-48 object-cover rounded-lg"
+              width={500}
+              height={300}
             />
             <h3>嚴選天然食材製作</h3>
             <p>選用天然發酵奶油與歐洲麵粉製作</p>
           </div>
           <div className="bg-white rounded-lg p-6 w-full sm:w-1/2 md:w-1/3 text-center shadow-md transition-all duration-300 hover:-translate-y-2 my-4">
-            <img
+            <Image
               src="/kobe/CC26D58E-3596-45BE-8B5B-9B1291D7AFC5.jpeg"
               alt="KOBE Pann 口碑烘焙坊 | 精緻包裝"
               className="w-full h-48 object-cover rounded-lg"
+              width={500}
+              height={300}
             />
             <h3>精緻包裝</h3>
             <p>典雅設計，送禮自用兩相宜</p>
