@@ -74,7 +74,7 @@ const HomePage: React.FC = () => {
           <div className="bg-white rounded-lg p-6 w-full sm:w-1/2 md:w-1/3 text-center shadow-md transition-all duration-300 hover:-translate-y-2 my-4">
             <img
               src="/kobe/2021-07-12.jpg"
-              alt="每日新鮮烘烤出爐"
+              alt="KOBE Pann 口碑烘焙坊 | 每日新鮮烘烤出爐"
               className="w-full h-48 object-cover rounded-lg"
             />
             <h3>每日新鮮烘烤出爐</h3>
@@ -83,7 +83,7 @@ const HomePage: React.FC = () => {
           <div className="bg-white rounded-lg p-6 w-full sm:w-1/2 md:w-1/3 text-center shadow-md transition-all duration-300 hover:-translate-y-2 my-4">
             <img
               src="/kobe/2024-04-12 (1).jpg"
-              alt="嚴選天然食材製作"
+              alt="KOBE Pann 口碑烘焙坊 | 嚴選天然食材製作"
               className="w-full h-48 object-cover rounded-lg"
             />
             <h3>嚴選天然食材製作</h3>
@@ -92,7 +92,7 @@ const HomePage: React.FC = () => {
           <div className="bg-white rounded-lg p-6 w-full sm:w-1/2 md:w-1/3 text-center shadow-md transition-all duration-300 hover:-translate-y-2 my-4">
             <img
               src="/kobe/CC26D58E-3596-45BE-8B5B-9B1291D7AFC5.jpeg"
-              alt="精緻包裝"
+              alt="KOBE Pann 口碑烘焙坊 | 精緻包裝"
               className="w-full h-48 object-cover rounded-lg"
             />
             <h3>精緻包裝</h3>
