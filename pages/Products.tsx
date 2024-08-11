@@ -113,6 +113,24 @@ const ProductsPage: React.FC = () => {
                 key={product.productid}
                 className="border rounded-lg overflow-hidden shadow-lg m-3 p-4"
               >
+                <Head>
+                  <script type="application/ld+json">
+                    {JSON.stringify({
+                      "@context": "https://schema.org/",
+                      "@type": "Product",
+                      "name": product.name,
+                      "image": product.imageurl,
+                      "description": product.description,
+                      "sku": product.productid.toString(),
+                      "offers": {
+                        "@type": "Offer",
+                        "priceCurrency": "TWD",
+                        "price": product.price.toString(),
+                        "availability": "https://schema.org/InStock"
+                      }
+                    })}
+                  </script>
+                </Head>
                 <img
                   src={product.imageurl}
                   alt={product.name}

@@ -47,6 +47,33 @@ const HomePage: React.FC = () => {
           name="google-site-verification"
           content="4Lcxsvnx5s3Dv813yhPTzCIr2I-2LsgQFmJqcPFZEQs"
         />
+        <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              "name": "KOBE Pann 口碑烘焙坊",
+              "url": "https://kobe-order.vercel.app/",
+              "logo": "https://kobe-order.vercel.app/kobe/EC2AAE47-B8E4-488A-A6FA-D7177B0366E0.jpeg",
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "(03)571-9898",
+                "contactType": "Customer service"
+              }
+            },
+            {
+              "@type": "WebSite",
+              "url": "https://kobe-order.vercel.app/",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://kobe-order.vercel.app/search?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+              }
+            }
+          ]
+        })}
+      </script>
       </Head>
       <Layout>
       <section className="relative rounded-lg p-8 text-center shadow-md lg:h-[500px]">
