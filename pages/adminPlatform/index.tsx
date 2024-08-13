@@ -474,7 +474,7 @@ const Orders: React.FC<SectionProps> = ({
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ status: newStatus }),
+      body: JSON.stringify({ status: newStatus}),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -585,6 +585,7 @@ const Orders: React.FC<SectionProps> = ({
             <th>用戶電話</th>
             <th>用戶地址</th>
             <th>取貨日期</th>
+            <th>帳戶後四碼</th>
             <th>日期</th>
             <th>總額</th>
             <th>狀態</th>
@@ -662,6 +663,7 @@ const Orders: React.FC<SectionProps> = ({
                       timeZone: 'Asia/Taipei',
                     })}
                   </td>
+                  <td>{order.banknumber}</td>
                   <td>
                     {new Date(order.date).toLocaleString('en-US', {
                       timeZone: 'Asia/Taipei',

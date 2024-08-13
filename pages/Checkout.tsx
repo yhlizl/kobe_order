@@ -10,6 +10,7 @@ const Checkout: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [bankNumber, setBankNumber] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('');
   const router = useRouter();
@@ -81,6 +82,7 @@ const Checkout: React.FC = () => {
               productId: item.id,
               quantity: item.quantity,
               pickupDate: pickupDate,
+              banknumber: bankNumber,
             }),
           })
             .then((res) => res.json())
@@ -267,6 +269,20 @@ const Checkout: React.FC = () => {
                 {'取貨時間：\n'}
                 {`${pickupDate} 14:30 - 19:00`}
               </p>
+              <div className={styles.inputContainer}>
+              <label htmlFor="bankNumber">
+                匯款帳號後四碼
+                <input
+                  type="text"
+                  id="bankNumber"
+                  name="bankNumber"
+                  value={bankNumber}
+                  onChange={e => setBankNumber(e.target.value)}
+                  placeholder="請輸入匯款帳號後四碼(可以在會員中心訂單查詢中補上)"
+                  className={styles.confirm}
+                />
+              </label>
+            </div>
               <div className={styles['modal-footer']}>
                 <button
                   className={styles['confirm-btn']}

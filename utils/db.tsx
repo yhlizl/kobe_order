@@ -73,6 +73,7 @@ export async function initDb() {
           status VARCHAR(255),
           productId INT,
           quantity INT,
+          banknumber VARCHAR(255),
           FOREIGN KEY (userId) REFERENCES verceldb.users(userId),
           FOREIGN KEY (productId) REFERENCES verceldb.products(productId)
         )
@@ -86,5 +87,13 @@ export async function resetDB() {
   await pool.query('DROP TABLE IF EXISTS verceldb.users');
   initDb();
 }
+
+export async function migrateOrder1() {
+  await pool.query(`
+      ALTER TABLE verceldb.orders
+      ADD COLUMN banknumber VARCHAR(255)
+    `);
+}
+
 
 export default pool;

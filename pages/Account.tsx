@@ -24,7 +24,7 @@ import './Account.css';
 // }
 
 const AccountPage: React.FC = () => {
-  const [order, setOrder] = useState<any[]>([]);
+  const [orders, setOrders] = useState<any[]>([]);
   const router = useRouter();
   const { user, updateSession } = useUserStore();
   // const [ stateUser,setStateUser ] = useState(user);
@@ -64,6 +64,26 @@ const AccountPage: React.FC = () => {
     }
   };
 
+
+  const handleOrderFormSubmit = (orderId: any,banknumber: any) => {
+    fetch(`/api/orders?id=${orderId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ banknumber: banknumber}),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setOrders(
+          orders.map((order) =>
+            order.orderid === orderId ? { ...order, banknumber: banknumber } : order,
+          ),
+        );
+        alert("修改成功!");
+      });
+  };
+
   const handleTabClick = (tabId: string) => {
     setActiveTab(tabId);
     // console.log("tabId",tabId)
@@ -92,7 +112,7 @@ const AccountPage: React.FC = () => {
 
     const data = await response.json();
     console.log('data.order', data.order);
-    setOrder(data.order);
+    setOrders(data.order);
     return data.order;
   };
 
@@ -121,6 +141,7 @@ const AccountPage: React.FC = () => {
       [e.target.name]: e.target.value,
     });
   };
+
 
   return (
     <div>
@@ -242,10 +263,11 @@ const AccountPage: React.FC = () => {
                       <th>圖片</th>
                       <th>金額</th>
                       <th>狀態</th>
+                      <th>帳戶後四碼</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {order.map((order) => (
+                    {orders.map((order,index) => (
                       <tr key={order.orderid}>
                         <td>#{order.orderid}</td>
                         <td>
@@ -278,6 +300,34 @@ const AccountPage: React.FC = () => {
                         </td>
                         <td>NT$ {order.total}</td>
                         <td>{order.status}</td>
+                        <td>
+                        { ['待轉帳中','待確認匯款'].includes(order.status)  && (
+                        <div>
+                          <label htmlFor="bankNumber">
+                            匯款帳號後四碼
+                            <input
+                              type="text"
+                              id="banknumber"
+                              name="banknumber"
+                              defaultValue={order.banknumber}
+                              onChange={e => {
+                                const newOrders = [...orders];
+                                newOrders[index].banknumber = e.target.value;
+                                setOrders(newOrders);
+                              }}
+                              placeholder="請輸入匯款帳號後四碼"
+                            />
+                          </label>
+                        
+                        <button
+                          className="btn"
+                          onClick={()=>handleOrderFormSubmit(order.orderid,orders[index].banknumber)}
+                        >
+                          儲存變更
+                        </button>
+                        </div>
+                          )}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
