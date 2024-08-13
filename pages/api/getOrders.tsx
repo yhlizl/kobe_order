@@ -14,7 +14,7 @@ export default async function handler(
     try {
       const user = await pool.query(
         `
-        SELECT * FROM verceldb.users WHERE email = $1
+        SELECT * FROM verceldb.users WHERE email = $1 order by userid desc
       `,
         [userEmail],
       );
@@ -32,6 +32,7 @@ export default async function handler(
         FROM verceldb.orders o
         JOIN verceldb.products p ON o.productId = p.productId
         WHERE o.userId = $1
+        order by o.orderId desc
       `,
         [userid],
       );

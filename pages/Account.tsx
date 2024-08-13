@@ -66,15 +66,17 @@ const AccountPage: React.FC = () => {
 
 
   const handleOrderFormSubmit = (orderId: any,banknumber: any) => {
-    fetch(`/api/orders?id=${orderId}`, {
+    console.log('handleOrderFormSubmit', orderId,banknumber);
+    fetch(`/api/editOrder`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ banknumber: banknumber}),
+      body: JSON.stringify({ id: orderId,banknumber: banknumber}),
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log('handleOrderFormSubmit data', data);
         setOrders(
           orders.map((order) =>
             order.orderid === orderId ? { ...order, banknumber: banknumber } : order,
