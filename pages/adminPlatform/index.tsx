@@ -414,6 +414,7 @@ const Orders: React.FC<SectionProps> = ({
   const [hideCompleted, setHideCompleted] = useState(false);
   const [hideCancelled, setHideCancelled] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isShowPaid, setisShowPaid] = useState(false);
   const [selectedStatuses, setSelectedStatuses] = useState<{
     [key: number]: string;
   }>({});
@@ -560,6 +561,18 @@ const Orders: React.FC<SectionProps> = ({
           </label>
         </div>
         <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            id="isShowPaid"
+            className="form-checkbox h-5 w-5 text-red-600"
+            checked={isShowPaid}
+            onChange={(e) => setisShowPaid(e.target.checked)}
+          />
+          <label htmlFor="isShowPaid" className="text-sm text-gray-700">
+            秀出已付款未查收的訂單
+          </label>
+        </div>
+        <div className="flex items-center space-x-2">
           <label htmlFor="searchTerm" className="text-sm text-gray-700">
             以使用者信箱或名字搜尋：
           </label>
@@ -641,6 +654,11 @@ const Orders: React.FC<SectionProps> = ({
                 !order.username.includes(searchTerm)
               ) {
                 return false;
+              }
+              if (isShowPaid) {
+                if(order.status != '待轉帳中' || !order.banknumber){
+                  return false;
+                }
               }
               return true;
             })
