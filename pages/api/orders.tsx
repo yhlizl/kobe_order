@@ -23,7 +23,7 @@ export default async function handler(
     method,
   } = req;
   await requireAdmin(req, res, async () => {
-    const { status, banknumber } = req.body;
+    const { status, banknumber,memo } = req.body;
     console.log('orderid', id, status, banknumber);
     switch (method) {
       case 'GET':
@@ -45,20 +45,29 @@ export default async function handler(
         res.status(201).json({ message: 'Order created successfully' });
         break;
       case 'PUT':
-        console.log('change order status', id, status, banknumber);
-        if (status && status.length > 0) {
+        console.log('change order status', id, status, banknumber,memo);
+        if (status) {
+          console.log('start change status',id,status);
           await pool.query(
             'UPDATE verceldb.orders SET status = $1 WHERE orderId = $2',
             [status, id],
           );
         }
-        if (banknumber && banknumber.length > 0){  
+        if (banknumber){  
+          console.log('start change banknumber',id,banknumber);
           await pool.query(
             'UPDATE verceldb.orders SET banknumber = $1 WHERE orderId = $2',
             [banknumber, id],
           );
         }
-        if (status || banknumber) {
+        if (memo){  
+          console.log('start change memo',id,memo);
+          await pool.query(
+            'UPDATE verceldb.orders SET memo = $1 WHERE orderId = $2',
+            [memo, id],
+          );
+        }
+        if (status || banknumber || memo) {
           res.status(200).json({ message: 'Order updated successfully' });
         }
         break;

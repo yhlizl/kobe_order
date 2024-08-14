@@ -487,7 +487,25 @@ const Orders: React.FC<SectionProps> = ({
         // window.location.reload();
       });
   };
-
+  const updateMemo = (orderId: any,memo: any) => {
+    console.log('updateMemo', orderId,memo);
+    fetch(`/api/orders?id=${orderId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ memo: memo }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setOrders(
+          orders.map((order) =>
+            order.orderid === orderId ? { ...order, memo: memo } : order,
+          ),
+        );
+        // window.location.reload();
+      });  
+  };
   if (!active) return null;
 
   return (
@@ -585,7 +603,7 @@ const Orders: React.FC<SectionProps> = ({
           />
         </div>
       </div>
-      <table id="ordersTable">
+      <table id="ordersTable" className="h-full">
         <thead>
           <tr>
             <th>訂單ID</th>
@@ -602,6 +620,7 @@ const Orders: React.FC<SectionProps> = ({
             <th>日期</th>
             <th>總額</th>
             <th>狀態</th>
+            <th>memo</th>
             <th>操作</th>
           </tr>
         </thead>
@@ -609,25 +628,25 @@ const Orders: React.FC<SectionProps> = ({
           {orders
             .filter((order) => {
               let pickupdate = new Date(order.pickupdate);
-              console.log('original pickupdate', order.pickupdate);
+              // console.log('original pickupdate', order.pickupdate);
               const offset = pickupdate.getTimezoneOffset() + 8 * 60;
               pickupdate = new Date(pickupdate.getTime() + offset * 60 * 1000);
-              console.log('new pickupdate', pickupdate);
+              // console.log('new pickupdate', pickupdate);
               const start = new Date(startDate);
-              console.log('start', start);
+              // console.log('start', start);
               start.setHours(0, 0, 0, 0);
-              console.log('start2', start);
+              // console.log('start2', start);
               const end = new Date(endDate);
-              console.log('end', end);
+              // console.log('end', end);
               end.setHours(0, 0, 0, 0);
-              console.log('end2', end);
-              console.log(
-                'pickupdate',
-                pickupdate,
-                start,
-                end,
-                pickupdate >= start && pickupdate <= end,
-              );
+              // console.log('end2', end);
+              // console.log(
+              //   'pickupdate',
+              //   pickupdate,
+              //   start,
+              //   end,
+              //   pickupdate >= start && pickupdate <= end,
+              // );
               return pickupdate >= start && pickupdate <= end;
             })
             .filter((order) => {
@@ -666,7 +685,7 @@ const Orders: React.FC<SectionProps> = ({
               const selectedStatus =
                 selectedStatuses[order.orderid] || order.status;
               return (
-                <tr key={order.orderid}>
+                <tr key={order.orderid} className="h-full">
                   <td>{order.orderid}</td>
                   <td>{order.productid}</td>
                   <td>{order.productname}</td>
@@ -695,6 +714,15 @@ const Orders: React.FC<SectionProps> = ({
                   </td>
                   <td>{`NT${Math.round(order.total)}`}</td>
                   <td>{order.status}</td>
+                  <td className="w-full md:w-auto h-full">
+                  <textarea 
+                        id="memo" 
+                        defaultValue={order.memo} 
+                        onBlur={(e) => updateMemo(order.orderid,e.target.value)} 
+                        className="m-0 text-base p-2"
+                        style={{ width: '186px', height: '117px' }}
+                      />
+                  </td>
                   <td>
                     <select
                       value={selectedStatus}

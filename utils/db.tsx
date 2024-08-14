@@ -94,6 +94,12 @@ export async function migrateOrder1() {
       ADD COLUMN banknumber VARCHAR(255)
     `);
 }
+export async function migrateOrder2() {
+  await pool.query(`
+      ALTER TABLE verceldb.orders
+      ADD COLUMN memo TEXT
+    `);
+}
 
 
 export default pool;
