@@ -94,6 +94,7 @@ const Checkout: React.FC = () => {
             });
         });
       Object.keys(cart).forEach((id) => removeFromCart(id));
+      alert('訂單已送出, 請等待店家確認, 感謝您的訂購');
       router.push('/');
     } else {
       handleCancel();
