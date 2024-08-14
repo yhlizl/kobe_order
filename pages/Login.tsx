@@ -49,7 +49,10 @@ const LoginPage: React.FC = () => {
             password,
             redirect: false,
           });
-          // console.log(result)
+          console.log(result)
+          if (result.error === 'User not found') {
+            alert('找不到使用者');
+          }
           if (result.error === 'Invalid password') {
             alert('密碼錯誤');
           }
