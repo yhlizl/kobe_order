@@ -1,14 +1,10 @@
-// pages/api/sitemap.xml.js
-import { NextApiRequest, NextApiResponse } from 'next';
+// pages/sitemap.xml.js
+import { GetServerSideProps } from 'next';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  res.setHeader('Content-Type', 'text/xml');
-  res.write(createSitemap());
-  res.end();
-};
+const Sitemap = () => {};
 
-const createSitemap = () => {
-  return `<?xml version="1.0" encoding="UTF-8"?>
+export const getServerSideProps: GetServerSideProps = async ({ res }) => {
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
         <url>
             <loc>https://kobe-order.vercel.app/</loc>
@@ -24,4 +20,14 @@ const createSitemap = () => {
         </url>
     </urlset>
     `;
+
+  res.setHeader('Content-Type', 'text/xml');
+  res.write(sitemap);
+  res.end();
+
+  return {
+    props: {},
+  };
 };
+
+export default Sitemap;
