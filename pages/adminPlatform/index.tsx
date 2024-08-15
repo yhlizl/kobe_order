@@ -8,6 +8,7 @@ import { getServerSession } from 'next-auth/next';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
+import downloadOrders from '@/utils/excel'
 
 interface SectionProps {
   active: boolean;
@@ -603,6 +604,12 @@ const Orders: React.FC<SectionProps> = ({
           />
         </div>
       </div>
+      <button 
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
+        onClick={() => downloadOrders(orders)}
+      >
+        下載訂單
+      </button>
       <table id="ordersTable" className="h-full">
         <thead>
           <tr>
