@@ -13,7 +13,7 @@ export default async function handler(
   await requireAdmin(req, res, async () => {
     switch (method) {
       case 'GET':
-        const users = await pool.query('SELECT * FROM verceldb.users');
+        const users = await pool.query('SELECT * FROM verceldb.users order by userId desc');
         res.status(200).json(users.rows);
         break;
       case 'PUT':
