@@ -45,10 +45,7 @@ const HomePage: React.FC = () => {
           name="twitter:image"
           content="/kobe/EC2AAE47-B8E4-488A-A6FA-D7177B0366E0.jpeg"
         />
-        <meta
-          name="google-site-verification"
-          content="4Lcxsvnx5s3Dv813yhPTzCIr2I-2LsgQFmJqcPFZEQs"
-        />
+        <meta name="google-site-verification" content="feFQnZzqvqHxXyaa4LJC5_rlnMeE9X6IMVp58zXQoP8" />
         <script type="application/ld+json">
         {JSON.stringify({
           "@context": "https://schema.org",
