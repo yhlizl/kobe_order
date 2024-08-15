@@ -94,7 +94,7 @@ const Checkout: React.FC = () => {
             });
         });
       Object.keys(cart).forEach((id) => removeFromCart(id));
-      alert('訂單已送出, 請等待店家確認, 感謝您的訂購, 請至會員中心查詢訂單');
+      alert('訂單已送出, 請等待店家確認, 感謝您的訂購, 若尚未填寫匯款帳號, 請到會員中心補上');
       router.push('/');
     } else {
       handleCancel();
