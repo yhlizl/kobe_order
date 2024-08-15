@@ -1,11 +1,10 @@
-// Checkout.tsx
+// pages/Checkout.tsx
 import React, { useState, useEffect } from 'react';
 import { useStore } from '../store/cart';
 import { useUserStore } from '@/store/user';
 import Layout from '../components/Layout';
 import styles from './Checkout.module.css';
 import { useRouter } from 'next/router';
-
 const Checkout: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -62,8 +61,12 @@ const Checkout: React.FC = () => {
     // create order
     const isChecked = window.confirm('訂單是否送出');
     if (isChecked) {
+      let totals = 0
+      let itemsProductsNameList :any[]= [];
       cart &&
         Object.entries(cart).map(async ([_, item]) => {
+          totals += item.price * item.quantity;
+          itemsProductsNameList.push(`${item.name} * ${item.quantity}`);
           let status = paymentMethod;
           if (paymentMethod === 'bank-transfer') {
             status = '待轉帳中';
@@ -93,6 +96,52 @@ const Checkout: React.FC = () => {
               console.error('Error:', error);
             });
         });
+        // Create HTML email content
+        const message = `
+        <h1>訂單已收到</h1>
+        <p>親愛的客戶，我們已經收到您的訂單。以下是您的訂單詳情：</p>
+        <ul>
+          <li>商品: 
+            <ul>
+              ${itemsProductsNameList.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+          </li>
+          <li>取貨日期: ${pickupDate}</li>
+          <li>總金額: ${totals}</li>
+        </ul>
+        <p>感謝您的訂購！</p>
+        <p>若有任何問題，請聯絡我們。</p>
+        <div className="contact-info animated">
+            <h3>聯絡方式</h3>
+            <div className="contact-method">
+              <i className="fa fa-phone"></i>
+              <p>電話：(03) 571-9898</p>
+            </div>
+            <div className="contact-method">
+              <i className="fa fa-envelope"></i>
+              <p>電子郵件：kobepain2021@gmail.com</p>
+            </div>
+            <div className="contact-method">
+              <i className="fa fa-map-marker"></i>
+              <p>地址：新竹市東區建中一路35號</p>
+            </div>
+            <div className="contact-method">
+              <i className="fa fa-clock-o"></i>
+              <p>營業時間：週日至週四 11:30 - 19:30</p>
+            </div>
+          </div>
+      `;
+      await fetch('/api/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: user?.email,
+          subject: '訂單已收到',
+          text: message,
+        }),
+      });
       Object.keys(cart).forEach((id) => removeFromCart(id));
       alert('訂單已送出, 請等待店家確認, 感謝您的訂購, 若尚未填寫匯款帳號, 請到會員中心補上');
       router.push('/');

@@ -3,21 +3,24 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import nodemailer from 'nodemailer';
 
 export default async function send(req: NextApiRequest, res: NextApiResponse) {
-  const { name, email, message } = req.body;
-
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method Not Allowed' });
+  }
+  const { to, subject, text } = req.body;
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'kobepain2021@gmail.com',
+      user: 'kkobepann@gmail.com',
       pass: process.env.EMAIL_PASSWORD,
     },
   });
 
   const mailOptions = {
-    from: email,
-    to: 'kobepain2021@gmail.com', // your email
-    subject: `Message from ${name}`,
-    text: message,
+    from:'kkobepann@gmail.com',
+    to: to, 
+    cc: 'kobepain2021@gmail.com',
+    subject: `[KOBE Pann 口碑烘焙坊] (勿回覆) ` + subject,
+    html: text,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
