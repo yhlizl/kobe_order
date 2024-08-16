@@ -88,6 +88,13 @@ export default async function handler(
             [total, id],
           );
         }
+        if (orderId){
+          console.log('start change memo',id,orderId);
+          await pool.query(
+            'UPDATE verceldb.orders SET orderId = $1 WHERE id = $2',
+            [orderId, id],
+          );
+        }
 
         if (status || banknumber || memo || pickupdate || quantity || total) {
           res.status(200).json({ message: 'Order updated successfully' });

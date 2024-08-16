@@ -571,7 +571,6 @@ const Orders: React.FC<SectionProps> = ({
                   name="morderid"
                   defaultValue={showModal.orderid}
                   required
-                  readOnly
                 />
               </label>
               <label>
