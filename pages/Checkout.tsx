@@ -63,7 +63,7 @@ const Checkout: React.FC = () => {
     if (isChecked) {
       let totals = 0
       let itemsProductsNameList :any[]= [];
-      const newOrderId = `${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
+      const newOrderId = `${Date.now()}${Math.floor(Math.random() * 1000000)}`;
       cart &&
         Object.entries(cart).map(async ([_, item]) => {
           totals += item.price * item.quantity;
