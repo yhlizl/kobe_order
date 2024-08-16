@@ -459,7 +459,7 @@ const Orders: React.FC<SectionProps> = ({
     return () => clearInterval(intervalId); // 清除定時器當組件卸載
   }, []);
 
-  const handleStatusChange = (orderId: any) => {
+  const handleStatusChange = (id: any,orderId: any) => {
     let newStatus = selectedStatuses[orderId];
     if (newStatus === '其他') {
       newStatus = otherInputValues[orderId];
@@ -472,12 +472,12 @@ const Orders: React.FC<SectionProps> = ({
       alert('Please select a status');
       return;
     }
-    fetch(`/api/orders?id=${orderId}`, {
+    fetch(`/api/orders?id=${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ status: newStatus}),
+      body: JSON.stringify({ orderId:orderId,status: newStatus}),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -489,14 +489,14 @@ const Orders: React.FC<SectionProps> = ({
         // window.location.reload();
       });
   };
-  const updateMemo = (orderId: any,memo: any) => {
-    console.log('updateMemo', orderId,memo);
-    fetch(`/api/orders?id=${orderId}`, {
+  const updateMemo = (id: any,orderId: any,memo: any) => {
+    console.log('updateMemo', id,memo);
+    fetch(`/api/orders?id=${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ memo: memo }),
+      body: JSON.stringify({ memo: memo,orderId: orderId }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -511,25 +511,26 @@ const Orders: React.FC<SectionProps> = ({
   const updateOrder = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
+    const mid = (form.elements.namedItem('mid') as HTMLInputElement).value;
     const morderid = (form.elements.namedItem('morderid') as HTMLInputElement).value;
     const mquantity = (form.elements.namedItem('mquantity') as HTMLInputElement).value;
     const mtotal = (form.elements.namedItem('mtotal') as HTMLInputElement).value;
     const mpickupdate = (form.elements.namedItem('mpickupdate') as HTMLInputElement).value;
     const mbanknumber = (form.elements.namedItem('mbanknumber') as HTMLInputElement).value;
   
-    console.log(morderid, mquantity, mpickupdate, mbanknumber);
-    fetch(`/api/orders?id=${morderid}`, {
+    console.log("get updateOrder:",mid,morderid, mquantity, mpickupdate, mbanknumber);
+    fetch(`/api/orders?id=${mid}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ quantity: mquantity,pickupdate:mpickupdate,banknumber:mbanknumber,total:mtotal }),
+      body: JSON.stringify({ quantity: mquantity,pickupdate:mpickupdate,banknumber:mbanknumber,total:mtotal,orderId:morderid }),
     })
       .then((response) => response.json())
       .then((data) => {
         setOrders(
           orders.map((order) =>
-            order.orderid === morderid ? { ...order, quantity: mquantity,pickupdate:mpickupdate,banknumber:mbanknumber,total:mtotal } : order,
+            order.id === mid ? { ...order, quantity: mquantity,pickupdate:mpickupdate,banknumber:mbanknumber,total:mtotal } : order,
           ),
         );
         // window.location.reload();
@@ -537,6 +538,15 @@ const Orders: React.FC<SectionProps> = ({
     // hide
     setShowModal();
   }
+    // Define a set of colors
+    const colors = ["#FFADAD", "#FFD6A5", "#FDFFB6", "#CAFFBF", "#9BF6FF", "#A0C4FF", "#BDB2FF", "#FFC6FF"];
+
+    // Generate a color for each orderid
+    const orderColors = orders.reduce((orderColors, order, index) => {
+      orderColors[order.orderid] = colors[index % colors.length];
+      return orderColors;
+    }, {});
+
   if (!active) return null;
 
   return (
@@ -545,7 +555,17 @@ const Orders: React.FC<SectionProps> = ({
           <div className="modalDiagram">
             <form className="modalDiagram-form" onSubmit={updateOrder}>
             <label>
-              訂單單號:
+              id:
+                <input
+                  type="text"
+                  name="mid"
+                  defaultValue={showModal.id}
+                  required
+                  readOnly
+                />
+              </label>
+              <label>
+              order id:
                 <input
                   type="text"
                   name="morderid"
@@ -708,6 +728,7 @@ const Orders: React.FC<SectionProps> = ({
       <table id="ordersTable" className="h-full">
         <thead>
           <tr>
+            <th style={{ display: 'none' }}>DB-ID</th>
             <th>訂單ID</th>
             <th>修改</th>
             <th>商品名稱</th>
@@ -787,7 +808,8 @@ const Orders: React.FC<SectionProps> = ({
               const selectedStatus =
                 selectedStatuses[order.orderid] || order.status;
               return (
-                <tr key={order.orderid} className="h-full">
+                <tr key={order.id} className="h-full" style={{ backgroundColor: orderColors[order.orderid] }}>
+                  <td style={{ display: 'none' }}>{order.id}</td>
                   <td>{order.orderid}</td>
                   <td>
                   <button className="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setShowModal(order)}>
@@ -824,7 +846,7 @@ const Orders: React.FC<SectionProps> = ({
                   <textarea 
                         id="memo" 
                         defaultValue={order.memo} 
-                        onBlur={(e) => updateMemo(order.orderid,e.target.value)} 
+                        onBlur={(e) => updateMemo(order.id,order.orderid,e.target.value)} 
                         className="m-0 text-base p-2"
                         style={{ width: '186px', height: '117px' }}
                       />
@@ -860,7 +882,7 @@ const Orders: React.FC<SectionProps> = ({
                     )}
                     <button
                       className="btn btn-primary"
-                      onClick={() => handleStatusChange(order.orderid)}
+                      onClick={() => handleStatusChange(order.id,order.orderid)}
                     >
                       更新
                     </button>

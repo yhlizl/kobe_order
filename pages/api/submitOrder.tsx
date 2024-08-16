@@ -9,7 +9,7 @@ export default async function handler(
 ) {
   await needLogin(req, res, async () => {
     console.log('req.body', req.body);
-    const { userEmail, total, status, productId, quantity, pickupDate,banknumber } =
+    const { userEmail, total, status, productId, quantity, pickupDate,banknumber ,newOrderId} =
       req.body;
     let userid = 0;
     try {
@@ -29,11 +29,11 @@ export default async function handler(
     try {
       const result = await pool.query(
         `
-        INSERT INTO verceldb.orders (userId, total, status, productId, quantity, pickupDate,banknumber)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        INSERT INTO verceldb.orders (orderId, userId, total, status, productId, quantity, pickupDate,banknumber)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         RETURNING *
       `,
-        [userid, total, status, productId, quantity, pickupDate,banknumber],
+        [newOrderId,userid, total, status, productId, quantity, pickupDate,banknumber],
       );
 
       res

@@ -23,8 +23,7 @@ export default async function handler(
     method,
   } = req;
   await requireAdmin(req, res, async () => {
-    const { status, banknumber,memo,quantity,pickupdate,total  } = req.body;
-    console.log('orderid', id, status, banknumber);
+    const { status, banknumber,memo,quantity,pickupdate,total,newOrderId,orderId } = req.body;
     switch (method) {
       case 'GET':
         const orders = await pool.query(`
@@ -32,59 +31,60 @@ export default async function handler(
                 FROM verceldb.orders o 
                 JOIN verceldb.products p ON o.productId = p.productId 
                 JOIN verceldb.users u ON o.userId = u.userId
-                ORDER BY o.orderId DESC
+                order by o.date desc
               `);
         res.status(200).json(orders.rows);
         break;
       case 'POST':
         const { userId, orderStatus, productId } = req.body;
+     
         await pool.query(
-          'INSERT INTO verceldb.orders (userId, total, status, productId, quantity,banknumber) VALUES ($1, $2, $3, $4, $5,$6)',
-          [userId, total, orderStatus, productId, quantity,banknumber],
+          'INSERT INTO verceldb.orders (orderId,userId, total, status, productId, quantity,banknumber) VALUES ($1, $2, $3, $4, $5,$6,$7)',
+          [newOrderId,userId, total, orderStatus, productId, quantity,banknumber],
         );
         res.status(201).json({ message: 'Order created successfully' });
         break;
-      case 'PUT':
-        console.log('change order status', id, status, banknumber,memo);
+      case 'PUT': 
+        console.log('change order status', orderId, status, banknumber,memo);
         if (status) {
-          console.log('start change status',id,status);
+          console.log('start change status',orderId,status);
           await pool.query(
             'UPDATE verceldb.orders SET status = $1 WHERE orderId = $2',
-            [status, id],
+            [status, orderId],
           );
         }
         if (banknumber){  
-          console.log('start change banknumber',id,banknumber);
+          console.log('start change banknumber',orderId,banknumber);
           await pool.query(
             'UPDATE verceldb.orders SET banknumber = $1 WHERE orderId = $2',
-            [banknumber, id],
+            [banknumber, orderId],
           );
         }
         if (memo){  
-          console.log('start change memo',id,memo);
+          console.log('start change memo',orderId,memo);
           await pool.query(
             'UPDATE verceldb.orders SET memo = $1 WHERE orderId = $2',
-            [memo, id],
+            [memo, orderId],
           );
         }
         if (pickupdate){
-          console.log('start change memo',id,memo);
+          console.log('start change memo',orderId,memo);
           await pool.query(
             'UPDATE verceldb.orders SET pickupdate = $1 WHERE orderId = $2',
-            [pickupdate, id],
+            [pickupdate, orderId],
           );
         }
         if (quantity){
           console.log('start change memo',id,memo);
           await pool.query(
-            'UPDATE verceldb.orders SET quantity = $1 WHERE orderId = $2',
+            'UPDATE verceldb.orders SET quantity = $1 WHERE id = $2',
             [quantity, id],
           );
         }
         if (total){
           console.log('start change memo',id,memo);
           await pool.query(
-            'UPDATE verceldb.orders SET total = $1 WHERE orderId = $2',
+            'UPDATE verceldb.orders SET total = $1 WHERE id = $2',
             [total, id],
           );
         }
@@ -95,7 +95,7 @@ export default async function handler(
         break;
       case 'DELETE':
         try {
-          await pool.query('DELETE FROM verceldb.orders WHERE orderId = $1', [
+          await pool.query('DELETE FROM verceldb.orders WHERE id = $1', [
             id,
           ]);
           res.status(200).json({ message: 'Order deleted successfully' });

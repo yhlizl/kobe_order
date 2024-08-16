@@ -32,7 +32,7 @@ export default async function handler(
         FROM verceldb.orders o
         JOIN verceldb.products p ON o.productId = p.productId
         WHERE o.userId = $1
-        order by o.orderId desc
+        order by o.date desc
       `,
         [userid],
       );

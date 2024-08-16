@@ -65,7 +65,8 @@ export async function initDb() {
   // Create orders table
   await pool.query(`
         CREATE TABLE IF NOT EXISTS verceldb.orders (
-          orderId SERIAL PRIMARY KEY,
+          id SERIAL PRIMARY KEY,
+          orderId INT,
           userId INT,
           date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
           pickupDate TIMESTAMP,
@@ -74,6 +75,7 @@ export async function initDb() {
           productId INT,
           quantity INT,
           banknumber VARCHAR(255),
+          memo TEXT,
           FOREIGN KEY (userId) REFERENCES verceldb.users(userId),
           FOREIGN KEY (productId) REFERENCES verceldb.products(productId)
         )
@@ -100,6 +102,12 @@ export async function migrateOrder2() {
       ADD COLUMN memo TEXT
     `);
 }
-
+export async function migrateOrder3() {
+  await pool.query(`
+    ALTER TABLE verceldb.orders RENAME COLUMN orderId TO id;
+    ALTER TABLE verceldb.orders ADD COLUMN orderId VARCHAR(1024);
+    UPDATE verceldb.orders SET orderId = id;
+    `);
+}
 
 export default pool;
