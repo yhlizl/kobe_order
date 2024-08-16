@@ -411,6 +411,7 @@ const Orders: React.FC<SectionProps> = ({
   setNewOrderNotification,
 }) => {
   const [orders, setOrders] = useState([] as Array<any>);
+  const [showModal,setShowModal] :any = useState()
   const [showUpcoming, setShowUpcoming] = useState(false);
   const [hideCompleted, setHideCompleted] = useState(false);
   const [hideCancelled, setHideCancelled] = useState(false);
@@ -507,13 +508,107 @@ const Orders: React.FC<SectionProps> = ({
         // window.location.reload();
       });  
   };
+  const updateOrder = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const morderid = (form.elements.namedItem('morderid') as HTMLInputElement).value;
+    const mquantity = (form.elements.namedItem('mquantity') as HTMLInputElement).value;
+    const mtotal = (form.elements.namedItem('mtotal') as HTMLInputElement).value;
+    const mpickupdate = (form.elements.namedItem('mpickupdate') as HTMLInputElement).value;
+    const mbanknumber = (form.elements.namedItem('mbanknumber') as HTMLInputElement).value;
+  
+    console.log(morderid, mquantity, mpickupdate, mbanknumber);
+    fetch(`/api/orders?id=${morderid}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ quantity: mquantity,pickupdate:mpickupdate,banknumber:mbanknumber,total:mtotal }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setOrders(
+          orders.map((order) =>
+            order.orderid === morderid ? { ...order, quantity: mquantity,pickupdate:mpickupdate,banknumber:mbanknumber,total:mtotal } : order,
+          ),
+        );
+        // window.location.reload();
+      });  
+    // hide
+    setShowModal();
+  }
   if (!active) return null;
 
   return (
+    <>
+{showModal && (
+          <div className="modalDiagram">
+            <form className="modalDiagram-form" onSubmit={updateOrder}>
+            <label>
+              訂單單號:
+                <input
+                  type="text"
+                  name="morderid"
+                  defaultValue={showModal.orderid}
+                  required
+                />
+              </label>
+              <label>
+              數量:
+                <input
+                  type="text"
+                  name="mquantity"
+                  defaultValue={showModal.quantity}
+                  required
+                />
+              </label>
+              <label>
+              總額:
+                <input
+                  type="text"
+                  name="mtotal"
+                  defaultValue={Math.round(showModal.total)}
+                  required
+                />
+              </label>
+              <label>
+              取貨日期:
+                <input
+                  type="date"
+                  name="mpickupdate"
+                  defaultValue={new Date(showModal.pickupdate).toLocaleDateString('fr-CA', { timeZone: 'Asia/Taipei' })}
+                  required
+                />
+              </label>
+              <label>
+               帳戶後四碼:
+                <input
+                  type="text"
+                  name="mbanknumber"
+                  defaultValue={showModal.banknumber}
+                  required
+                />
+              </label>
+              <div className="modalDiagram-buttons">
+                <button
+                  type="button"
+                  onClick={() => setShowModal()}
+                  className="modalDiagram-button"
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="modalDiagram-button">
+                  修改
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
     <div id="orders" className="content-section">
       <div className="dashboard-header">
         <h2 className="dashboard-title">訂單管理</h2>
       </div>
+     
       <div>
         <label>
           Start Date:
@@ -614,7 +709,7 @@ const Orders: React.FC<SectionProps> = ({
         <thead>
           <tr>
             <th>訂單ID</th>
-            <th>商品ID</th>
+            <th>修改</th>
             <th>商品名稱</th>
             <th>數量</th>
             <th>用戶ID</th>
@@ -694,7 +789,11 @@ const Orders: React.FC<SectionProps> = ({
               return (
                 <tr key={order.orderid} className="h-full">
                   <td>{order.orderid}</td>
-                  <td>{order.productid}</td>
+                  <td>
+                  <button className="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setShowModal(order)}>
+                    修改訂單
+                  </button>
+                  </td>
                   <td>{order.productname}</td>
                   <td>{order.quantity}</td>
                   <td>{order.userid}</td>
@@ -772,6 +871,7 @@ const Orders: React.FC<SectionProps> = ({
         </tbody>
       </table>
     </div>
+    </>
   );
 };
 
@@ -815,6 +915,7 @@ const Settings: React.FC<SectionProps> = ({ active }) => {
           </button>
         </form>
       </div>
+      
     </div>
   );
 };
