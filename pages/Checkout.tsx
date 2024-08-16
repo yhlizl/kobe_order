@@ -101,6 +101,10 @@ const Checkout: React.FC = () => {
         <h1>訂單已收到</h1>
         <p>親愛的客戶，我們已經收到您的訂單。以下是您的訂單詳情：</p>
         <ul>
+          <li>姓名: ${name}</li>
+          <li>電子郵件: ${email}</li>
+          <li>電話: ${phone}</li>
+          <li>付款方式: ${paymentMethod === 'bank-transfer' ? '匯款' : '到店付款'}</li>
           <li>商品: 
             <ul>
               ${itemsProductsNameList.map(item => `<li>${item}</li>`).join('')}
