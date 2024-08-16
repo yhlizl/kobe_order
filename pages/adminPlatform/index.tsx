@@ -586,7 +586,6 @@ const Orders: React.FC<SectionProps> = ({
                   type="text"
                   name="mbanknumber"
                   defaultValue={showModal.banknumber}
-                  required
                 />
               </label>
               <div className="modalDiagram-buttons">
