@@ -31,7 +31,7 @@ export default async function handler(
                 FROM verceldb.orders o 
                 JOIN verceldb.products p ON o.productId = p.productId 
                 JOIN verceldb.users u ON o.userId = u.userId
-                ORDER BY CAST(o.orderId AS BIGINT), o.date DESC
+                ORDER BY CAST(o.orderId AS BIGINT) DESC
               `);
         res.status(200).json(orders.rows);
         break;
