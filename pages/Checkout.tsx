@@ -15,7 +15,7 @@ const Checkout: React.FC = () => {
   const router = useRouter();
   const { cart, removeFromCart } = useStore();
   const { user } = useUserStore();
-  const [pickupDate, setPickupDate] = useState('');
+  const [pickupDate, setPickupDate] = useState<string>('');
   useEffect(() => {
     if (!user) {
       router.push('/Login');
@@ -266,7 +266,16 @@ const Checkout: React.FC = () => {
                     id="pickupDate"
                     name="pickupDate"
                     value={pickupDate}
-                    onChange={(e) => setPickupDate(e.target.value)}
+                    onChange={(e) => {
+                      const selectedDate = new Date(e.target.value);
+                      const dayOfWeek = selectedDate.getDay();
+                      if (dayOfWeek === 5 || dayOfWeek === 6) {
+                        alert("Pickup is not available on Friday and Saturday.");
+                        setPickupDate("");
+                      } else {
+                        setPickupDate(e.target.value);
+                      }
+                    }}
                     min={getMinPickupDate()}
                     required
                     className="form-input h-10"
