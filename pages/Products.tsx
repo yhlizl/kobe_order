@@ -34,6 +34,10 @@ const ProductsPage: React.FC = () => {
       alert('請輸入數量');
       return;
     }
+    if (quantity > product.quantity) {
+      alert('超過可購買數量');
+      return;
+    }
 
     console.log(quantityRefs.current[product.productid]?.value);
     const cartItem: cartProp = {
@@ -52,6 +56,11 @@ const ProductsPage: React.FC = () => {
   const handleQuantityChange = (productId: number, increment: number) => {
     const currentQuantity = Number(quantityRefs.current[productId]?.value) || 0;
     const newQuantity = Math.max(0, currentQuantity + increment);
+    const product = products?.find(p => p.productid === productId);
+    if (product && newQuantity > product.quantity) {
+      alert('超過可購買數量');
+      return;
+    }
     if (quantityRefs.current[productId]) {
       quantityRefs.current[productId].value = newQuantity.toString();
     }
@@ -134,8 +143,13 @@ const ProductsPage: React.FC = () => {
                 <img
                   src={product.imageurl}
                   alt={product.name}
-                  className="w-full h-64 object-cover mb-4"
+                  className={`w-full h-64 object-cover mb-4 ${product.quantity === 0 ? 'opacity-50' : ''}`}
                 />
+                {product.quantity === 0 && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 text-white text-2xl">
+                    Sold Out
+                  </div>
+                )}
                 <h2 className="font-bold text-xl mb-2">{product.name}</h2>
                 <p className="text-gray-700 text-base">{product.description}</p>
                 <p className="text-gray-700 text-base">
@@ -145,6 +159,7 @@ const ProductsPage: React.FC = () => {
                   <button
                     className="bg-gray-200 hover:bg-gray-300 text-black font-bold py-1 px-3 rounded"
                     onClick={() => handleQuantityChange(product.productid, -1)}
+                    disabled={product.quantity === 0}
                   >
                     -
                   </button>
@@ -158,10 +173,12 @@ const ProductsPage: React.FC = () => {
                     ref={(el) => {
                       if (el) quantityRefs.current[product.productid] = el;
                     }}
+                    disabled={product.quantity === 0}
                   />
                   <button
                     className="bg-gray-200 hover:bg-gray-300 text-black font-bold py-1 px-3 rounded"
                     onClick={() => handleQuantityChange(product.productid, 1)}
+                    disabled={product.quantity === 0}
                   >
                     +
                   </button>
@@ -170,6 +187,7 @@ const ProductsPage: React.FC = () => {
                   <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     onClick={() => handleAddToCart(product)}
+                    disabled={product.quantity === 0}
                   >
                     加入購物車
                   </button>
