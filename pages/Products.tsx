@@ -140,16 +140,18 @@ const ProductsPage: React.FC = () => {
                     })}
                   </script>
                 </Head>
-                <img
-                  src={product.imageurl}
-                  alt={product.name}
-                  className={`w-full h-64 object-cover mb-4 ${product.quantity === 0 ? 'opacity-50' : ''}`}
-                />
-                {product.quantity === 0 && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 text-white text-2xl">
-                    Sold Out
-                  </div>
-                )}
+                <div className="relative">
+                  <img
+                    src={product.imageurl}
+                    alt={product.name}
+                    className={`w-full h-64 object-cover mb-4 ${product.quantity === 0 ? 'opacity-50' : ''}`}
+                  />
+                  {product.quantity === 0 && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 text-white text-2xl">
+                      Sold Out
+                    </div>
+                  )}
+                </div>
                 <h2 className="font-bold text-xl mb-2">{product.name}</h2>
                 <p className="text-gray-700 text-base">{product.description}</p>
                 <p className="text-gray-700 text-base">
